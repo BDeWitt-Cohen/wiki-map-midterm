@@ -15,7 +15,7 @@
 
 * Given I'm logged in, when I want to search, then I can search by maps or by city.
 
-<!-- Option  -->
+<!--  -->
 <!-- 
   users can see a list of the available maps
   users can view a map
