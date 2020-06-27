@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Home Page</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+<head>
+  <title>Slightly Bad Directions</title>
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
-  <body>
-    <h1>Hello World!</h1>
-  </body>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+
+  <style>
+    /* Set the size of the div element that contains the map */
+   #map {
+     height: 800px;  /* The height is 400 pixels */
+     width: 100%;  /* The width is the width of the web page */
+    }
+ </style>
+</head>
+
+<body>
+
+  <nav>
+    <span style="font-family:Bungee">Slightly Bad Directions</span>
+    <button class="btn-default" id="myMaps"> Add a new map </button>
+    <button class="btn-default" id="myMaps"> Login </button>
+  </nav>
+  <div>
+    <h1>New Maps and Stuff</h1>
+
+    <div #map>
+      <script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Uluru
+          var northPole = { lat: 51.0447, lng: -114.0719};
+          // The map, centered at Uluru
+          var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 14, center: northPole });
+          // The marker, positioned at Uluru
+          var marker = new google.maps.Marker({ position: northPole, map: map });
+        }
+      </script>
+    </div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJFD-PTJ2Fp0_d4LQcuR1KTo3UWwBneho&callback=initMap&libraries=&v=weekly"
+      defer></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./app.js"></script>
+    </head>
+
+    <body>
+      <div id="map"></div>
+
+
+  </div>
+
+</body>
+
 </html>
