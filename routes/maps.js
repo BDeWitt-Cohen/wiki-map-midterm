@@ -13,6 +13,7 @@ module.exports = (db) => {
     let query = `SELECT * FROM maps;`;
     db.query(query)
       .then(data => {
+        console.log(data.rows[0].title);
         const maps = data.rows;
         res.json({ maps });
       })

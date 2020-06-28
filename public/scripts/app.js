@@ -217,20 +217,34 @@ $('.openbtn').on('click', function() {
   openNav();
 });
 
-$('.dropbtn').on('click', function() {
-  console.log("hello world");
-    let query = `SELECT * FROM maps;`
-    console.log("this is query", query);
+$('.dropbtn').on('hover', function() {
+  $.get("/maps", function(req, res){
+    console.log(req.params[0].title);
+
+    const getMaps = function(maps) {
+      for (const map of maps.maps) {
+        console.log(map.title);
+        $('#map-container').append(map.title)
+      }
+    }
+
+  })
+  })
+  
+
+
+  $('#mySidebar').on('click', function() {
+    let query = `SELECT * FROM pins;`;
     db.query(query)
       .then(data => {
-        const maps = data.rows;
-        res.json({ maps });
+        const pins = data.rows;
+        res.json({ pins });
       })
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
-      })
-  })
+      });
+    })
 
 
