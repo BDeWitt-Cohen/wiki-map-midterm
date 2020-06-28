@@ -217,18 +217,38 @@ $('.openbtn').on('click', function() {
   openNav();
 });
 
+
+//Render map titles client side
 $.get("/api/maps", function(req, res) {
   // console.log(req.maps);
   const maps = req.maps
   // console.log(maps);
   for (const map of maps) {
-    console.log(map);
-    console.log(map.title);
-    console.log(map.description);
-    $('#map-container').append(map.title)
+    // console.log(map);
+    // console.log(map.title);
+    // console.log(map.description);
+    $('#map-container').append(map.title + '\n ')
   }
 
 
 })
+
+
+$.get("/api/pins", function(req, res) {
+  // console.log(req.maps);
+  // const maps = req.maps
+  // console.log(maps);
+  console.log(req);
+  const pins = req.pins
+  for (const pin of pins) {
+    console.log(pin);
+    console.log(pin.name);
+    // console.log(map.description);
+    $('#pin-container').append(pin.name + '\n ')
+  }
+
+
+})
+
 
 

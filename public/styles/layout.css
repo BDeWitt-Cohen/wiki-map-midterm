@@ -43,7 +43,9 @@ body h1 {
 }
 
 #fullSidebar {
-  color: transparent;
+  color: white;
+  display: block;
+  justify-content: left;
 }
 
 /* The sidebar menu */
