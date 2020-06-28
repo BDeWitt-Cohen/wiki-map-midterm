@@ -10,7 +10,7 @@
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/app.js" defer></script>
 
   <style>
     /* Set the size of the div element that contains the map */
@@ -31,28 +31,7 @@
   <div>
     <h1>New Maps and Stuff</h1>
 
-    <div #map>
-      <script>
-        // Initialize and add the map
-        function initMap() {
-          // The location of Uluru
-          var northPole = { lat: 51.0447, lng: -114.0719};
-          // The map, centered at Uluru
-          var map = new google.maps.Map(
-            document.getElementById('map'), { zoom: 14, center: northPole });
-          // The marker, positioned at Uluru
-          var marker = new google.maps.Marker({ position: northPole, map: map });
-        }
-      </script>
-    </div>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJFD-PTJ2Fp0_d4LQcuR1KTo3UWwBneho&callback=initMap&libraries=&v=weekly"
-      defer></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script src="./app.js"></script>
-    </head>
 
-    <body>
       <div id="map"></div>
 
 
