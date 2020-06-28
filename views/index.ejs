@@ -31,7 +31,32 @@
   <div>
     <h1>New Maps and Stuff</h1>
 
+<<<<<<< HEAD
 
+=======
+    <div #map>
+      <script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Uluru
+          var calgary = { lat: 51.0447, lng: -114.0719};
+          // The map, centered at Uluru
+          var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 14, center: calgary });
+          // The marker, positioned at Uluru
+          var marker = new google.maps.Marker({ position: calgary, map: map });
+        }
+      </script>
+    </div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJFD-PTJ2Fp0_d4LQcuR1KTo3UWwBneho&callback=initMap&libraries=&v=weekly"
+      defer></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./app.js"></script>
+    </head>
+
+    <body>
+>>>>>>> c9457125af3d4a4e834ee5fcebee0890cb99e832
       <div id="map"></div>
 
 
