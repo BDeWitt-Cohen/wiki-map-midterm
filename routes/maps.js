@@ -22,5 +22,19 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.get("/:maps_id", (req, res) => {
+
+    let query = `SELECT * FROM maps WHERE id = $1;`;
+    db.query(query, [req.params.maps_id])
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
   return router;
 };
