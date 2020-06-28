@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
       window.initMap = function() {
         const geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 0, lng: 0},
+          center: { lat: 0, lng: 0 },
           zoom: 12,
           styles: CustomMapStyles,
           zoomControl: true,
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
           rotateControl: true,
           fullscreenControl: false
         });
-        geocoder.geocode({'address': city}, function(results, status) {
+        geocoder.geocode({ 'address': city }, function(results, status) {
           if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
           } else {
@@ -217,34 +217,18 @@ $('.openbtn').on('click', function() {
   openNav();
 });
 
-$('.dropbtn').on('hover', function() {
-  $.get("/maps", function(req, res){
-    console.log(req.params[0].title);
-
-    const getMaps = function(maps) {
-      for (const map of maps.maps) {
-        console.log(map.title);
-        $('#map-container').append(map.title)
-      }
-    }
-
-  })
-  })
-  
+$.get("/api/maps", function(req, res) {
+  // console.log(req.maps);
+  const maps = req.maps
+  // console.log(maps);
+  for (const map of maps) {
+    console.log(map);
+    console.log(map.title);
+    console.log(map.description);
+    $('#map-container').append(map.title)
+  }
 
 
-  $('#mySidebar').on('click', function() {
-    let query = `SELECT * FROM pins;`;
-    db.query(query)
-      .then(data => {
-        const pins = data.rows;
-        res.json({ pins });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-    })
+})
 
 

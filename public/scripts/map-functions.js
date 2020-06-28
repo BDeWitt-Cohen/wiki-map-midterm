@@ -1,16 +1,16 @@
 $(() => {
 
 
-  const maps = {
-    "maps": [{
-      "id": 1, "user_id": 1, "title": "Best Pubs In Calgary", "description": "I've worked long and hard to find the best pubs in calgary. I can die peacefully knowing ive accomplished everything i've set out to do."
-    },
-    { "id": 2, "user_id": 2, "title": "Best Coffee In Calgary", "description": "I've worked long and hard to find the best Coffee in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
-    { "id": 3, "user_id": 3, "title": "Best Sandwhiches In Calgary", "description": "I've worked long and hard to find the best Sandwhiches in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
-    { "id": 4, "user_id": 1, "title": "Best Wings In Calgary", "description": "I've worked long and hard to find the best Wings in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
-    { "id": 5, "user_id": 1, "title": "Best Malls In Calgary", "description": "I've worked long and hard to find the best Malls in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
-    { "id": 6, "user_id": 2, "title": "Best Pool Halls In Calgary", "description": "I've worked long and hard to find the best pool halls in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." }]
-  }
+  // const maps = {
+  //   "maps": [{
+  //     "id": 1, "user_id": 1, "title": "Best Pubs In Calgary", "description": "I've worked long and hard to find the best pubs in calgary. I can die peacefully knowing ive accomplished everything i've set out to do."
+  //   },
+  //   { "id": 2, "user_id": 2, "title": "Best Coffee In Calgary", "description": "I've worked long and hard to find the best Coffee in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
+  //   { "id": 3, "user_id": 3, "title": "Best Sandwhiches In Calgary", "description": "I've worked long and hard to find the best Sandwhiches in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
+  //   { "id": 4, "user_id": 1, "title": "Best Wings In Calgary", "description": "I've worked long and hard to find the best Wings in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
+  //   { "id": 5, "user_id": 1, "title": "Best Malls In Calgary", "description": "I've worked long and hard to find the best Malls in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." },
+  //   { "id": 6, "user_id": 2, "title": "Best Pool Halls In Calgary", "description": "I've worked long and hard to find the best pool halls in calgary. I can die peacefully knowing i've accomplished everything ive set out to do." }]
+  // }
 
 
   // const getMaps = function(maps) {
