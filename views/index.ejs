@@ -23,15 +23,57 @@
 
 <body>
 
-  <nav>
-    <span style="font-family:Bungee">Slightly Bad Directions</span>
-    <button class="btn-default" id="myMaps"> Add a new map </button>
-    <button class="btn-default" id="myMaps"> Login </button>
+  <nav id="navBar">
+    <span> <b> Slightly Bad Directions </b> </span>
+    <div id="nav-buttons">
+      <div id="map-list">
+        <div class="dropdown">
+          <button class="dropbtn">Maps</button>
+          <div class="dropdown-content">
+            <a href="#">Map 1</a>
+            <a href="#">Map 2</a>
+            <a href="#">Map 3</a>
+          </div>
+        </div>
+    </div>
+      <button class="btn-default" id="myMaps"> Login </button>
+    </div>
+    
   </nav>
-  <div>
-    <h1>New Maps and Stuff</h1>
+  <div id="map-page">
+    <div id="map"> 
+      </div>
 
-      <div id="map"></div>
+      <div id="fullSidebar">
+
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <a href="#">Pins</a>
+          <a href="#">Probably</a>
+          <a href="#">Need</a>
+          <a href="#">A Loop</a>
+        </div>
+        
+        <div id="main">
+          <button class="openbtn" onclick="openNav()">&#9776; Pins</button>
+        </div> 
+  
+          <script>
+            function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+  
+  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+  function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
+          </script>
+      </div>
+
+    
+    </div>
 
   </div>
 
