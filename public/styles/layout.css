@@ -43,7 +43,7 @@ body h1 {
 }
 
 #fullSidebar {
-  color: white;
+  color: transparent;
   display: block;
   justify-content: left;
 }
