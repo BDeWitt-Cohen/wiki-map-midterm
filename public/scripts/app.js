@@ -1,14 +1,4 @@
-//can we get rid of this?//
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users"
-//   }).done((users) => {
-//     for(user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });;
-// });
+
 
 //fetchesIP, gets coordinates//\
 //and uses them to find the nearest city with Google Geocoder api//
