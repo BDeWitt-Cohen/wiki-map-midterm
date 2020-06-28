@@ -47,10 +47,25 @@ body {
 
 #fullSidebar {
   color: white;
-  display: block;
+  display: flex;
   justify-content: left;
 }
+#pin-container {
+  display: flex;
+  padding: 2px 2px;
+}
 
+.dropdown-content {
+  display: block;
+
+}
+
+#map-container {
+  color: red;
+  display: block;
+  align-content: center;;
+  padding: 4px 4px;
+}
 
 
 /* The sidebar menu */
