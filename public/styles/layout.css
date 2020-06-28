@@ -11,7 +11,7 @@ body h1 {
   margin: 10px 30px;
 }
 
-#all-maps{
+#all-maps {
   max-width: 100px;
   max-height: 100px;
   z-index: 4;
@@ -30,17 +30,16 @@ body h1 {
 #map-page {
   display: flex;
   justify-content: space-between;
-  ;
 }
 
 #map {
   position: fixed;
-   margin: 0;
-   padding: 0;
-   height: 600px;
-   width: 800px;
-   float: left;
-   z-index: 1;
+  margin: 0;
+  padding: 0;
+  height: 600px;
+  width: 800px;
+  float: left;
+  z-index: 1;
 }
 
 #fullSidebar {
@@ -50,14 +49,22 @@ body h1 {
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 2; /* Stay on top */
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 100px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width - change this with JavaScript */
+  position: fixed;
+  /* Stay in place */
+  z-index: 2;
+  /* Stay on top */
+  background-color: #111;
+  /* Black*/
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 100px;
+  /* Place content 60px from the top */
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidebar */
 }
 
 /* The sidebar links */
@@ -100,13 +107,14 @@ body h1 {
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
-  transition: margin-left .5s; /* If you want a transition effect */
+  transition: margin-left .5s;
+  /* If you want a transition effect */
   padding: 20px;
 }
 
 #nav-buttons {
   display: flex;
-z-index: 3;
+  z-index: 3;
 }
 
 .dropbtn {
@@ -130,7 +138,7 @@ z-index: 3;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -142,8 +150,17 @@ z-index: 3;
   display: block;
 }
 
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
