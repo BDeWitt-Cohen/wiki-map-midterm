@@ -208,13 +208,19 @@ const closeNav = function() {
   document.getElementById("mySidebar").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
 };
-
 $('#mySidebar').on('click', function() {
   closeNav();
 });
 
+let sidebarIsOpened = false;
 $('.openbtn').on('click', function() {
-  openNav();
+  if(sidebarIsOpened){
+    closeNav();
+    sidebarIsOpened = false;
+  } else {
+    openNav();
+    sidebarIsOpened = true;
+  }
 });
 
 
@@ -227,7 +233,7 @@ $.get("/api/maps", function(req, res) {
     // console.log(map);
     // console.log(map.title);
     // console.log(map.description);
-    $('#map-container').append(map.title + '\n ')
+    $('#map-container').append(`<button class="map_title"> ${map.title}  </button>`)
   }
 
 
@@ -244,9 +250,8 @@ $.get("/api/pins", function(req, res) {
     console.log(pin);
     console.log(pin.name);
     // console.log(map.description);
-    $('#pin-container').append(pin.name + '\n ')
+    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
   }
-
 
 })
 

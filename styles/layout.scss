@@ -88,6 +88,8 @@ body {
   left: 25px;
   font-size: 36px;
   margin-right: 50px;
+  display: flex;
+  align-items: center;
 }
 
 /* The button used to open the sidebar */
@@ -148,6 +150,12 @@ z-index: 3;
   display: block;
 }
 
+button.pin_title {
+  background: none;
+    color: white;
+    border: none;
+    outline: none;
+}
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 /* Change color of dropdown links on hover */
