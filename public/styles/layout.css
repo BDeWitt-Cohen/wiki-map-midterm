@@ -1,5 +1,5 @@
 body {
-  background-color: transparent;
+  background-color: #EEE;
 }
 
 body h1 {
@@ -107,6 +107,8 @@ body h1 {
   left: 25px;
   font-size: 36px;
   margin-right: 50px;
+  display: flex;
+  align-items: center;
 }
 
 /* The button used to open the sidebar */
@@ -166,6 +168,20 @@ body h1 {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+}
+
+button.pin_title {
+  background: none;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+button.map_title {
+  background: none;
+  color: black;
+  border: none;
+  outline: none;
 }
 
 /* Show the dropdown menu on hover */

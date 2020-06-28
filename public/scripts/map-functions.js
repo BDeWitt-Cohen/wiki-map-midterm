@@ -21,7 +21,7 @@ $(() => {
   // }
 
 
-  getMaps(maps)
+  // getMaps(maps)
 
 
   const users =
@@ -48,9 +48,9 @@ $(() => {
   let pins = {
     "pins": [
       { "id": 1, "user_id": 1, "map_id": 1, "name": "Bottlescrew Bill's Pub", "long": 51, "lat": -114, "description": "Bottlescrew Bill's Pub is greatttt", "suggestion": null },
-      { "id": 2, "user_id": 1, "map_id": 1, "name": "The Ship & Ancho", "long": 51, "lat": -114, "description": "I freaken love this place you have to see it", "suggestion": null }, 
-      { "id": 3, "user_id": 2, "map_id": 2, "name": "Phil & Sebastian Coffee Roasters", "long": 51, "lat": -114, "description": "it's a must go!!", "suggestion": null }, 
-      { "id": 4, "user_id": 2, "map_id": 2, "name": "société Coffee Lounge", "long": 51, "lat": -114, "description": "You'll be obssessed with this place!", "suggestion": null }, 
+      { "id": 2, "user_id": 1, "map_id": 1, "name": "The Ship & Ancho", "long": 51, "lat": -114, "description": "I freaken love this place you have to see it", "suggestion": null },
+      { "id": 3, "user_id": 2, "map_id": 2, "name": "Phil & Sebastian Coffee Roasters", "long": 51, "lat": -114, "description": "it's a must go!!", "suggestion": null },
+      { "id": 4, "user_id": 2, "map_id": 2, "name": "société Coffee Lounge", "long": 51, "lat": -114, "description": "You'll be obssessed with this place!", "suggestion": null },
       { "id": 5, "user_id": 3, "map_id": 3, "name": "Meat And Bread", "long": 51, "lat": -114, "description": "crazy good, trust!!!", "suggestion": null }, { "id": 6, "user_id": 3, "map_id": 3, "name": "Keith's Deli", "long": 51, "lat": -114, "description": "if you dont go here youre crazy", "suggestion": null }, { "id": 7, "user_id": 1, "map_id": 4, "name": "Mug Shotz Sports Bar & Grill", "long": 51, "lat": -114, "description": "truly amzaing", "suggestion": null }, { "id": 8, "user_id": 1, "map_id": 4, "name": "Buffalo Wild Wings", "long": 51, "lat": -114, "description": "so delicous", "suggestion": null }, { "id": 9, "user_id": 1, "map_id": 5, "name": "CORE Shopping Centre", "long": 51, "lat": -114, "description": "They have the best cloths in town", "suggestion": null }, { "id": 10, "user_id": 1, "map_id": 5, "name": "CF Market Mall", "long": 51, "lat": -114, "description": "Super high fashion!", "suggestion": null }, { "id": 11, "user_id": 2, "map_id": 6, "name": "Chill Billiards", "long": 51, "lat": -114, "description": "This place is pretty chill", "suggestion": null }, { "id": 12, "user_id": 2, "map_id": 6, "name": "Leather Pocket", "long": 51, "lat": -114, "description": "Got hustled here a couple times.", "suggestion": null }, { "id": 13, "user_id": 2, "map_id": 6, "name": "Mike's Billiards", "long": 51, "lat": -114, "description": "Old and dingy, just the way it should be.", "suggestion": null }, { "id": 14, "user_id": 2, "map_id": 6, "name": "Chalks", "long": 51, "lat": -114, "description": "Food sucks but easy money to be won here!", "suggestion": null }]
   }
 
