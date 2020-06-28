@@ -1,5 +1,5 @@
 body {
-  background-color: #EEE;
+  background-color: transparent;
 }
 
 body h1 {
@@ -43,8 +43,8 @@ body h1 {
 }
 
 #fullSidebar {
-  color: white;
-  display: flex;
+  color: transparent;
+  display: block;
   justify-content: left;
 }
 
