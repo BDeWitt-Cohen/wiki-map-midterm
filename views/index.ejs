@@ -11,6 +11,7 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js" defer></script>
+  <script src="/scripts/map-functions.js" ></script>
 
   <style>
     /* Set the size of the div element that contains the map */
@@ -30,6 +31,7 @@
         <div class="dropdown">
           <button class="dropbtn">My Maps</button>
           <div class="dropdown-content">
+            <p id="map-container">Maps go here</p>
             <a href="#">My Map 1</a>
             <a href="#">My Map 2</a>
             <a href="#">My Map 3</a>
@@ -38,41 +40,33 @@
     </div>
       <button class="btn-default" id="myMaps"> Logged in as bad@directions.com </button>
     </div>
-    
+
   </nav>
   <div id="map-page">
-    <div id="map"> 
+    <div id="map">
       </div>
 
       <div id="fullSidebar">
 
         <div id="mySidebar" class="sidebar">
+<<<<<<< HEAD
+=======
+          <p id="pin-container">Pins will go here  </p>
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+>>>>>>> 539041924cfb17e49d19e059790aa3c0371a6b96
           <a href="#">Pins</a>
           <a href="#">Probably</a>
           <a href="#">Need</a>
           <a href="#">A Loop</a>
         </div>
-        
+
         <div id="main">
-          <button class="openbtn" onclick="openNav()">&#9776; Pins</button>
-        </div> 
-  
-          <script>
-            function openNav() {
-    document.getElementById("mySidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-  }
-  
-  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-  function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-  }
-          </script>
+          <button class="openbtn">&#9776; Pins</button>
+        </div>
+
       </div>
 
-    
+
     </div>
 
   </div>
