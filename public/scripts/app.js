@@ -216,3 +216,21 @@ $('#mySidebar').on('click', function() {
 $('.openbtn').on('click', function() {
   openNav();
 });
+
+$('.dropbtn').on('click', function() {
+  console.log("hello world");
+    let query = `SELECT * FROM maps;`
+    console.log("this is query", query);
+    db.query(query)
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      })
+  })
+
+
