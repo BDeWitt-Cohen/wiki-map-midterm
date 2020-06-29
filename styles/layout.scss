@@ -1,7 +1,8 @@
 // See: https://sass-lang.com/
 
-//Wholes Page
-
+html {
+  overflow: hidden;
+}
 body {
   font-family: Montserrat, sans-serif;
   background-color: #5780ab;
@@ -12,22 +13,10 @@ body {
   }
 }
 
-
-//Nav
-
 #title {
   color: black;
   margin: 10px 30px;
 }
-
-#all-maps{
-  max-width: 100px;
-  max-height: 99%;
-  z-index: 4;
-  border: black;
-  align-self: center;
-}
-
 #navBar {
   position: absolute;
   top: 0;
@@ -47,14 +36,17 @@ body {
 }
 
 #map {
-  height: 100% !important;
   position: absolute;
-  width: 100%;
+   height: 100%;
+   width: 100%;
 }
+
 #fullSidebar {
   position: absolute;
-  right: 0;
-  top: 120px;
+    right: 0;
+    display: flex;
+    top: 200px;
+    /* flex-direction: column;*/
 }
 #pin-container {
   display: flex;
@@ -71,22 +63,23 @@ body {
   display: block;
   align-content: center;;
   padding: 4px 4px;
+  height: 180px;
+  overflow: auto;
 }
-
-
 
 
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 70%; /* 100% Full-height */
+  height: 293px; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
+  // position: fixed; /* Stay in place */
   z-index: 2; /* Stay on top */
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 100px; /* Place content 60px from the top */
+  padding: 30px 0; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  color:white
 }
 
 /* The sidebar links */
@@ -118,22 +111,27 @@ body {
 /* The button used to open the sidebar */
 .openbtn {
   font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 12px;;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    /* height: 100%; */
+    /* display: none; */
+    /* width: 50px;*/
 }
 
 .openbtn:hover {
   background-color: #444;
 }
 
+button.pin_title:hover {
+  background-color: #444;
+}
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s; /* If you want a transition effect */
-  padding: 20px;
 }
 
 #nav-buttons {
@@ -189,25 +187,23 @@ button.pin_title {
 }
 
 
-#dropdown-container{
+#map-description {
+  position: absolute;
+  margin-left: 20px;
   display: block;
-    align-content: center;
-    /* padding: 4px 4px; */
-    width: 200px;
-    height: 200px;
-    /* border: 25px solid #E8C48F; */
-    /* padding: 20px; */
-    overflow: auto;
+  bottom: 20px;
+  max-width: 400px;
+  max-height: 350px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-style: inset;
+  border-radius: 20%;
 }
-html{
-  overflow: hidden;
-}
-button.map_title {
-  // background: none;
-  // color: black;
-  // border: none;
-  // outline: none;
-}
+
+
+
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 /* Change color of dropdown links on hover */

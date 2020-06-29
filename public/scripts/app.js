@@ -203,6 +203,14 @@ document.addEventListener('DOMContentLoaded', function () {
             $(`#${map.id}`).on('click', function () {
               $.get(`/api/pins/${map.id}`, function (req, res) {
                 dropPins(req);
+                $('#mySidebar').empty();
+                $('#map-description').empty();
+                const pins = req.pins
+                for (const pin of pins) {
+                  $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
+
+                }
+                $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`)
               })
             })
           }
@@ -277,7 +285,8 @@ const openNav = function () {
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 const closeNav = function () {
   document.getElementById("mySidebar").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
+  // document.getElementById("mySidebar").style.marginLeft = "0";
+  // $("#mySideBar").show("slide", { direction: "left" }, 1000);
 };
 
 let sidebarIsOpened = false;
@@ -305,14 +314,27 @@ $('.openbtn').on('click', function () {
 //   for (const map of maps) {
 //     $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-//     //sets event handler for each map title in drop down mymaps
+    //sets event handler for each map title in drop down mymaps
 //     $(`#${map.id}`).on('click', function () {
 //       $.get(`/api/pins/${map.id}`, function (req, res) {
 //         renderMapPins(req)
+//         $('#mySidebar').empty();
+//         $('#map-description').empty();
+//           const pins = req.pins
+//           for (const pin of pins) {
+//             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
+
+//           }
+//           $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`)
 //       })
 //     })
 //   }
 // })
+
+//Could replace CSS animations
+// $("#mySidebar").click(function () {
+//   $(this).show("slide", { direction: "left" }, 1000);
+// });
 
 // $.get("/api/pins", function (req, res) {
 //   const pins = req.pins

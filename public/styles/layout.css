@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 body {
   font-family: Montserrat, sans-serif;
   background-color: #5780ab;
@@ -13,6 +17,7 @@ body h1 {
   margin: 10px 30px;
 }
 
+<<<<<<< HEAD
 #all-maps {
   max-width: 100px;
   max-height: 99%;
@@ -21,6 +26,8 @@ body h1 {
   align-self: center;
 }
 
+=======
+>>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
 #navBar {
   position: absolute;
   top: 0;
@@ -40,15 +47,21 @@ body h1 {
 }
 
 #map {
+<<<<<<< HEAD
   height: 100% !important;
+=======
+>>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
   position: absolute;
+  height: 100%;
   width: 100%;
 }
 
 #fullSidebar {
   position: absolute;
   right: 0;
-  top: 120px;
+  display: flex;
+  top: 200px;
+  /* flex-direction: column;*/
 }
 
 #pin-container {
@@ -65,27 +78,28 @@ body h1 {
   display: block;
   align-content: center;
   padding: 4px 4px;
+  height: 180px;
+  overflow: auto;
 }
 
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 70%;
+  height: 293px;
   /* 100% Full-height */
   width: 0;
   /* 0 width - change this with JavaScript */
-  position: fixed;
-  /* Stay in place */
   z-index: 2;
   /* Stay on top */
   background-color: #111;
   /* Black*/
   overflow-x: hidden;
   /* Disable horizontal scroll */
-  padding-top: 100px;
+  padding: 30px 0;
   /* Place content 60px from the top */
   transition: 0.5s;
   /* 0.5 second transition effect to slide in the sidebar */
+  color: white;
 }
 
 /* The sidebar links */
@@ -122,10 +136,17 @@ body h1 {
   color: white;
   padding: 10px 15px;
   border: none;
-  border-radius: 12px;
+  outline: none;
+  /* height: 100%; */
+  /* display: none; */
+  /* width: 50px;*/
 }
 
 .openbtn:hover {
+  background-color: #444;
+}
+
+button.pin_title:hover {
   background-color: #444;
 }
 
@@ -133,7 +154,6 @@ body h1 {
 #main {
   transition: margin-left .5s;
   /* If you want a transition effect */
-  padding: 20px;
 }
 
 #nav-buttons {
@@ -188,19 +208,22 @@ button.pin_title {
   outline: none;
 }
 
+<<<<<<< HEAD
 #dropdown-container {
+=======
+#map-description {
+  position: absolute;
+  margin-left: 20px;
+>>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
   display: block;
-  align-content: center;
-  /* padding: 4px 4px; */
-  width: 200px;
-  height: 200px;
-  /* border: 25px solid #E8C48F; */
-  /* padding: 20px; */
-  overflow: auto;
-}
-
-html {
-  overflow: hidden;
+  bottom: 20px;
+  max-width: 400px;
+  max-height: 350px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-style: inset;
+  border-radius: 20%;
 }
 
 /* Show the dropdown menu on hover */
