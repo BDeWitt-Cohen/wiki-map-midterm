@@ -177,13 +177,6 @@ button.pin_title {
   outline: none;
 }
 
-button.map_title {
-  background: none;
-  color: black;
-  border: none;
-  outline: none;
-}
-
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;

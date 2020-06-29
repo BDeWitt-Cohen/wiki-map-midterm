@@ -21,8 +21,8 @@ CREATE TABLE pins (
   user_id INTEGER REFERENCES users(id) NOT NULL,
   map_id INTEGER REFERENCES maps(id) NOT NULL,
   name VARCHAR(255),
-  long INTEGER NOT NULL,
-  lat INTEGER NOT NULL,
+  long DOUBLE PRECISION NOT NULL,
+  lat DOUBLE PRECISION NOT NULL,
   description TEXT,
   suggestion BOOLEAN
 );

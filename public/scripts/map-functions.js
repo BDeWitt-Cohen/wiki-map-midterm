@@ -65,21 +65,23 @@ $(() => {
   }
   getPins(pins)
 
-  const renderPins = function(pins) {
-    for (const pin of pins.pins) {
-      var pinLatLng = { lat: pin.lat, lng: pin.long };
-      var marker = new google.maps.Marker({
-        position: pinLatLng,
-        map: map,
-        title: pin.name
-      });
-    }
-  }
+  // const renderPins = function(pins) {
+  //   for (const pin of pins.pins) {
+  //     var pinLatLng = { lat: pin.lat, lng: pin.long };
+  //     var marker = new google.maps.Marker({
+  //       position: pinLatLng,
+  //       map: map,
+  //       title: pin.name
+  //     });
+  //   }
+  // }
 
-  marker.setMap(map); //this might need to come inside the render function
+  // marker.setMap(map); //this might need to come inside the render function
 
 
 
 
 
 })
+
+// modules.export =
