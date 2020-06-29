@@ -58,7 +58,7 @@ body h1 {
   display: block;
 }
 
-#map-container {
+.map-container {
   color: red;
   display: block;
   align-content: center;

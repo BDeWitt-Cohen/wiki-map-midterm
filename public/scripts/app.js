@@ -192,12 +192,11 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Geocode was not successful for the following reason: ' + status);
           }
         });
-
-        //Render map titles client side
+        //Render map titles for my maps client side
         $.get("/api/maps", function (req, res) {
           const maps = req.maps
           for (const map of maps) {
-            $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+            $('#my-map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
             //sets event handler for each map title in drop down mymaps
             $(`#${map.id}`).on('click', function () {
