@@ -2,29 +2,24 @@
 <html lang="en">
 
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Shrikhand&display=swap" rel="stylesheet">
   <title>Slightly Bad Directions</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
-  <style>
-    /* Set the size of the div element that contains the map */
-   #map {
-     height: 800px;  /* The height is 400 pixels */
-     width: 100%;  /* The width is the width of the web page */
-    }
- </style>
+
 </head>
 
 <body>
 
   <nav id="navBar">
-    <span id="title"> <b> Slightly Bad Directions </b> </span>
+    <span id="title"> Slightly Bad Directions </span>
     <div id="nav-buttons">
       <div id="map-list">
         <div class="dropdown">
-          <button class="dropbtn">Maps</button>
+          <button class="dropbtn">My Maps</button>
           <div class="dropdown-content">
             <div id="dropdown-container">
               <div id="my-maps">mymaps</div>
@@ -34,19 +29,19 @@
           </div>
         </div>
     </div>
-      <button class="btn-default" id="myMaps"> Logged in as bad@directions.com </button>
+      <button class="btn-small" id="myMaps"> bad@directions.com </button>
     </div>
-
   </nav>
-  <div id="map-page">
-    <div id="map">
-      </div>
-
+  <div class="wrapper">
+    <div id="map"></div>
+    <div class="content">
+    </div>
+  </div>
       <div id="fullSidebar">
 
         <div id="mySidebar" class="sidebar">
-          <!-- <p id="pin-container"></p> -->
-        </div>
+          <p id="pin-container"></p>
+       </div>
 
         <div id="main">
           <button class="openbtn">&#9776; Pins</button>

@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const openNav = function () {
   document.getElementById("mySidebar").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
+  document.getElementById("main").style.marginLeft = "0px";
 };
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
@@ -270,6 +270,7 @@ const renderMapPins = function(map){
   var newMap = new google.maps.Map(document.getElementById("map"), mapOptions);
 
   for(const pin of map.pins){
+    console.log(pin);
     const newLat = pin.lat
     const newLong = pin.long
     let myLatlng = new google.maps.LatLng(newLong, newLat);
