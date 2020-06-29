@@ -205,7 +205,8 @@ const openNav = function () {
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 const closeNav = function () {
   document.getElementById("mySidebar").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
+  // document.getElementById("mySidebar").style.marginLeft = "0";
+  // $("#mySideBar").show("slide", { direction: "left" }, 1000);
 };
 
 let sidebarIsOpened = false;
@@ -243,7 +244,7 @@ $.get("/api/maps", function (req, res) {
           for (const pin of pins) {
             console.log("this is pins", pins);
             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
-          
+
           }
       })
     })

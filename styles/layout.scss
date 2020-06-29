@@ -1,6 +1,8 @@
 // See: https://sass-lang.com/
 
-
+html {
+  overflow: hidden;
+}
 body {
   font-family: Montserrat, sans-serif;
   background-color: #5780ab;
@@ -41,8 +43,10 @@ body {
 
 #fullSidebar {
   position: absolute;
-  right: 0;
-  top: 120px;
+    right: 0;
+    display: flex;
+    top: 200px;
+    /* flex-direction: column;*/
 }
 #pin-container {
   display: flex;
@@ -59,19 +63,21 @@ body {
   display: block;
   align-content: center;;
   padding: 4px 4px;
+  height: 180px;
+  overflow: auto;
 }
 
 
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 70%; /* 100% Full-height */
+  height: 293px; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   // position: fixed; /* Stay in place */
   z-index: 2; /* Stay on top */
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 100px; /* Place content 60px from the top */
+  padding: 30px 0; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
   color:white
 }
@@ -105,22 +111,27 @@ body {
 /* The button used to open the sidebar */
 .openbtn {
   font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 12px;;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    /* height: 100%; */
+    /* display: none; */
+    /* width: 50px;*/
 }
 
 .openbtn:hover {
   background-color: #444;
 }
 
+button.pin_title:hover {
+  background-color: #444;
+}
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s; /* If you want a transition effect */
-  padding: 20px;
 }
 
 #nav-buttons {
