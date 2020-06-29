@@ -31,6 +31,11 @@ body h1 {
   padding-top: 35px;
 }
 
+#map {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
 
 #fullSidebar {
   position: absolute;

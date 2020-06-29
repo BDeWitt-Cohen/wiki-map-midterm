@@ -37,13 +37,9 @@ body {
 }
 
 #map {
-  position: fixed;
-   margin: 0;
-   padding: 0;
-   height: 600px;
-   width: 800px;
-   float: left;
-   z-index: 1;
+  position: absolute;
+   height: 100%;
+   width: 100%;
 }
 
 #fullSidebar {
