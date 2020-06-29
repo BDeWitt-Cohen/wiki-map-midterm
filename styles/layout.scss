@@ -1,7 +1,9 @@
 // See: https://sass-lang.com/
 
 body {
-  background-color: #EEE;
+  font-family: Montserrat, sans-serif;
+  background-color: #5780ab;
+  background-image: url("https://www.transparenttextures.com/patterns/wavecut.png");
 
   h1 {
     color: #244751;
@@ -15,40 +17,39 @@ body {
 
 #all-maps{
   max-width: 100px;
-  max-height: 100px;
+  max-height: 99%;
   z-index: 4;
   border: black;
   align-self: center;
 }
 
 #navBar {
+  position: absolute;
+  top: 0;
   z-index: 3;
+  width: 99%;
   margin: 10px 10px;
   padding: 5px 5px;
   display: flex;
   justify-content: space-between;
 }
 
-#map-page {
-  display: flex;
-  justify-content: space-between;
-  ;
+#title {
+  font-size: 25px;
+  font-family: 'Shrikhand';
+  padding-right: 40px;
+  padding-top: 35px
 }
 
-#map  {
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  height: 740px !important;
-  width: 100% !important;
-  float: left;
-  z-index: 1;
+#map {
+  height: 100% !important;
+  position: absolute;
+  width: 100%;
 }
-
 #fullSidebar {
-  color: white;
-  display: flex;
-  justify-content: left;
+  position: absolute;
+  right: 0;
+  top: 120px;
 }
 #pin-container {
   display: flex;
@@ -68,7 +69,7 @@ body {
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 100%; /* 100% Full-height */
+  height: 70%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 2; /* Stay on top */
@@ -112,6 +113,7 @@ body {
   color: white;
   padding: 10px 15px;
   border: none;
+  border-radius: 12px;;
 }
 
 .openbtn:hover {
@@ -125,8 +127,14 @@ body {
 }
 
 #nav-buttons {
+  right: 15px;
   display: flex;
 z-index: 3;
+padding-right: 20px;
+}
+
+#map-list {
+  padding-right: 20px;
 }
 
 .dropbtn {
@@ -140,6 +148,7 @@ z-index: 3;
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
+  padding-top: 40px;
   position: relative;
   display: inline-block;
 }
@@ -169,17 +178,7 @@ button.pin_title {
   outline: none;
 }
 
-#my-maps{
-  // border-style: solid;
-  height: 20%;
-  display: flex;
-  position: sticky;
-  top: 0px;
-  /* width: 100%; */
-  justify-content: center;
-  background: gray;
 
-}
 #dropdown-container{
   display: block;
     align-content: center;
