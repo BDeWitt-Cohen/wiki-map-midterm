@@ -209,7 +209,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 for (const pin of pins) {
                   $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                 }
-                $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`);
+                $('#map-description').append(`
+                  <div class="header">
+                    <h3 class="description-header"> ${map.title}</h3>
+                  </div>
+                  <div class="row" class="description-content">
+                    <p> ${map.description}<p>
+                  </div>
+                  <div class="maps-footer">
+                    <button class="like-button" class="footer-buttons"> Like </Button>
+                    <button class="fav-button" class="footer-buttons">&hearts;</Button>
+                    <button class="edit-button" class="footer-buttons"> Edit </Button>
+                  </div>
+  `)
               });
             });
           }
@@ -321,16 +333,22 @@ $(`#create-map`).on('click', function() {
   // alert("the create map button was clicked")
   $("#map").append(`<div>
   <form  id="create-map-form">
-    <label for="fname">Map Name:</label><br>
-    <input type="text" id="fname" name="fname" placeholder="Cool Map Name"><br>
-    <label for="lname">Description:</label><br>
-    <input type="text" id="lname" name="lname" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
+    <label for="map-name">Map Name:</label><br>
+    <input type="text" id="map-name" name="map-name" placeholder="Cool Map Name"><br>
+    <label for="map-desc">Description:</label><br>
+    <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
     <input type="submit" value="Submit" id="submit-new-map">
   </form>
    </div>`)
-   $("#create-map-form").on('click', function(req, res){
-     $(this)
-    console.log(req);
+   $("#create-map-form").submit(function(event){
+    const data = $(this).serialize();
+    newData = data.split('&')
+    const mapName = decodeURIComponent(newData[0]).slice(9);
+    const mapDesc = decodeURIComponent(newData[1]).slice(9);
+    const newMapObj = {mapName, mapDesc}
+    event.preventDefault();
+    $.post("/api/maps/post", newMapObj)
+    
 
    })
    

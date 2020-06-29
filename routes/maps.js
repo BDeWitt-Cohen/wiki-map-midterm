@@ -23,6 +23,24 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.post("/post", (req, res) => {
+      console.log(req.body.mapName)
+      console.log(req.body.mapDesc);
+      res.status(200)
+
+    // let query = `INSERT * FROM maps WHERE id = $1;`;
+    // db.query(query, [req.params.maps_id])
+    //   .then(data => {
+    //     const maps = data.rows;
+    //     res.json({ maps });
+    //   })
+    //   .catch(err => {
+    //     res
+    //       .status(500)
+    //       .json({ error: err.message });
+    //   });
+  });
+
   router.get("/:maps_id", (req, res) => {
 
     let query = `SELECT * FROM maps WHERE id = $1;`;
