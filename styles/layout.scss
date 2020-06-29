@@ -186,6 +186,24 @@ button.pin_title {
   outline: none;
 }
 
+
+#map-description {
+  position: absolute;
+  margin-left: 20px;
+  display: block;
+  bottom: 20px;
+  max-width: 400px;
+  max-height: 350px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-style: inset;
+  border-radius: 20%;
+}
+
+
+
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 /* Change color of dropdown links on hover */
