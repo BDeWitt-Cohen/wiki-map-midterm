@@ -58,7 +58,7 @@ body h1 {
   display: block;
 }
 
-#map-container {
+.map-container {
   color: red;
   display: block;
   align-content: center;
@@ -144,12 +144,27 @@ button.pin_title:hover {
 #nav-buttons {
   right: 15px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   z-index: 3;
   padding-right: 20px;
 }
 
 #map-list {
   padding-right: 20px;
+}
+
+#login {
+  max-width: auto;
+  max-height: auto;
+  background-color: black;
+  color: white;
+  padding: 16px;
+  padding-top: 20px;
+  align-self: flex-end;
+  font-size: 16px;
+  margin-right: 10px;
+  border: none;
 }
 
 .dropbtn {
@@ -193,18 +208,37 @@ button.pin_title {
   outline: none;
 }
 
+.maps-footer {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 2px;
+}
+
 #map-description {
   position: absolute;
   margin-left: 20px;
-  display: block;
   bottom: 20px;
   max-width: 400px;
   max-height: 350px;
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   font-weight: bold;
-  border-style: inset;
-  border-radius: 20%;
+  border-style: solid;
+}
+
+.footer-buttons {
+  border: none;
+}
+
+.description-header {
+  font-family: 'Shrikhand';
+  display: flex;
+  justify-content: center;
+}
+
+.description-content {
+  display: flex;
+  justify-content: center;
 }
 
 #create-map {
