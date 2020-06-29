@@ -236,19 +236,32 @@ $.get("/api/maps", function (req, res) {
     //sets event handler for each map title in drop down mymaps
     $(`#${map.id}`).on('click', function () {
       $.get(`/api/pins/${map.id}`, function (req, res) {
+        console.log("this is req", req);
         renderMapPins(req)
+        $('#mySidebar').empty();
+          const pins = req.pins
+          for (const pin of pins) {
+            console.log("this is pins", pins);
+            $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
+          
+          }
       })
     })
   }
 })
 
-$.get("/api/pins", function (req, res) {
-  const pins = req.pins
-  for (const pin of pins) {
-    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
-  }
+//Could replace CSS animations
+// $("#mySidebar").click(function () {
+//   $(this).show("slide", { direction: "left" }, 1000);
+// });
 
-})
+// $.get("/api/pins", function (req, res) {
+//   const pins = req.pins
+//   for (const pin of pins) {
+//     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
+//   }
+
+// })
 
 
 

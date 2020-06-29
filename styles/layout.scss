@@ -15,9 +15,6 @@ body {
   color: black;
   margin: 10px 30px;
 }
-
-
-
 #navBar {
   position: absolute;
   top: 0;
@@ -70,12 +67,13 @@ body {
   justify-content: right;
   height: 70%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
+  // position: fixed; /* Stay in place */
   z-index: 2; /* Stay on top */
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 100px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  color:white
 }
 
 /* The sidebar links */
