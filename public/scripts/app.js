@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const badDirector = function(coordinate) {
           let coord = coordinate;
           let randonNum = Math.random();
-          let smallerNum = randonNum / 400;
+          let smallerNum = randonNum / 300;
           if (Math.random() < .5) {
             coord = coord - smallerNum;
           } else {
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
               }))
             }, time);
           }
-          map.fitBounds(bounds, {top: 150, bottom: 70, right: 50});
+          map.fitBounds(bounds, {top: 150, bottom: 150, left:50, right: 50});
         }
 
         const clearMarkers = function() {

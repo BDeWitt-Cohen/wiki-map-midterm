@@ -17,17 +17,6 @@ body h1 {
   margin: 10px 30px;
 }
 
-<<<<<<< HEAD
-#all-maps {
-  max-width: 100px;
-  max-height: 99%;
-  z-index: 4;
-  border: black;
-  align-self: center;
-}
-
-=======
->>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
 #navBar {
   position: absolute;
   top: 0;
@@ -47,10 +36,6 @@ body h1 {
 }
 
 #map {
-<<<<<<< HEAD
-  height: 100% !important;
-=======
->>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
   position: absolute;
   height: 100%;
   width: 100%;
@@ -208,13 +193,9 @@ button.pin_title {
   outline: none;
 }
 
-<<<<<<< HEAD
-#dropdown-container {
-=======
 #map-description {
   position: absolute;
   margin-left: 20px;
->>>>>>> a121d2656a77e1b3793ddd5e312ad0970ae9f21d
   display: block;
   bottom: 20px;
   max-width: 400px;
