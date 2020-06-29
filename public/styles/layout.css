@@ -13,7 +13,6 @@ body h1 {
   margin: 10px 30px;
 }
 
-<<<<<<< HEAD
 #all-maps {
   max-width: 100px;
   max-height: 99%;
@@ -22,8 +21,6 @@ body h1 {
   align-self: center;
 }
 
-=======
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
 #navBar {
   position: absolute;
   top: 0;
@@ -43,28 +40,9 @@ body h1 {
 }
 
 #map {
-<<<<<<< HEAD
   height: 100% !important;
   position: absolute;
   width: 100%;
-=======
-  display: flex;
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  height: 600px;
-  width: 800px;
-  float: left;
-  z-index: 1;
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
-}
-
-#all-maps {
-  max-width: 2000px;
-  max-height: 200px;
-  z-index: 5;
-  align-self: center;
-  float: right;
 }
 
 #fullSidebar {
@@ -210,7 +188,6 @@ button.pin_title {
   outline: none;
 }
 
-<<<<<<< HEAD
 #dropdown-container {
   display: block;
   align-content: center;
@@ -226,8 +203,6 @@ html {
   overflow: hidden;
 }
 
-=======
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;

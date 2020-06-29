@@ -20,7 +20,6 @@ body {
   margin: 10px 30px;
 }
 
-<<<<<<< HEAD
 #all-maps{
   max-width: 100px;
   max-height: 99%;
@@ -28,9 +27,6 @@ body {
   border: black;
   align-self: center;
 }
-=======
-
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
 
 #navBar {
   position: absolute;
@@ -51,28 +47,9 @@ body {
 }
 
 #map {
-<<<<<<< HEAD
   height: 100% !important;
   position: absolute;
   width: 100%;
-=======
-  display: flex;
-  position: fixed;
-   margin: 0;
-   padding: 0;
-   height: 600px;
-   width: 800px;
-   float: left;
-   z-index: 1;
-}
-
-#all-maps{
-  max-width: 2000px ;
-  max-height: 200px;
-  z-index: 5;
-  align-self: center;
-  float: right;
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
 }
 #fullSidebar {
   position: absolute;
@@ -212,7 +189,6 @@ button.pin_title {
 }
 
 
-<<<<<<< HEAD
 #dropdown-container{
   display: block;
     align-content: center;
@@ -226,9 +202,6 @@ button.pin_title {
 html{
   overflow: hidden;
 }
-=======
-
->>>>>>> 7765ce240ae5f37cf5fdfe7d1bab4c8f817c1d90
 button.map_title {
   // background: none;
   // color: black;

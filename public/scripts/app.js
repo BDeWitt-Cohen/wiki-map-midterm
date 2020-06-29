@@ -170,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
       let map;
+      let markers = [];
+      const mapPins = [];
       window.initMap = function () {
         const geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
@@ -190,6 +192,76 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Geocode was not successful for the following reason: ' + status);
           }
         });
+
+        //Render map titles client side
+        $.get("/api/maps", function (req, res) {
+          const maps = req.maps
+          for (const map of maps) {
+            $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+            //sets event handler for each map title in drop down mymaps
+            $(`#${map.id}`).on('click', function () {
+              $.get(`/api/pins/${map.id}`, function (req, res) {
+                dropPins(req);
+              })
+            })
+          }
+        })
+
+        $.get("/api/pins", function (req, res) {
+          const pins = req.pins
+          for (const pin of pins) {
+            $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
+          }
+        })
+
+        const dropPins = function(obj) {
+          clearMarkers();
+          renderMapPins(obj);
+        };
+
+        const badDirector = function(coordinate) {
+          let coord = coordinate;
+          let randonNum = Math.random();
+          let smallerNum = randonNum / 400;
+          if (Math.random() < .5) {
+            coord = coord - smallerNum;
+          } else {
+            coord = coord + smallerNum;
+          }
+          return coord;
+        };
+
+        //supporting functions
+        // renders pins on map
+        const renderMapPins = function(obj) {
+          let time = 200;
+          let bounds = new google.maps.LatLngBounds();
+          for (const pin of obj.pins) {
+            time += 200;
+            const newLat = badDirector(pin.lat);
+            const newLong = badDirector(pin.long);
+            console.log(newLat, newLong)
+            let myLatlng = new google.maps.LatLng(newLong, newLat);
+            bounds.extend(myLatlng);
+            window.setTimeout(function() {
+              markers.push(new google.maps.Marker({
+                position: myLatlng,
+                title:`${pin.name}`,
+                map: map,
+                animation: google.maps.Animation.DROP
+              }))
+            }, time);
+          }
+          map.fitBounds(bounds, {top: 150, bottom: 70, right: 50});
+        }
+
+        const clearMarkers = function() {
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+          }
+          markers = [];
+        }
 
       };
       document.head.appendChild(script);
@@ -227,59 +299,47 @@ $('.openbtn').on('click', function () {
 });
 
 
-//Render map titles client side
-$.get("/api/maps", function (req, res) {
-  const maps = req.maps
-  for (const map of maps) {
-    $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+// //Render map titles client side
+// $.get("/api/maps", function (req, res) {
+//   const maps = req.maps
+//   for (const map of maps) {
+//     $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-    //sets event handler for each map title in drop down mymaps
-    $(`#${map.id}`).on('click', function () {
-      $.get(`/api/pins/${map.id}`, function (req, res) {
-        renderMapPins(req)
-      })
-    })
-  }
-})
+//     //sets event handler for each map title in drop down mymaps
+//     $(`#${map.id}`).on('click', function () {
+//       $.get(`/api/pins/${map.id}`, function (req, res) {
+//         renderMapPins(req)
+//       })
+//     })
+//   }
+// })
 
-$.get("/api/pins", function (req, res) {
-  const pins = req.pins
-  for (const pin of pins) {
-    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
-  }
+// $.get("/api/pins", function (req, res) {
+//   const pins = req.pins
+//   for (const pin of pins) {
+//     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
+//   }
 
-})
+// })
 
 
 
-//supporting functions
-// renders pins on map
-const renderMapPins = function(map){
-  let myLatlng1 = new google.maps.LatLng(map.pins[0].long, map.pins[0].lat);
-  var mapOptions = {
-    zoom: 12,
-    center: myLatlng1,
-    styles: CustomMapStyles,
-    zoomControl: true,
-    mapTypeControl: false,
-    scaleControl: true,
-    streetViewControl: false,
-    rotateControl: true,
-    fullscreenControl: false
-  }
-  var newMap = new google.maps.Map(document.getElementById("map"), mapOptions);
+// //supporting functions
+// // renders pins on map
+// const renderMapPins = function(obj){
+//   for(const pin of obj.pins){
+//     console.log(pin);
+//     const newLat = pin.lat
+//     const newLong = pin.long
+//     let myLatlng = new google.maps.LatLng(newLong, newLat);
+//     new google.maps.Marker({
+//       position: myLatlng,
+//       title:`${pin.name}`,
+//       map: map,
+//       animation: google.maps.Animation.DROP
+//     });
 
-  for(const pin of map.pins){
-    console.log(pin);
-    const newLat = pin.lat
-    const newLong = pin.long
-    let myLatlng = new google.maps.LatLng(newLong, newLat);
-    new google.maps.Marker({
-      position: myLatlng,
-      title:`${pin.name}`
-    }).setMap(newMap);
+//   }
 
-  }
-
-}
+// }
 
