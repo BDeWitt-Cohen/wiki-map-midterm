@@ -1,5 +1,7 @@
 // See: https://sass-lang.com/
 
+//Wholes Page
+
 body {
   background-color: #EEE;
 
@@ -8,18 +10,15 @@ body {
   }
 }
 
+
+//Nav
+
 #title {
   color: black;
   margin: 10px 30px;
 }
 
-#all-maps{
-  max-width: 100px;
-  max-height: 100px;
-  z-index: 4;
-  border: black;
-  align-self: center;
-}
+
 
 #navBar {
   z-index: 3;
@@ -35,14 +34,23 @@ body {
   ;
 }
 
-#map  {
+#map {
+  display: flex;
   position: fixed;
-  margin: 0;
-  padding: 0;
-  height: 740px !important;
-  width: 100% !important;
-  float: left;
-  z-index: 1;
+   margin: 0;
+   padding: 0;
+   height: 600px;
+   width: 800px;
+   float: left;
+   z-index: 1;
+}
+
+#all-maps{
+  max-width: 2000px ;
+  max-height: 200px;
+  z-index: 5;
+  align-self: center;
+  float: right;
 }
 
 #fullSidebar {
@@ -61,8 +69,13 @@ body {
 }
 
 #map-container {
-  padding: 2px 20px;
+  color: red;
+  display: block;
+  align-content: center;;
+  padding: 4px 4px;
 }
+
+
 
 
 /* The sidebar menu */
@@ -169,30 +182,8 @@ button.pin_title {
   outline: none;
 }
 
-#my-maps{
-  // border-style: solid;
-  height: 20%;
-  display: flex;
-  position: sticky;
-  top: 0px;
-  /* width: 100%; */
-  justify-content: center;
-  background: gray;
 
-}
-#dropdown-container{
-  display: block;
-    align-content: center;
-    /* padding: 4px 4px; */
-    width: 200px;
-    height: 200px;
-    /* border: 25px solid #E8C48F; */
-    /* padding: 20px; */
-    overflow: auto;
-}
-html{
-  overflow: hidden;
-}
+
 button.map_title {
   // background: none;
   // color: black;
