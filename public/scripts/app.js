@@ -319,6 +319,43 @@ $('.openbtn').on('click', function() {
 });
 
 
+$(`#create-map`).on('click', function() {
+  // alert("the create map button was clicked")
+  $("#map").append(`<div>
+  <form  id="create-map-form">
+    <label for="fname">Map Name:</label><br>
+    <input type="text" id="fname" name="fname" placeholder="Cool Map Name"><br>
+    <label for="lname">Description:</label><br>
+    <input type="text" id="lname" name="lname" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
+    <input type="submit" value="Submit" id="submit-new-map">
+  </form>
+   </div>`)
+   $("#create-map-form").on('click', function(req, res){
+     $(this)
+    console.log(req);
+
+   })
+   
+
+})
+
+$(`.edit-button`).on('click', function() {
+  alert("the edit map button was clicked")
+  // $("#map").append(`<div id="create-map-form">
+
+  // <form action="/action_page.php" method="post">
+  //   <label for="fname">Map Name:</label><br>
+  //   <input type="text" id="fname" name="fname" value="Cool Map Name"><br>
+  //   <label for="lname">Description:</label><br>
+  //   <input type="text" id="lname" name="lname" value="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
+  //   <input type="submit" value="Submit" id="submit-new-map">
+  // </form>
+  
+  //  </div>`)
+})
+
+
+
 // //Render map titles client side
 // $.get("/api/maps", function (req, res) {
 //   const maps = req.maps
