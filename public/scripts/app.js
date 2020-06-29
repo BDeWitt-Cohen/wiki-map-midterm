@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         //Render map titles client side
         $.get("/api/maps", function (req, res) {
-          const maps = req.maps
+          const maps = req.maps;
           for (const map of maps) {
             $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
@@ -205,23 +205,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 dropPins(req);
                 $('#mySidebar').empty();
                 $('#map-description').empty();
-                const pins = req.pins
+                const pins = req.pins;
                 for (const pin of pins) {
-                  $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
-
+                  $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                 }
-                $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`)
-              })
-            })
+                $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`);
+              });
+            });
           }
-        })
+        });
 
         $.get("/api/pins", function (req, res) {
-          const pins = req.pins
+          const pins = req.pins;
           for (const pin of pins) {
             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
           }
-        })
+        });
 
         const dropPins = function(obj) {
           clearMarkers();
@@ -233,9 +232,9 @@ document.addEventListener('DOMContentLoaded', function () {
           let randonNum = Math.random();
           let smallerNum = randonNum / 300;
           if (Math.random() < .5) {
-            coord = coord - smallerNum;
+            coord -= smallerNum;
           } else {
-            coord = coord + smallerNum;
+            coord += smallerNum;
           }
           return coord;
         };
@@ -249,7 +248,6 @@ document.addEventListener('DOMContentLoaded', function () {
             time += 200;
             const newLat = badDirector(pin.lat);
             const newLong = badDirector(pin.long);
-            console.log(newLat, newLong)
             let myLatlng = new google.maps.LatLng(newLong, newLat);
             bounds.extend(myLatlng);
             window.setTimeout(function() {
@@ -258,18 +256,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 title:`${pin.name}`,
                 map: map,
                 animation: google.maps.Animation.DROP
-              }))
+              })
+              );
             }, time);
+            marker.addListener('click', toggleBounce);
           }
           map.fitBounds(bounds, {top: 150, bottom: 150, left:50, right: 50});
-        }
+        };
 
         const clearMarkers = function() {
           for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
           }
           markers = [];
-        }
+        };
 
       };
       document.head.appendChild(script);
@@ -314,22 +314,6 @@ $('.openbtn').on('click', function () {
 //   for (const map of maps) {
 //     $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-    //sets event handler for each map title in drop down mymaps
-//     $(`#${map.id}`).on('click', function () {
-//       $.get(`/api/pins/${map.id}`, function (req, res) {
-//         renderMapPins(req)
-//         $('#mySidebar').empty();
-//         $('#map-description').empty();
-//           const pins = req.pins
-//           for (const pin of pins) {
-//             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`)
-
-//           }
-//           $('#map-description').append(`<div id="map-title"><p>${map.title}</p> <p>${map.description}</p> </div>`)
-//       })
-//     })
-//   }
-// })
 
 //Could replace CSS animations
 // $("#mySidebar").click(function () {
@@ -343,25 +327,4 @@ $('.openbtn').on('click', function () {
 //   }
 
 // })
-
-
-
-// //supporting functions
-// // renders pins on map
-// const renderMapPins = function(obj){
-//   for(const pin of obj.pins){
-//     console.log(pin);
-//     const newLat = pin.lat
-//     const newLong = pin.long
-//     let myLatlng = new google.maps.LatLng(newLong, newLat);
-//     new google.maps.Marker({
-//       position: myLatlng,
-//       title:`${pin.name}`,
-//       map: map,
-//       animation: google.maps.Animation.DROP
-//     });
-
-//   }
-
-// }
 
