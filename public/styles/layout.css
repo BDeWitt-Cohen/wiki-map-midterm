@@ -36,8 +36,8 @@ body h1 {
   position: fixed;
   margin: 0;
   padding: 0;
-  height: 600px;
-  width: 800px;
+  height: 740px !important;
+  width: 100% !important;
   float: left;
   z-index: 1;
 }
@@ -58,10 +58,7 @@ body h1 {
 }
 
 #map-container {
-  color: red;
-  display: block;
-  align-content: center;
-  padding: 4px 4px;
+  padding: 2px 20px;
 }
 
 /* The sidebar menu */
@@ -175,6 +172,31 @@ button.pin_title {
   color: white;
   border: none;
   outline: none;
+}
+
+#my-maps {
+  height: 20%;
+  display: flex;
+  position: sticky;
+  top: 0px;
+  /* width: 100%; */
+  justify-content: center;
+  background: gray;
+}
+
+#dropdown-container {
+  display: block;
+  align-content: center;
+  /* padding: 4px 4px; */
+  width: 200px;
+  height: 200px;
+  /* border: 25px solid #E8C48F; */
+  /* padding: 20px; */
+  overflow: auto;
+}
+
+html {
+  overflow: hidden;
 }
 
 /* Show the dropdown menu on hover */

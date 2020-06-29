@@ -35,14 +35,14 @@ body {
   ;
 }
 
-#map {
+#map  {
   position: fixed;
-   margin: 0;
-   padding: 0;
-   height: 600px;
-   width: 800px;
-   float: left;
-   z-index: 1;
+  margin: 0;
+  padding: 0;
+  height: 740px !important;
+  width: 100% !important;
+  float: left;
+  z-index: 1;
 }
 
 #fullSidebar {
@@ -61,10 +61,7 @@ body {
 }
 
 #map-container {
-  color: red;
-  display: block;
-  align-content: center;;
-  padding: 4px 4px;
+  padding: 2px 20px;
 }
 
 
@@ -172,6 +169,30 @@ button.pin_title {
   outline: none;
 }
 
+#my-maps{
+  // border-style: solid;
+  height: 20%;
+  display: flex;
+  position: sticky;
+  top: 0px;
+  /* width: 100%; */
+  justify-content: center;
+  background: gray;
+
+}
+#dropdown-container{
+  display: block;
+    align-content: center;
+    /* padding: 4px 4px; */
+    width: 200px;
+    height: 200px;
+    /* border: 25px solid #E8C48F; */
+    /* padding: 20px; */
+    overflow: auto;
+}
+html{
+  overflow: hidden;
+}
 button.map_title {
   // background: none;
   // color: black;

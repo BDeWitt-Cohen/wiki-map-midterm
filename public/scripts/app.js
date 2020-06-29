@@ -208,13 +208,14 @@ const closeNav = function () {
   document.getElementById("main").style.marginLeft = "0";
 };
 
+let sidebarIsOpened = false;
 //will change later
 $('#mySidebar').on('click', function () {
   closeNav();
+  sidebarIsOpened = false;
 });
 
 
-let sidebarIsOpened = false;
 $('.openbtn').on('click', function () {
   if (sidebarIsOpened) {
     closeNav();
