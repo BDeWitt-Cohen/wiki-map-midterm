@@ -24,21 +24,21 @@ module.exports = (db) => {
       });
   });
   router.post("/post", (req, res) => {
-      console.log(req.body.mapName)
-      console.log(req.body.mapDesc);
-      res.status(200)
-
-    // let query = `INSERT * FROM maps WHERE id = $1;`;
-    // db.query(query, [req.params.maps_id])
-    //   .then(data => {
-    //     const maps = data.rows;
-    //     res.json({ maps });
-    //   })
-    //   .catch(err => {
-    //     res
-    //       .status(500)
-    //       .json({ error: err.message });
-    //   });
+    //for now user is always user 1
+    const user = 1;
+    const inputs = [user, req.body.mapName, req.body.mapDesc]
+    console.log(inputs);
+    let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3);`;
+    db.query(query, inputs)
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   router.get("/:maps_id", (req, res) => {

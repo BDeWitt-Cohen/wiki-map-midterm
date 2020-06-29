@@ -194,38 +194,41 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         //Render map titles client side
-        $.get("/api/maps", function (req, res) {
-          const maps = req.maps;
-          for (const map of maps) {
-            $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+        $(".dropbtn").hover(()=>{
+          $('#all-maps').empty();
+          $.get("/api/maps", function (req, res) {
+            const maps = req.maps;
+            for (const map of maps) {
+              $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-            //sets event handler for each map title in drop down mymaps
-            $(`#${map.id}`).on('click', function () {
-              $.get(`/api/pins/${map.id}`, function (req, res) {
-                dropPins(req);
-                $('#mySidebar').empty();
-                $('#map-description').empty();
-                const pins = req.pins;
-                for (const pin of pins) {
-                  $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
-                }
-                $('#map-description').append(`
-                  <div class="header">
-                    <h3 class="description-header"> ${map.title}</h3>
-                  </div>
-                  <div class="row" class="description-content">
-                    <p> ${map.description}<p>
-                  </div>
-                  <div class="maps-footer">
-                    <button class="like-button" class="footer-buttons"> Like </Button>
-                    <button class="fav-button" class="footer-buttons">&hearts;</Button>
-                    <button class="edit-button" class="footer-buttons"> Edit </Button>
-                  </div>
-  `)
+              //sets event handler for each map title in drop down mymaps
+              $(`#${map.id}`).on('click', function () {
+                $.get(`/api/pins/${map.id}`, function (req, res) {
+                  dropPins(req);
+                  $('#mySidebar').empty();
+                  $('#map-description').empty();
+                  const pins = req.pins;
+                  for (const pin of pins) {
+                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                  }
+                  $('#map-description').append(`
+                    <div class="header">
+                      <h3 class="description-header"> ${map.title}</h3>
+                    </div>
+                    <div class="row" class="description-content">
+                      <p> ${map.description}<p>
+                    </div>
+                    <div class="maps-footer">
+                      <button class="like-button" class="footer-buttons"> Like </Button>
+                      <button class="fav-button" class="footer-buttons">&hearts;</Button>
+                      <button class="edit-button" class="footer-buttons"> Edit </Button>
+                    </div>
+    `)
+                });
               });
-            });
-          }
-        });
+            }
+          });
+        })
 
         $.get("/api/pins", function (req, res) {
           const pins = req.pins;
@@ -348,10 +351,10 @@ $(`#create-map`).on('click', function() {
     const newMapObj = {mapName, mapDesc}
     event.preventDefault();
     $.post("/api/maps/post", newMapObj)
-    
+
 
    })
-   
+
 
 })
 
@@ -366,7 +369,7 @@ $(`.edit-button`).on('click', function() {
   //   <input type="text" id="lname" name="lname" value="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
   //   <input type="submit" value="Submit" id="submit-new-map">
   // </form>
-  
+
   //  </div>`)
 })
 
