@@ -1,6 +1,154 @@
 
 //fetchesIP, gets coordinates//\
 //and uses them to find the nearest city with Google Geocoder api//
+const CustomMapStyles = [
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape",
+    "stylers": [
+      {
+        "hue": "#FFBB00"
+      },
+      {
+        "saturation": 43.400000000000006
+      },
+      {
+        "lightness": 37.599999999999994
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "stylers": [
+      {
+        "hue": "#FFC200"
+      },
+      {
+        "saturation": -61.8
+      },
+      {
+        "lightness": 45.599999999999994
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "stylers": [
+      {
+        "hue": "#FF0300"
+      },
+      {
+        "saturation": -100
+      },
+      {
+        "lightness": 51.19999999999999
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "stylers": [
+      {
+        "hue": "#FF0300"
+      },
+      {
+        "saturation": -100
+      },
+      {
+        "lightness": 52
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "stylers": [
+      {
+        "hue": "#0078FF"
+      },
+      {
+        "saturation": -13.200000000000003
+      },
+      {
+        "lightness": 2.4000000000000057
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "stylers": [
+      {
+        "hue": "#00FF6A"
+      },
+      {
+        "saturation": -1.0989010989011234
+      },
+      {
+        "lightness": 11.200000000000017
+      },
+      {
+        "gamma": 1
+      }
+    ]
+  }
+];
 
 document.addEventListener('DOMContentLoaded', function () {
   $.get(`https://api.ipify.org?format=json`, function (data) {
@@ -18,154 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
       script.defer = true;
       script.async = true;
 
-      const CustomMapStyles = [
-        {
-          "featureType": "administrative.land_parcel",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "labels.text",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.business",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.park",
-          "elementType": "labels.text",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape",
-          "stylers": [
-            {
-              "hue": "#FFBB00"
-            },
-            {
-              "saturation": 43.400000000000006
-            },
-            {
-              "lightness": 37.599999999999994
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "stylers": [
-            {
-              "hue": "#FFC200"
-            },
-            {
-              "saturation": -61.8
-            },
-            {
-              "lightness": 45.599999999999994
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        },
-        {
-          "featureType": "road.arterial",
-          "stylers": [
-            {
-              "hue": "#FF0300"
-            },
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 51.19999999999999
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "stylers": [
-            {
-              "hue": "#FF0300"
-            },
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 52
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "stylers": [
-            {
-              "hue": "#0078FF"
-            },
-            {
-              "saturation": -13.200000000000003
-            },
-            {
-              "lightness": 2.4000000000000057
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "stylers": [
-            {
-              "hue": "#00FF6A"
-            },
-            {
-              "saturation": -1.0989010989011234
-            },
-            {
-              "lightness": 11.200000000000017
-            },
-            {
-              "gamma": 1
-            }
-          ]
-        }
-      ];
+
 
 
       let map;
@@ -206,9 +207,12 @@ const closeNav = function () {
   document.getElementById("mySidebar").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
 };
+
+//will change later
 $('#mySidebar').on('click', function () {
   closeNav();
 });
+
 
 let sidebarIsOpened = false;
 $('.openbtn').on('click', function () {
@@ -224,58 +228,18 @@ $('.openbtn').on('click', function () {
 
 //Render map titles client side
 $.get("/api/maps", function (req, res) {
-  // console.log(req.maps);
   const maps = req.maps
-  // console.log(maps);
   for (const map of maps) {
     $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+    //sets event handler for each map title in drop down mymaps
     $(`#${map.id}`).on('click', function () {
-     $.get(`/api/pins/${map.id}`, function (req, res) {
-        console.log(req.pins[0])
-        // console.log(req.pins.lat)
-        // const lat =
-        const newLat = req.pins[0].lat
-        const newLong = req.pins[0].long
-      console.log(newLat)
-      console.log(newLong)
-
-        let myLatlng = new google.maps.LatLng(newLong, newLat);
-        var mapOptions = {
-          zoom: 12,
-         center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-        var marker = new google.maps.Marker({
-         position: myLatlng,
-          title:"Hello World!"
-        });
-
-        // To add the marker to the map, call setMap();
-      marker.setMap(map);
-
-      // const renderPins = function(pins) {
-      //   // console.log("hello world", pins)
-      //   for (const pin of pins) {
-      //     console.log(pin)
-      //     const pinLatLng = { lat: pin.lat, lng: pin.long };
-      //     let marker = new google.maps.Marker({
-      //       position: pinLatLng,
-      //       map: map,
-      //       title: pin.name
-      //     });
-      //     marker.setMap(map);
-
-      //   }
-      // }
-      // renderPins(req.pins)
-    })
+      $.get(`/api/pins/${map.id}`, function (req, res) {
+        renderMapPins(req)
+      })
     })
   }
 })
-
-
-
 
 $.get("/api/pins", function (req, res) {
   const pins = req.pins
@@ -287,12 +251,33 @@ $.get("/api/pins", function (req, res) {
 
 
 
-// $( "#map-container" ).on('click', function() {
-//   alert( "Handler for .click() called." );
-// });
+//supporting functions
+// renders pins on map
+const renderMapPins = function(map){
+  let myLatlng1 = new google.maps.LatLng(map.pins[0].long, map.pins[0].lat);
+  var mapOptions = {
+    zoom: 12,
+    center: myLatlng1,
+    styles: CustomMapStyles,
+    zoomControl: true,
+    mapTypeControl: false,
+    scaleControl: true,
+    streetViewControl: false,
+    rotateControl: true,
+    fullscreenControl: false
+  }
+  var newMap = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-// $( ".dropdown-content" ).on('click', function() {
-//   alert( "Handler for .click() called." );
-// });
+  for(const pin of map.pins){
+    const newLat = pin.lat
+    const newLong = pin.long
+    let myLatlng = new google.maps.LatLng(newLong, newLat);
+    new google.maps.Marker({
+      position: myLatlng,
+      title:`${pin.name}`
+    }).setMap(newMap);
 
+  }
+
+}
 

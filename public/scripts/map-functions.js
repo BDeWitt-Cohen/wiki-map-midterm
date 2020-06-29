@@ -56,7 +56,6 @@ $(() => {
 
   const getPins = function(pins) {
     for (const pin of pins.pins) {
-      console.log(pin);
       $('#pin-container').append(pin.name)
       $('#pin-container').append(pin.description)
 
