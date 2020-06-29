@@ -1,6 +1,5 @@
 // See: https://sass-lang.com/
 
-//Wholes Page
 
 body {
   background-color: #EEE;
@@ -10,15 +9,18 @@ body {
   }
 }
 
-
-//Nav
-
 #title {
   color: black;
   margin: 10px 30px;
 }
 
-
+#all-maps{
+  max-width: 100px;
+  max-height: 100px;
+  z-index: 4;
+  border: black;
+  align-self: center;
+}
 
 #navBar {
   z-index: 3;
@@ -35,7 +37,6 @@ body {
 }
 
 #map {
-  display: flex;
   position: fixed;
    margin: 0;
    padding: 0;
@@ -43,14 +44,6 @@ body {
    width: 800px;
    float: left;
    z-index: 1;
-}
-
-#all-maps{
-  max-width: 2000px ;
-  max-height: 200px;
-  z-index: 5;
-  align-self: center;
-  float: right;
 }
 
 #fullSidebar {
@@ -74,8 +67,6 @@ body {
   align-content: center;;
   padding: 4px 4px;
 }
-
-
 
 
 /* The sidebar menu */
@@ -181,8 +172,6 @@ button.pin_title {
   border: none;
   outline: none;
 }
-
-
 
 button.map_title {
   // background: none;
