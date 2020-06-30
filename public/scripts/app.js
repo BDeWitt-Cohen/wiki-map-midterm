@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $("#all-maps-btn").hover(()=>{
           $('#all-maps').empty();
           $('#my-map-container').empty();
+          $("#favorite-map-container").empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
@@ -239,13 +240,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           })
         });
-
-
-
         //Render all map titles client side
         $("#my-maps").hover(() => {
           $('#all-maps').empty();
           $('#my-map-container').empty();
+          $("#favorite-map-container").empty();
           $.get("/api/maps/user_id", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
@@ -293,7 +292,61 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         })
 
+        //render favorite maps
+        $("#favorite-map").hover(()=>{
+          $('#all-maps').empty();
+          $("#favorite-map-container").empty();
+          $("#favorite-map-container").append('<div id="favorite-dropdown-container"><div class="map-container" id="fav-map-container"></div></div>')
 
+          //get request for all favorite maps
+          $.get("/api/maps/favorites", function(req, res) {
+            const maps = req.maps;
+            for (const map of maps) {
+              $('#fav-map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+              //sets event handler for each map title in drop down mymaps
+              $(`#${map.id}`).on('click', function() {
+                $.get(`/api/pins/${map.id}`, function(req, res) {
+                  dropPins(req);
+                  $('#mySidebar').empty();
+                  $('#map-description').empty();
+                  const pins = req.pins;
+                  for (const pin of pins) {
+                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                  }
+                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
+
+                    let image;
+                    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+                      image = req.results[0].photos[0].photo_reference;
+                    } else {
+                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                    };
+                    $('#map-description').append(`
+                    <div class="header" id="map-desc-header">
+                      <h3 class="description-header">${map.title}</h3>
+                    <div id="num-likes"> 3</div>
+                    </div>
+                    <div class="map-image">
+                    <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
+                    </div>
+                    <div class="row" class="description-content">
+                      <p> ${map.description}<p>
+                    </div>
+                    <div class="maps-footer">
+                    <button class="edit-button" class="footer-buttons"> Edit </button>
+                    <button class="add-pins" class="footer-buttons">Add Pins</button>
+
+                    </div>`);
+                  })
+                });
+              });
+
+            }
+          });
+
+
+        })
 
         $.get("/api/pins", function(req, res) {
           const pins = req.pins;
