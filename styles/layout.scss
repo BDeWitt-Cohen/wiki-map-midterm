@@ -210,14 +210,7 @@ button.pin_title {
   outline: none;
 }
 
-
-.maps-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 7px;
-  padding-right: 7px;
-}
-
+// Map description box
 #map-description {
   position: absolute;
   margin-left: 20px;
@@ -230,48 +223,82 @@ button.pin_title {
 
 }
 
+#map-desc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  color: black;
+ 
+}
+
+.maps-footer {
+  padding: 0px 30px 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .footer-buttons {
   border: none;
+  justify-content: space-between;
+  padding: 5px 5px;
 }
 
 .description-header {
   font-family: 'Shrikhand';
-  display: flex;
-  justify-content: center;
 }
 
 .description-content {
   display: flex;
   justify-content: center;
 }
+// End of map description box
 
 p{
   padding: 0px 20px;
 }
+
+//Map creation form
 #create-map{
   width: 100%;
   background-color: lightgray;
   height: 50px;
-  inline-size: none;
-  outline: none;
-}
-#favorite-map{
-  width: 100%;
-  background-color: lightgray;
-  height: 50px;
-  inline-size: none;
   outline: none;
 }
 
 #create-map-form {
+  width: 400px;
+  height: 375px;
   background-color: black;
   color: white;
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 42%;
+  top: 37%;
   margin-left: -50px;
-  padding: 10px;
+  padding: 8px;
+  border-radius: 8px;
 }
+
+#submit-form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+    resize: none;
+    padding: 7px;
+}
+
+label {
+  padding: 2px 0px;
+}
+
+#submit-form-buttons{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 25px 0px 0px 0px;
+}
+// End of map creation form
 
 button.map_title{
   width: 100%;
