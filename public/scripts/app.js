@@ -232,10 +232,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
-
-
         //Render all map titles client side
         $("#my-maps").hover(()=>{
           console.log('this worked');
@@ -274,24 +270,6 @@ document.addEventListener('DOMContentLoaded', function () {
           }
           });
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -406,17 +384,37 @@ $(`#create-map`).on('click', function() {
     <label for="map-desc">Description:</label><br>
     <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
     <input type="submit" value="Submit" id="submit-new-map">
-  </form>
+    <button id="exit-map-creation">Exit</button>
+    </form>
    </div>`)
+   let tryingToExit = false;
+   $("#exit-map-creation").click(function(event){
+    $("#create-map-form").hide();
+    tryingToExit = true;
+   })
    $("#create-map-form").submit(function(event){
-    const data = $(this).serialize();
-    newData = data.split('&')
-    const mapName = decodeURIComponent(newData[0]).slice(9);
-    const mapDesc = decodeURIComponent(newData[1]).slice(9);
-    const newMapObj = {mapName, mapDesc}
-    event.preventDefault();
-    $.post("/api/maps/post", newMapObj)
+     if(tryingToExit){
+      $("#create-map-form").hide();
+     } else{
 
+       const data = $(this).serialize();
+       newData = data.split('&')
+       const mapName = decodeURIComponent(newData[0]).slice(9);
+       const mapDesc = decodeURIComponent(newData[1]).slice(9);
+       event.preventDefault();
+       if(!(mapName) && !(mapDesc)){
+         alert('hold up please type something in');
+       } else if (!mapName){
+         alert('hold up please give your map a title');
+       } else if (!mapDesc){
+         alert('hold up please give your map a description');
+       }
+       else {
+         const newMapObj = {mapName, mapDesc}
+         $.post("/api/maps/post", newMapObj)
+         $("#create-map-form").hide();
+       }
+     }
 
    })
 
