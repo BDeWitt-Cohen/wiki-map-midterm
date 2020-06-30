@@ -6,6 +6,7 @@ module.exports = (db) => {
 
   //GET from /api/favs
   router.get("/", (req, res) => {
+    console.log(res);
     let query = `SELECT count(*) FROM favorites WHERE map_id = 1;`;
     db.query(query)
       .then(data => {

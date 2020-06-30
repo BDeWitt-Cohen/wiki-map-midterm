@@ -183,6 +183,7 @@ const createMapBox = function(map, key) {
   });
 };
 
+
 document.addEventListener('DOMContentLoaded', function() {
   $.get(`/api/google`, function(data) {
     console.log(data.key);

@@ -10,11 +10,12 @@ const router  = express.Router();
 //Populates all maps
 module.exports = (db) => {
   router.get("/", (req, res) => {
+    const user = req.session.user_id;
     let query = `SELECT * FROM maps;`;
     db.query(query)
       .then(data => {
         const maps = data.rows;
-        res.json({ maps});
+        res.json({ maps, user});
       })
       .catch(err => {
         res
