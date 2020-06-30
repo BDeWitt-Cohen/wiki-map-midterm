@@ -162,12 +162,9 @@ document.addEventListener('DOMContentLoaded', function () {
       city = response.city;
 
       const script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8&callback=initMap';
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8&libraries=places&callback=initMap';
       script.defer = true;
       script.async = true;
-
-
-
 
       let map;
       let markers = [];
@@ -193,6 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
+
+
+
         //Render map titles client side
         $(".dropbtn").hover(()=>{
           $('#all-maps').empty();
@@ -211,9 +211,21 @@ document.addEventListener('DOMContentLoaded', function () {
                   for (const pin of pins) {
                     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                   }
-                  $('#map-description').append(`
+                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function (req, res) {
+
+                    let image;
+                    console.log(typeof req.results[0]);
+                    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+                      image = req.results[0].photos[0].photo_reference;
+                    } else {
+                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                    };
+                    $('#map-description').append(`
                     <div class="header">
-                      <h3 class="description-header"> ${map.title}</h3>
+                      <h3 class="description-header">${map.title}</h3>
+                    </div>
+                    <div id="map-image">
+                    <img src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
                     </div>
                     <div class="row" class="description-content">
                       <p> ${map.description}<p>
@@ -222,13 +234,13 @@ document.addEventListener('DOMContentLoaded', function () {
                       <button class="like-button" class="footer-buttons"> Like </Button>
                       <button class="fav-button" class="footer-buttons">&hearts;</Button>
                       <button class="edit-button" class="footer-buttons"> Edit </Button>
-                    </div>
-    `)
+                    </div>`);
+                  });
                 });
               });
             }
           });
-        })
+        });
 
         $.get("/api/pins", function (req, res) {
           const pins = req.pins;
@@ -260,33 +272,22 @@ document.addEventListener('DOMContentLoaded', function () {
           let time = 200;
           let bounds = new google.maps.LatLngBounds();
           for (const pin of obj.pins) {
-            time += 200;
+            time += 250;
             const newLat = badDirector(pin.lat);
             const newLong = badDirector(pin.long);
             let myLatlng = new google.maps.LatLng(newLong, newLat);
             bounds.extend(myLatlng);
-            const marker = new google.maps.Marker({
-              position: myLatlng,
-              title:`${pin.name}`,
-              map: map,
-              animation: google.maps.Animation.DROP
-            });
             window.setTimeout(function() {
-
-              markers.push(marker);
+              markers.push(new google.maps.Marker({
+                position: myLatlng,
+                title:`${pin.name}`,
+                map: map,
+                animation: google.maps.Animation.DROP
+              }));
             }, time);
-            marker.addListener('click', toggleBounce);
           }
           map.fitBounds(bounds, {top: 150, bottom: 150, left:50, right: 50});
         };
-
-        function toggleBounce() {
-          if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-          } else {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-          }
-        }
 
         const clearMarkers = function() {
           for (var i = 0; i < markers.length; i++) {
@@ -294,6 +295,19 @@ document.addEventListener('DOMContentLoaded', function () {
           }
           markers = [];
         };
+        google.maps.event.addDomListener(window, 'load', function () {
+          var places = new google.maps.places.Autocomplete(document.getElementById('location'));
+          google.maps.event.addListener(places, 'place_changed', function () {
+              var place = places.getPlace();
+              var address = place.formatted_address;
+              var latitude = place.geometry.location.A;
+              var longitude = place.geometry.location.F;
+              var mesg = "Address: " + address;
+              mesg += "\nLatitude: " + latitude;
+              mesg += "\nLongitude: " + longitude;
+              alert(mesg);
+          });
+      });
 
       };
       document.head.appendChild(script);
@@ -342,7 +356,8 @@ $(`#create-map`).on('click', function() {
     <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
     <input type="submit" value="Submit" id="submit-new-map">
   </form>
-   </div>`)
+   </div>`);
+
    $("#create-map-form").submit(function(event){
     const data = $(this).serialize();
     newData = data.split('&')
