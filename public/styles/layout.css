@@ -14,11 +14,14 @@ body h1 {
 
 #picto {
   border-radius: 50%;
+  margin: auto;
+  text-align: center;
 }
 
 .map-image {
   border-radius: 50%;
-  padding-left: 40px;
+  margin: auto;
+  text-align: center;
 }
 
 #title {
@@ -233,6 +236,7 @@ button.pin_title {
   justify-content: space-between;
   align-items: center;
   padding: 0px 10px;
+  text-align: center;
   color: black;
 }
 
@@ -250,6 +254,7 @@ button.pin_title {
 
 .description-header {
   font-family: 'Shrikhand';
+  text-align: center;
 }
 
 .description-content {

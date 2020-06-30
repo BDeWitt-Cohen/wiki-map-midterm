@@ -212,25 +212,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     let image;
                     if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
-                      image = req.results[0].photos[0].photo_reference;
+                      image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${req.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`;
                     } else {
-                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                      image = `https://loremflickr.com/200/200/${map.title}`;
                     };
+                    $('#map-description').css('padding: 10px');
                     $('#map-description').append(`
                     <div class="header" id="map-desc-header">
                       <h3 class="description-header">${map.title}</h3>
-  <div id="num-likes"> 3</div>
+
                     </div>
                     <div class="map-image">
-                    <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
+                    <img id="picto" src=${image}>
                     </div>
                     <div class="row" class="description-content">
                       <p> ${map.description}<p>
                     </div>
                     <div class="maps-footer">
                       <button class="add-favorite" class="footer-buttons"> &hearts;</button>
+                      <span class="fa-stack">
+                      <span class="far fa-heart"></span>
+                      <strong class="fa-stack-1x">
+                      2
+                  </strong>
+                      </span>
                        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
-                      
+
                     </div>`);
                   });
                 });
