@@ -27,11 +27,12 @@ module.exports = (db) => {
     const user = req.session.user_id;
     const inputs = [user, req.body.mapName, req.body.mapDesc]
     console.log(inputs);
-    let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3);`;
+    let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3) RETURNING *;`;
     db.query(query, inputs)
       .then(data => {
+        console.log(data.rows);
         const maps = data.rows;
-        res.json({ maps });
+        res.json({ maps});
       })
       .catch(err => {
         res

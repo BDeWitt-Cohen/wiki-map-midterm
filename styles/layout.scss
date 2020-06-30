@@ -229,7 +229,7 @@ button.pin_title {
   align-items: center;
   padding: 0px 10px;
   color: black;
- 
+
 }
 
 .maps-footer {
@@ -265,7 +265,12 @@ p{
   height: 50px;
   outline: none;
 }
-
+#favorite-map{
+  width: 100%;
+  background-color: lightgray;
+  height: 50px;
+  outline: none;
+}
 #create-map-form {
   width: 400px;
   height: 375px;
