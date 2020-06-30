@@ -186,7 +186,6 @@ const createMapBox = function(map, key) {
 
 document.addEventListener('DOMContentLoaded', function() {
   $.get(`/api/google`, function(data) {
-    console.log(data.key);
     const key = data.key;
     $.get(`https://api.ipify.org?format=json`, function(data) {
       const ip = data.ip;
@@ -253,11 +252,11 @@ document.addEventListener('DOMContentLoaded', function() {
               }
             });
           });
-          $("#all-maps-btn").on('mouseout', ()=>{
-            $("#favorite-map-container").empty();
-          });
+          // $("#all-maps-btn").on('mouseout', ()=>{
+          //   $("#favorite-map-container").empty();
+          // });
           //Render all map titles client side
-          $("#my-maps").hover(() => {
+          $("#my-maps").on('mouseover', () => {
             $('#all-maps').empty();
             $('#my-map-container').empty();
             $("#favorite-map-container").empty();
@@ -283,6 +282,11 @@ document.addEventListener('DOMContentLoaded', function() {
               }
             });
           });
+          // $("#all-maps-btn").on('mouseout', ()=>{
+          //   $('#my-map-container').empty();
+          //   $("#favorite-map-container").empty();
+          // });
+
 
           //render favorite maps
           $("#favorite-map").on("mouseover", ()=>{
@@ -313,9 +317,9 @@ document.addEventListener('DOMContentLoaded', function() {
               }
             });
           });
-          $("#favorite-map").on("mouseout", ()=>{
-            $("#favorite-map-container").empty();
-          });
+          // $("#favorite-map-container").on("mouseout", ()=>{
+          //   $("#favorite-map-container").empty();
+          // });
 
           $.get("/api/pins", function(req, res) {
             const pins = req.pins;

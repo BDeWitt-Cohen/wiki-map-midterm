@@ -3,7 +3,6 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (googleKey) => {
-  console.log(googleKey);
   router.get("/", (req, res) => {
     const result = {
       key: googleKey,
