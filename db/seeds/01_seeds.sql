@@ -17,7 +17,7 @@ INSERT INTO users (username, email, password) VALUES ('randomUserName5', 'random
 INSERT INTO maps (user_id, title, description) VALUES (1, 'Best Pubs In Calgary', 'I''ve worked long and hard to find the best pubs in calgary. I can die peacefully knowing ive accomplished everything i''ve set out to do.');
 INSERT INTO maps (user_id, title, description) VALUES (2, 'Best Coffee In Calgary', 'I''ve worked long and hard to find the best Coffee in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
 INSERT INTO maps (user_id, title, description) VALUES (3, 'Best Sandwiches In Calgary', 'I''ve worked long and hard to find the best Sandwhiches in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
-INSERT INTO maps (user_id, title, description) VALUES (1, 'Best Wings In Calgary',  'I''ve worked long and hard to find the best Wings in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
+INSERT INTO maps (user_id, title, description) VALUES (2, 'Best Wings In Calgary',  'I''ve worked long and hard to find the best Wings in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
 INSERT INTO maps (user_id, title, description) VALUES (1, 'Best Malls In Calgary', 'I''ve worked long and hard to find the best Malls in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
 INSERT INTO maps (user_id, title, description) VALUES (2, 'Best Billiards In Calgary', 'I''ve worked long and hard to find the best pool halls in calgary. I can die peacefully knowing i''ve accomplished everything ive set out to do.');
 
