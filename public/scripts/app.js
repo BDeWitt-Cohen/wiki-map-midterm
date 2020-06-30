@@ -191,11 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         //Render all map titles client side
-<<<<<<< HEAD
         $("#all-maps-btn").hover(()=>{
-=======
-        $(".dropbtn").hover(() => {
->>>>>>> 1597d417627f24600ed0e0266625ede3a0dacc33
           $('#all-maps').empty();
           $('#my-map-container').empty();
           $.get("/api/maps", function(req, res) {
@@ -224,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#map-description').append(`
                     <div class="header" id="map-desc-header">
                       <h3 class="description-header">${map.title}</h3>
-  <div id="num-likes"> 3</div>
+                    <div id="num-likes"> 3</div>
                     </div>
                     <div class="map-image">
                     <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
@@ -237,20 +233,18 @@ document.addEventListener('DOMContentLoaded', function() {
                        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
 
                     </div>`);
-                  });
-                });
-              });
+                  })
+                })
+              })
             }
-          });
+          })
         });
 
 
 
         //Render all map titles client side
-        $("#my-maps").hover(()=>{
-          console.log('this worked');
-          $('#all-maps').empty();
         $("#my-maps").hover(() => {
+          $('#all-maps').empty();
           $('#my-map-container').empty();
           $.get("/api/maps/user_id", function(req, res) {
             const maps = req.maps;
@@ -484,4 +478,3 @@ $(`#edit-button`).on('click', function() {
 //   }
 
 // })
-
