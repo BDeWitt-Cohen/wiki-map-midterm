@@ -198,32 +198,35 @@ document.addEventListener('DOMContentLoaded', function() {
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
-              $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-              //sets event handler for each map title in drop down mymaps
-              $(`#${map.id}`).on('click', function() {
-                $.get(`/api/pins/${map.id}`, function(req, res) {
-                  dropPins(req);
-                  $('#mySidebar').empty();
-                  $('#map-description').empty();
-                  const pins = req.pins;
-                  for (const pin of pins) {
-                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
-                  }
-                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
+              if(!(map.user_id == req.user)){
 
-                    let image;
-                    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
-                      image = req.results[0].photos[0].photo_reference;
-                    } else {
-                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
-                    };
-                    $('#map-description').append(`
-                    <div class="header" id="map-desc-header">
-                      <h3 class="description-header">${map.title}</h3>
-                    <div id="num-likes"> 3</div>
-                    </div>
-                    <div class="map-image">
+                $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+                //sets event handler for each map title in drop down mymaps
+               $(`#${map.id}`).on('click', function() {
+                  $.get(`/api/pins/${map.id}`, function(req, res) {
+                    dropPins(req);
+                    $('#mySidebar').empty();
+                   $('#map-description').empty();
+                    const pins = req.pins;
+                   for (const pin of pins) {
+                      $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                    }
+                    $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
+
+                      let image;
+                      if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+                        image = req.results[0].photos[0].photo_reference;
+                      } else {
+                        image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                      };
+                      $('#map-description').append(`
+                         <div class="header" id="map-desc-header">
+                         <h3 class="description-header">${map.title}</h3>
+                        <div id="num-likes"> 3</div>
+                        </div>
+                        <div class="map-image">
                     <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
                     </div>
                     <div class="row" class="description-content">
@@ -238,9 +241,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
               })
             }
+            }
           })
         });
-        //Render all map titles client side
+        //Render all my map titles client side
         $("#my-maps").hover(() => {
           $('#all-maps').empty();
           $('#my-map-container').empty();
@@ -292,15 +296,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>`);
                     //Just a listener for edit-button, nothing implemented yet
                     $('#map-description').on('click', '.edit-button', function() {
-                      alert("the edit map button was clicked") // 
+                      alert("the edit map button was clicked") //
                       console.log("alert");
                     })
-                    
-                  
+
+
                   })
                 })
                 });
-              
+
               });
 
             }
