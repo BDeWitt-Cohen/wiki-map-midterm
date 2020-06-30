@@ -191,8 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         //Render all map titles client side
-        $(".dropbtn").hover(() => {
+        $("#all-maps-btn").hover(()=>{
           $('#all-maps').empty();
+          $('#my-map-container').empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
@@ -230,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="maps-footer">
                       <button class="add-favorite" class="footer-buttons"> &hearts;</button>
                        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
-                      
+
                     </div>`);
                   })
                 })
@@ -243,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //Render all map titles client side
         $("#my-maps").hover(() => {
+          $('#all-maps').empty();
           $('#my-map-container').empty();
           $.get("/api/maps/user_id", function(req, res) {
             const maps = req.maps;
@@ -259,19 +261,31 @@ document.addEventListener('DOMContentLoaded', function() {
                   for (const pin of pins) {
                     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                   }
-                  $('#map-description').append(`
-                    <div class="header">
-                      <h3 class="description-header"> ${map.title}</h3>
+                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
+
+                    let image;
+                    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+                      image = req.results[0].photos[0].photo_reference;
+                    } else {
+                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                    };
+                    $('#map-description').append(`
+                    <div class="header" id="map-desc-header">
+                      <h3 class="description-header">${map.title}</h3>
+                    <div id="num-likes"> 3</div>
+                    </div>
+                    <div class="map-image">
+                    <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
                     </div>
                     <div class="row" class="description-content">
                       <p> ${map.description}<p>
                     </div>
                     <div class="maps-footer">
-                      <button id="like-button" class="footer-buttons"> Like </button>
-                      <button id="fav-button" class="footer-buttons">&hearts;</button>
-                      <button id="edit-button" class="footer-buttons"> Edit </button>
-                    </div>
-                    `)
+                    <button class="edit-button" class="footer-buttons"> Edit </button>
+                    <button class="add-pins" class="footer-buttons">Add Pins</button>
+
+                    </div>`);
+                  })
                 });
               });
 
@@ -476,4 +490,3 @@ $(`#edit-button`).on('click', function() {
 //   }
 
 // })
-
