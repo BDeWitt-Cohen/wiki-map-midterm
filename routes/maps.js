@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-
+//Populates all maps
 module.exports = (db) => {
   router.get("/", (req, res) => {
     let query = `SELECT * FROM maps;`;
@@ -22,6 +22,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  //Inserts new map
   router.post("/post", (req, res) => {
     //for now user is always user 1
     const user = req.session.user_id;

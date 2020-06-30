@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#map-description').append(`
                     <div class="header" id="map-desc-header">
                       <h3 class="description-header">${map.title}</h3>
-  <div id="num-likes"> 3</div>
+                    <div id="num-likes"> 3</div>
                     </div>
                     <div class="map-image">
                     <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
@@ -232,11 +232,11 @@ document.addEventListener('DOMContentLoaded', function() {
                        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
                       
                     </div>`);
-                  });
-                });
-              });
+                  })
+                })
+              })
             }
-          });
+          })
         });
 
 
