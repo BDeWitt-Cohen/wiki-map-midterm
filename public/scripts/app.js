@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         //Render all map titles client side
-        $(".dropbtn").hover(()=>{
+        $(".dropbtn").hover(() => {
           $('#all-maps').empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
@@ -208,18 +208,18 @@ document.addEventListener('DOMContentLoaded', function() {
                   for (const pin of pins) {
                     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                   }
-                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function (req, res) {
+                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
 
                     let image;
-                    console.log(typeof req.results[0]);
                     if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
                       image = req.results[0].photos[0].photo_reference;
                     } else {
                       image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
                     };
                     $('#map-description').append(`
-                    <div class="header">
+                    <div class="header" id="map-desc-header">
                       <h3 class="description-header">${map.title}</h3>
+  <div id="num-likes"> 3</div>
                     </div>
                     <div class="map-image">
                     <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
@@ -228,9 +228,9 @@ document.addEventListener('DOMContentLoaded', function() {
                       <p> ${map.description}<p>
                     </div>
                     <div class="maps-footer">
-                      <button class="like-button" class="footer-buttons"> Like </Button>
-                      <button class="fav-button" class="footer-buttons">&hearts;</Button>
-                      <button class="edit-button" class="footer-buttons"> Edit </Button>
+                      <button class="add-favorite" class="footer-buttons"> &hearts;</button>
+                       <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
+                      
                     </div>`);
                   });
                 });
@@ -242,17 +242,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         //Render all map titles client side
-        $("#my-maps").hover(()=>{
-          console.log('this worked');
+        $("#my-maps").hover(() => {
           $('#my-map-container').empty();
-          $.get("/api/maps/user_id", function (req, res) {
+          $.get("/api/maps/user_id", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
               $('#my-map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
               //sets event handler for each map title in drop down mymaps
-              $(`#${map.id}`).on('click', function () {
-                $.get(`/api/pins/${map.id}`, function (req, res) {
+              $(`#${map.id}`).on('click', function() {
+                $.get(`/api/pins/${map.id}`, function(req, res) {
                   dropPins(req);
                   $('#mySidebar').empty();
                   $('#map-description').empty();
@@ -268,21 +267,21 @@ document.addEventListener('DOMContentLoaded', function() {
                       <p> ${map.description}<p>
                     </div>
                     <div class="maps-footer">
-                      <button class="like-button" class="footer-buttons"> Like </Button>
-                      <button class="fav-button" class="footer-buttons">&hearts;</Button>
-                      <button class="edit-button" class="footer-buttons"> Edit </Button>
+                      <button id="like-button" class="footer-buttons"> Like </button>
+                      <button id="fav-button" class="footer-buttons">&hearts;</button>
+                      <button id="edit-button" class="footer-buttons"> Edit </button>
                     </div>
                     `)
                 });
               });
 
-          }
+            }
           });
         })
 
 
 
-        $.get("/api/pins", function (req, res) {
+        $.get("/api/pins", function(req, res) {
           const pins = req.pins;
           for (const pin of pins) {
             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
@@ -320,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.setTimeout(function() {
               markers.push(new google.maps.Marker({
                 position: myLatlng,
-                title:`${pin.name}`,
+                title: `${pin.name}`,
                 map: map,
                 animation: google.maps.Animation.DROP
               }));
@@ -335,19 +334,19 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           markers = [];
         };
-        google.maps.event.addDomListener(window, 'load', function () {
+        google.maps.event.addDomListener(window, 'load', function() {
           var places = new google.maps.places.Autocomplete(document.getElementById('location'));
-          google.maps.event.addListener(places, 'place_changed', function () {
-              var place = places.getPlace();
-              var address = place.formatted_address;
-              var latitude = place.geometry.location.A;
-              var longitude = place.geometry.location.F;
-              var mesg = "Address: " + address;
-              mesg += "\nLatitude: " + latitude;
-              mesg += "\nLongitude: " + longitude;
-              alert(mesg);
+          google.maps.event.addListener(places, 'place_changed', function() {
+            var place = places.getPlace();
+            var address = place.formatted_address;
+            var latitude = place.geometry.location.A;
+            var longitude = place.geometry.location.F;
+            var mesg = "Address: " + address;
+            mesg += "\nLatitude: " + latitude;
+            mesg += "\nLongitude: " + longitude;
+            alert(mesg);
           });
-      });
+        });
 
       };
       document.head.appendChild(script);
@@ -390,51 +389,59 @@ $(`#create-map`).on('click', function() {
   // alert("the create map button was clicked")
   $("#map").append(`<div>
   <form  id="create-map-form">
-    <label for="map-name">Map Name:</label><br>
-    <input type="text" id="map-name" name="map-name" placeholder="Cool Map Name"><br>
-    <label for="map-desc">Description:</label><br>
-    <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
-    <input type="submit" value="Submit" id="submit-new-map">
-    <button id="exit-map-creation">Exit</button>
+  <div id="submit-form-content">
+    <label for="map-name">Map Name</label>
+        <textarea rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
+          <label for="map-desc">Description</label>
+          <textarea rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
+         <br>
+        <label for="first-pin">Where's your first pin?</label>
+       <textarea rows="1" cols="25" placeholder="Enter your first pin"></textarea>
+      </div>
+    <div id="submit-form-buttons">
+      <input type="submit" value="Create Map" id="submit-new-map">
+      <input type="submit" value="Drop Pin" id="drop-pin">
+     <button id="exit-map-creation">Cancel</button>
+    </div>
     </form>
    </div>`)
-   let tryingToExit = false;
-   $("#exit-map-creation").click(function(event){
+  let tryingToExit = false;
+  $("#exit-map-creation").click(function(event) {
     $("#create-map-form").hide();
     tryingToExit = true;
-   })
-   $("#create-map-form").submit(function(event){
-     if(tryingToExit){
+  })
+  $("#create-map-form").submit(function(event) {
+    if (tryingToExit) {
       $("#create-map-form").hide();
-     } else{
+    } else {
 
-       const data = $(this).serialize();
-       newData = data.split('&')
-       const mapName = decodeURIComponent(newData[0]).slice(9);
-       const mapDesc = decodeURIComponent(newData[1]).slice(9);
-       event.preventDefault();
-       if(!(mapName) && !(mapDesc)){
-         alert('hold up please type something in');
-       } else if (!mapName){
-         alert('hold up please give your map a title');
-       } else if (!mapDesc){
-         alert('hold up please give your map a description');
-       }
-       else {
-         const newMapObj = {mapName, mapDesc}
-         $.post("/api/maps/post", newMapObj)
-         $("#create-map-form").hide();
-       }
-     }
+      const data = $(this).serialize();
+      newData = data.split('&')
+      const mapName = decodeURIComponent(newData[0]).slice(9);
+      const mapDesc = decodeURIComponent(newData[1]).slice(9);
+      event.preventDefault();
+      if (!(mapName) && !(mapDesc)) {
+        alert('hold up please type something in');
+      } else if (!mapName) {
+        alert('hold up please give your map a title');
+      } else if (!mapDesc) {
+        alert('hold up please give your map a description');
+      }
+      else {
+        const newMapObj = { mapName, mapDesc }
+        $.post("/api/maps/post", newMapObj)
+        $("#create-map-form").hide();
+      }
+    }
 
   })
 
 
 })
 
-$(`.edit-button`).on('click', function() {
+$(`#edit-button`).on('click', function() {
   alert("the edit map button was clicked")
-  console.log(alert);
+  console.log("alert");
   // $("#map").append(`<div id="create-map-form">
 
   // <form action="/action_page.php" method="post">
