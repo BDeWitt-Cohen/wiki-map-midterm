@@ -191,8 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         //Render all map titles client side
-        $(".dropbtn").hover(()=>{
+        $("#all-maps-btn").hover(()=>{
           $('#all-maps').empty();
+          $('#my-map-container').empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
@@ -244,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //Render all map titles client side
         $("#my-maps").hover(()=>{
           console.log('this worked');
+          $('#all-maps').empty();
           $('#my-map-container').empty();
           $.get("/api/maps/user_id", function (req, res) {
             const maps = req.maps;
