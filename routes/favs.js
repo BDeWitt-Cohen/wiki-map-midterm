@@ -1,16 +1,19 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 
 module.exports = (db) => {
 
   //GET from /api/favs
-  router.get("/", (req, res) => {
-    console.log(res);
-    let query = `SELECT count(*) FROM favorites WHERE map_id = 1;`;
-    db.query(query)
+  router.get("/:map_id", (req, res) => {
+   
+    console.log(req.params.map_id);
+   
+    let query = `SELECT count(*) FROM favorites WHERE map_id = $1;`;
+    db.query(query, [req.params.map_id])
       .then(data => {
         const favs = data.rows;
+
         res.json({ favs });
       })
       .catch(err => {
@@ -21,9 +24,11 @@ module.exports = (db) => {
   });
   //POST from /api/favs
   router.post("/post", (req, res) => {
+    console.log(req.body.map_id);
     const user = req.session.user_id;
-    const inputs = [user, req.body.mapID];
+    const inputs = [user, req.body.map_id];
     let query = `INSERT INTO favorites (user_id, map_id) VALUES ($1, $2);`;
+
     db.query(query, inputs)
       .then(data => {
         const favs = data.rows;
@@ -37,4 +42,3 @@ module.exports = (db) => {
   });
   return router;
 }
-

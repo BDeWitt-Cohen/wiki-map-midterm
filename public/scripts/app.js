@@ -158,11 +158,15 @@ const createMapBox = function(map, key) {
     } else {
       image = `https://loremflickr.com/200/200/${map.title}`;
     }
+    $.get(`/api/favs/${map.id}`, function (req, res) {
+      
+      numFavs = req.favs[0].count
+
     $('#map-description').css('padding: 10px');
     $('#map-description').append(`
     <div class="header" id="map-desc-header">
       <h3 class="description-header">${map.title}</h3>
-    <div id="num-likes"> 3</div>
+    <div id="num-likes"> ${numFavs}</div>
     </div>
     <div class="map-image">
     <img id="picto" src=${image}>
@@ -173,13 +177,14 @@ const createMapBox = function(map, key) {
     <div class="maps-footer">
       <button class="add-favorite" class="footer-buttons"> &hearts;</button>
       <span class="fa-stack">
-      <span class="far fa-heart"></span>
+      <span class="far fa-heart">${numFavs}</span>
       <strong class="fa-stack-1x">
       2
   </strong>
       </span>
       <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
     </div>`);
+    })
   });
 };
 
