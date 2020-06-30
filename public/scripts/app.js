@@ -234,21 +234,24 @@ document.addEventListener('DOMContentLoaded', function() {
             $.get("/api/maps", function(req, res) {
               const maps = req.maps;
               for (const map of maps) {
-                $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+                if(!(map.user_id == req.user)){
+                  $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-                //sets event handler for each map title in drop down mymaps
-                $(`#${map.id}`).on('click', function() {
-                  $.get(`/api/pins/${map.id}`, function(req, res) {
-                    dropPins(req);
-                    $('#mySidebar').empty();
-                    $('#map-description').empty();
-                    const pins = req.pins;
-                    for (const pin of pins) {
-                      $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
-                    }
-                    createMapBox(map, key);
+                  //sets event handler for each map title in drop down mymaps
+                  $(`#${map.id}`).on('click', function() {
+                    $.get(`/api/pins/${map.id}`, function(req, res) {
+                      dropPins(req);
+                      $('#mySidebar').empty();
+                      $('#map-description').empty();
+                      const pins = req.pins;
+                      for (const pin of pins) {
+                        $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                      }
+                      createMapBox(map, key);
+                    });
                   });
-                });
+
+                }
               }
             });
           });
