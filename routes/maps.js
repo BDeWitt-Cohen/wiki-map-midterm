@@ -13,9 +13,8 @@ module.exports = (db) => {
     let query = `SELECT * FROM maps;`;
     db.query(query)
       .then(data => {
-
         const maps = data.rows;
-        res.json({ maps });
+        res.json({ maps});
       })
       .catch(err => {
         res
@@ -25,11 +24,25 @@ module.exports = (db) => {
   });
   router.post("/post", (req, res) => {
     //for now user is always user 1
-    const user = 1;
+    const user = req.session.user_id;
     const inputs = [user, req.body.mapName, req.body.mapDesc]
     console.log(inputs);
     let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3);`;
     db.query(query, inputs)
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+  //gets all logged in users maps
+  router.get("/user_id", (req, res) => {
+    let query = `SELECT * FROM maps WHERE user_id = $1;`;
+    db.query(query, [req.session.user_id])
       .then(data => {
         const maps = data.rows;
         res.json({ maps });

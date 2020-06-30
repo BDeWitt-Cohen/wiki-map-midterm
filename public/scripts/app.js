@@ -162,12 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
       city = response.city;
 
       const script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8&callback=initMap';
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8&libraries=places&callback=initMap';
       script.defer = true;
       script.async = true;
-
-
-
 
       let map;
       let markers = [];
@@ -193,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         });
 
-        //Render map titles client side
-        $(".dropbtn").hover(() => {
+        //Render all map titles client side
+        $(".dropbtn").hover(()=>{
           $('#all-maps').empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
@@ -204,6 +201,58 @@ document.addEventListener('DOMContentLoaded', function() {
               //sets event handler for each map title in drop down mymaps
               $(`#${map.id}`).on('click', function() {
                 $.get(`/api/pins/${map.id}`, function(req, res) {
+                  dropPins(req);
+                  $('#mySidebar').empty();
+                  $('#map-description').empty();
+                  const pins = req.pins;
+                  for (const pin of pins) {
+                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                  }
+                  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function (req, res) {
+
+                    let image;
+                    console.log(typeof req.results[0]);
+                    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+                      image = req.results[0].photos[0].photo_reference;
+                    } else {
+                      image = 'CmRaAAAAvE6JP2ouTx7OnGX_Lzhrw-CrDzgg8EZnFV8qxrr7xE4chG-VKEhByBULwh0BUt9NcGAf2oVXdqPfqi2YQ3-TuxtznAiHeC9H7JlsK2QB9gYdDjUU569BCJQjS5JP-D1jEhBhvJDmoOXymD3htf9dngILGhSjk5PDgj9SftWxofRq4_pVa2Vc7w';
+                    };
+                    $('#map-description').append(`
+                    <div class="header">
+                      <h3 class="description-header">${map.title}</h3>
+                    </div>
+                    <div class="map-image">
+                    <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
+                    </div>
+                    <div class="row" class="description-content">
+                      <p> ${map.description}<p>
+                    </div>
+                    <div class="maps-footer">
+                      <button class="like-button" class="footer-buttons"> Like </Button>
+                      <button class="fav-button" class="footer-buttons">&hearts;</Button>
+                      <button class="edit-button" class="footer-buttons"> Edit </Button>
+                    </div>`);
+                  });
+                });
+              });
+            }
+          });
+        });
+
+
+
+        //Render all map titles client side
+        $("#my-maps").hover(()=>{
+          console.log('this worked');
+          $('#my-map-container').empty();
+          $.get("/api/maps/user_id", function (req, res) {
+            const maps = req.maps;
+            for (const map of maps) {
+              $('#my-map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+              //sets event handler for each map title in drop down mymaps
+              $(`#${map.id}`).on('click', function () {
+                $.get(`/api/pins/${map.id}`, function (req, res) {
                   dropPins(req);
                   $('#mySidebar').empty();
                   $('#map-description').empty();
@@ -223,14 +272,17 @@ document.addEventListener('DOMContentLoaded', function() {
                       <button class="fav-button" class="footer-buttons">&hearts;</Button>
                       <button class="edit-button" class="footer-buttons"> Edit </Button>
                     </div>
-                  `)
+                    `)
                 });
               });
-            }
+
+          }
           });
         })
 
-        $.get("/api/pins", function(req, res) {
+
+
+        $.get("/api/pins", function (req, res) {
           const pins = req.pins;
           for (const pin of pins) {
             $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
@@ -260,33 +312,22 @@ document.addEventListener('DOMContentLoaded', function() {
           let time = 200;
           let bounds = new google.maps.LatLngBounds();
           for (const pin of obj.pins) {
-            time += 200;
+            time += 250;
             const newLat = badDirector(pin.lat);
             const newLong = badDirector(pin.long);
             let myLatlng = new google.maps.LatLng(newLong, newLat);
             bounds.extend(myLatlng);
-            const marker = new google.maps.Marker({
-              position: myLatlng,
-              title: `${pin.name}`,
-              map: map,
-              animation: google.maps.Animation.DROP
-            });
             window.setTimeout(function() {
-
-              markers.push(marker);
+              markers.push(new google.maps.Marker({
+                position: myLatlng,
+                title:`${pin.name}`,
+                map: map,
+                animation: google.maps.Animation.DROP
+              }));
             }, time);
-            marker.addListener('click', toggleBounce);
           }
           map.fitBounds(bounds, { top: 150, bottom: 150, left: 50, right: 50 });
         };
-
-        function toggleBounce() {
-          if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-          } else {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-          }
-        }
 
         const clearMarkers = function() {
           for (var i = 0; i < markers.length; i++) {
@@ -294,6 +335,19 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           markers = [];
         };
+        google.maps.event.addDomListener(window, 'load', function () {
+          var places = new google.maps.places.Autocomplete(document.getElementById('location'));
+          google.maps.event.addListener(places, 'place_changed', function () {
+              var place = places.getPlace();
+              var address = place.formatted_address;
+              var latitude = place.geometry.location.A;
+              var longitude = place.geometry.location.F;
+              var mesg = "Address: " + address;
+              mesg += "\nLatitude: " + latitude;
+              mesg += "\nLongitude: " + longitude;
+              alert(mesg);
+          });
+      });
 
       };
       document.head.appendChild(script);
@@ -341,17 +395,37 @@ $(`#create-map`).on('click', function() {
     <label for="map-desc">Description:</label><br>
     <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
     <input type="submit" value="Submit" id="submit-new-map">
-  </form>
+    <button id="exit-map-creation">Exit</button>
+    </form>
    </div>`)
-  $("#create-map-form").submit(function(event) {
-    const data = $(this).serialize();
-    newData = data.split('&')
-    const mapName = decodeURIComponent(newData[0]).slice(9);
-    const mapDesc = decodeURIComponent(newData[1]).slice(9);
-    const newMapObj = { mapName, mapDesc }
-    event.preventDefault();
-    $.post("/api/maps/post", newMapObj)
+   let tryingToExit = false;
+   $("#exit-map-creation").click(function(event){
+    $("#create-map-form").hide();
+    tryingToExit = true;
+   })
+   $("#create-map-form").submit(function(event){
+     if(tryingToExit){
+      $("#create-map-form").hide();
+     } else{
 
+       const data = $(this).serialize();
+       newData = data.split('&')
+       const mapName = decodeURIComponent(newData[0]).slice(9);
+       const mapDesc = decodeURIComponent(newData[1]).slice(9);
+       event.preventDefault();
+       if(!(mapName) && !(mapDesc)){
+         alert('hold up please type something in');
+       } else if (!mapName){
+         alert('hold up please give your map a title');
+       } else if (!mapDesc){
+         alert('hold up please give your map a description');
+       }
+       else {
+         const newMapObj = {mapName, mapDesc}
+         $.post("/api/maps/post", newMapObj)
+         $("#create-map-form").hide();
+       }
+     }
 
   })
 
