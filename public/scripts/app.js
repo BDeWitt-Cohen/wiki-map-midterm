@@ -404,19 +404,19 @@ $(`#create-map`).on('click', function() {
   $("#map").append(`<div>
   <form  id="create-map-form">
   <div id="submit-form-content">
-    <label for="map-name">Map Name</label>
-        <textarea rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
-          <label for="map-desc">Description</label>
-          <textarea rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
-         <br>
-        <label for="first-pin">Where's your first pin?</label>
-       <textarea rows="1" cols="25" placeholder="Enter your first pin"></textarea>
-      </div>
-    <div id="submit-form-buttons">
-      <input type="submit" value="Create Map" id="submit-new-map">
-      <input type="submit" value="Drop Pin" id="drop-pin">
-     <button id="exit-map-creation">Cancel</button>
+  <label for="map-name">Map Name</label>
+      <textarea id="test-name" rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
+        <label for="map-desc">Description</label>
+        <textarea id="test-desc"  rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
+       <br>
+      <label for="first-pin">Where's your first pin?</label>
+     <textarea id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></textarea>
     </div>
+  <div id="submit-form-buttons">
+    <input type="submit" value="Create Map" id="submit-new-map">
+    <input type="submit" value="Drop Pin" id="drop-pin">
+   <button id="exit-map-creation">Cancel</button>
+  </div>
     </form>
    </div>`)
   let tryingToExit = false;
@@ -428,11 +428,11 @@ $(`#create-map`).on('click', function() {
     if (tryingToExit) {
       $("#create-map-form").hide();
     } else {
-
-      const data = $(this).serialize();
-      newData = data.split('&')
-      const mapName = decodeURIComponent(newData[0]).slice(9);
-      const mapDesc = decodeURIComponent(newData[1]).slice(9);
+    const mapName = $("#test-name").val()
+    const mapDesc = $("#test-desc").val()
+    const mapFirstPin = $("#test-pin").val().split(' ');
+    const long = mapFirstPin[0];
+    const lat = mapFirstPin[1];
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
@@ -443,7 +443,12 @@ $(`#create-map`).on('click', function() {
       }
       else {
         const newMapObj = { mapName, mapDesc }
-        $.post("/api/maps/post", newMapObj)
+
+        $.post("/api/maps/post", newMapObj, (res)=>{
+          const newMapId = res.maps[0].id;
+          $.post("/api/pins/post", {long, lat, newMapId})
+        })
+
         $("#create-map-form").hide();
       }
     }
@@ -456,37 +461,6 @@ $(`#create-map`).on('click', function() {
 $(`#edit-button`).on('click', function() {
   alert("the edit map button was clicked")
   console.log("alert");
-  // $("#map").append(`<div id="create-map-form">
 
-  // <form action="/action_page.php" method="post">
-  //   <label for="fname">Map Name:</label><br>
-  //   <input type="text" id="fname" name="fname" value="Cool Map Name"><br>
-  //   <label for="lname">Description:</label><br>
-  //   <input type="text" id="lname" name="lname" value="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
-  //   <input type="submit" value="Submit" id="submit-new-map">
-  // </form>
-
-  //  </div>`)
 })
 
-
-
-// //Render map titles client side
-// $.get("/api/maps", function (req, res) {
-//   const maps = req.maps
-//   for (const map of maps) {
-//     $('#map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
-
-
-//Could replace CSS animations
-// $("#mySidebar").click(function () {
-//   $(this).show("slide", { direction: "left" }, 1000);
-// });
-
-// $.get("/api/pins", function (req, res) {
-//   const pins = req.pins
-//   for (const pin of pins) {
-//     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
-//   }
-
-// })
