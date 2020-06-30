@@ -221,8 +221,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="header">
                       <h3 class="description-header">${map.title}</h3>
                     </div>
-                    <div id="map-image">
-                    <img src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
+                    <div class="map-image">
+                    <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
                     </div>
                     <div class="row" class="description-content">
                       <p> ${map.description}<p>
