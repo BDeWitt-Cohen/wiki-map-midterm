@@ -257,10 +257,16 @@ document.addEventListener('DOMContentLoaded', function() {
                   dropPins(req);
                   $('#mySidebar').empty();
                   $('#map-description').empty();
+
                   const pins = req.pins;
                   for (const pin of pins) {
                     $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
                   }
+                  $.get(`/api/favs`, function (req, res) {
+                    numFavs = req.favs[0].count
+                    console.log(numFavs);
+
+
                   $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8`, function(req, res) {
 
                     let image;
@@ -272,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#map-description').append(`
                     <div class="header" id="map-desc-header">
                       <h3 class="description-header">${map.title}</h3>
-                    <div id="num-likes"> 3</div>
+                    <div id="num-likes"> ${numFavs}</div>
                     </div>
                     <div class="map-image">
                     <img id="picto" src=https://maps.googleapis.com/maps/api/place/photo?photoreference=${image}&sensor=false&maxheight=200&maxwidth=200&key=AIzaSyDPZzw7P0JN6ARr7TgqwufNUP-Vf-2jOc8>
@@ -285,8 +291,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="add-pins" class="footer-buttons">Add Pins</button>
 
                     </div>`);
+                    //Just a listener for edit-button, nothing implemented yet
+                    $('#map-description').on('click', '.edit-button', function() {
+                      alert("the edit map button was clicked") // 
+                      console.log("alert");
+                    })
+                    
+                  
                   })
+                })
                 });
+              
               });
 
             }
@@ -458,9 +473,15 @@ $(`#create-map`).on('click', function() {
 
 })
 
-$(`#edit-button`).on('click', function() {
-  alert("the edit map button was clicked")
-  console.log("alert");
+$(() => {
+
+  $('.edit-button').on('click', function() {
+    alert("the edit map button was clicked")
+    console.log("alert");
+  })
 
 })
+
+
+
 
