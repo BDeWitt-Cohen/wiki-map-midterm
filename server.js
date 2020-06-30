@@ -52,8 +52,7 @@ const favsRoutes = require("./routes/favs");
 app.use("/api/users", usersRoutes(db));
 app.use("/api/maps", mapsRoutes(db));
 app.use("/api/pins", pinsRoutes(db));
-const route = googleRoutes(googleKey);
-// app.use("/api/google", route);
+app.use("/api/google", googleRoutes(googleKey));
 app.use("/api/favs", favsRoutes(db));
 // app.use("/api/google", googleRoutes(googleKey));
 

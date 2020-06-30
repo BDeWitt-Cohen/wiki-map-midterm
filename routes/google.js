@@ -10,4 +10,6 @@ module.exports = (googleKey) => {
     };
     res.json(result);
   });
+  return router;
+
 };
