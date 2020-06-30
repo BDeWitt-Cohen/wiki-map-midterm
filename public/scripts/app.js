@@ -190,10 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
-
-
-
-        //Render map titles client side
+        //Render all map titles client side
         $(".dropbtn").hover(()=>{
           $('#all-maps').empty();
           $.get("/api/maps", function (req, res) {
@@ -241,6 +238,49 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           });
         });
+
+
+
+        //Render all map titles client side
+        $("#my-maps").hover(()=>{
+          console.log('this worked');
+          $('#my-map-container').empty();
+          $.get("/api/maps/user_id", function (req, res) {
+            const maps = req.maps;
+            for (const map of maps) {
+              $('#my-map-container').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+
+              //sets event handler for each map title in drop down mymaps
+              $(`#${map.id}`).on('click', function () {
+                $.get(`/api/pins/${map.id}`, function (req, res) {
+                  dropPins(req);
+                  $('#mySidebar').empty();
+                  $('#map-description').empty();
+                  const pins = req.pins;
+                  for (const pin of pins) {
+                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                  }
+                  $('#map-description').append(`
+                    <div class="header">
+                      <h3 class="description-header"> ${map.title}</h3>
+                    </div>
+                    <div class="row" class="description-content">
+                      <p> ${map.description}<p>
+                    </div>
+                    <div class="maps-footer">
+                      <button class="like-button" class="footer-buttons"> Like </Button>
+                      <button class="fav-button" class="footer-buttons">&hearts;</Button>
+                      <button class="edit-button" class="footer-buttons"> Edit </Button>
+                    </div>
+                    `)
+                });
+              });
+
+          }
+          });
+        })
+
+
 
         $.get("/api/pins", function (req, res) {
           const pins = req.pins;
@@ -355,18 +395,37 @@ $(`#create-map`).on('click', function() {
     <label for="map-desc">Description:</label><br>
     <input type="text" id="map-desc" name="map-desc" placeholder="The coolest places everrrrrrrrrrrrrrrrrrrrrr"><br><br>
     <input type="submit" value="Submit" id="submit-new-map">
-  </form>
-   </div>`);
-
+    <button id="exit-map-creation">Exit</button>
+    </form>
+   </div>`)
+   let tryingToExit = false;
+   $("#exit-map-creation").click(function(event){
+    $("#create-map-form").hide();
+    tryingToExit = true;
+   })
    $("#create-map-form").submit(function(event){
-    const data = $(this).serialize();
-    newData = data.split('&')
-    const mapName = decodeURIComponent(newData[0]).slice(9);
-    const mapDesc = decodeURIComponent(newData[1]).slice(9);
-    const newMapObj = {mapName, mapDesc}
-    event.preventDefault();
-    $.post("/api/maps/post", newMapObj)
+     if(tryingToExit){
+      $("#create-map-form").hide();
+     } else{
 
+       const data = $(this).serialize();
+       newData = data.split('&')
+       const mapName = decodeURIComponent(newData[0]).slice(9);
+       const mapDesc = decodeURIComponent(newData[1]).slice(9);
+       event.preventDefault();
+       if(!(mapName) && !(mapDesc)){
+         alert('hold up please type something in');
+       } else if (!mapName){
+         alert('hold up please give your map a title');
+       } else if (!mapDesc){
+         alert('hold up please give your map a description');
+       }
+       else {
+         const newMapObj = {mapName, mapDesc}
+         $.post("/api/maps/post", newMapObj)
+         $("#create-map-form").hide();
+       }
+     }
 
    })
 
