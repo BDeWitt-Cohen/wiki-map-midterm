@@ -35,5 +35,25 @@ module.exports = (db) => {
       });
 
   });
+
+
+  router.post("/post", (req, res) => {
+    const user = req.session.user_id;
+    const inputs = [user, req.body.newMapId, req.body.long, req.body.lat]
+    let query = `INSERT INTO pins (user_id, map_id, long, lat) VALUES ($1, $2, $3, $4);`;
+    db.query(query, inputs)
+      .then(data => {
+        const pins = data.rows;
+        res.json({ pins });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+
+
   return router;
 };

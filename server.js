@@ -45,6 +45,7 @@ const usersRoutes = require("./routes/users");
 const mapsRoutes = require("./routes/maps");
 const pinsRoutes = require("./routes/pins");
 const googleRoutes = require("./routes/google");
+const favsRoutes = require("./routes/favs");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -52,6 +53,8 @@ app.use("/api/users", usersRoutes(db));
 app.use("/api/maps", mapsRoutes(db));
 app.use("/api/pins", pinsRoutes(db));
 const route = googleRoutes(googleKey);
+// app.use("/api/google", route);
+app.use("/api/favs", favsRoutes(db));
 // app.use("/api/google", googleRoutes(googleKey));
 
 

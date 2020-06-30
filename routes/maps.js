@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-
+//Populates all maps
 module.exports = (db) => {
   router.get("/", (req, res) => {
     let query = `SELECT * FROM maps;`;
@@ -22,16 +22,18 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  //Inserts new map
   router.post("/post", (req, res) => {
     //for now user is always user 1
     const user = req.session.user_id;
     const inputs = [user, req.body.mapName, req.body.mapDesc]
     console.log(inputs);
-    let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3);`;
+    let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3) RETURNING *;`;
     db.query(query, inputs)
       .then(data => {
+        console.log(data.rows);
         const maps = data.rows;
-        res.json({ maps });
+        res.json({ maps});
       })
       .catch(err => {
         res
@@ -53,6 +55,21 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  //gets all favorite maps of logged in user
+  router.get("/favorites", (req, res) => {
+    let query = `SELECT * FROM favorites JOIN maps ON map_id = maps.id WHERE favorites.user_id = $1;`;
+    db.query(query, [req.session.user_id])
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   router.get("/:maps_id", (req, res) => {
 

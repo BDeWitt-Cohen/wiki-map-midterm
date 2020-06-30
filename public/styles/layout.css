@@ -75,7 +75,7 @@ body h1 {
   display: block;
   align-content: center;
   padding: 4px 4px;
-  height: 180px;
+  max-height: 180px;
   overflow: auto;
 }
 
@@ -267,6 +267,13 @@ p {
 }
 
 #create-map {
+  width: 100%;
+  background-color: lightgray;
+  height: 50px;
+  outline: none;
+}
+
+#favorite-map {
   width: 100%;
   background-color: lightgray;
   height: 50px;
