@@ -360,6 +360,7 @@ $(`#create-map`).on('click', function() {
 
 $(`.edit-button`).on('click', function() {
   alert("the edit map button was clicked")
+  console.log(alert);
   // $("#map").append(`<div id="create-map-form">
 
   // <form action="/action_page.php" method="post">
