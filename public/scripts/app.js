@@ -419,9 +419,6 @@ $(`#create-map`).on('click', function() {
   });
 });
 
-$(`#edit-button`).on('click', function() {
+$(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
-  console.log("alert");
 });
-
-
