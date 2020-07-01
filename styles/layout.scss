@@ -335,6 +335,45 @@ button.map_title{
   width: 100%;
 }
 
+//Add New Spot Form
+
+
+#create-spot-form {
+  width: 400px;
+  height: 200px;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 32%;
+  top: 37%;
+  margin-left: -50px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#submit-spot-content {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+    resize: none;
+    padding: 7px;
+}
+
+label {
+  padding: 2px 0px 0px 5px;
+}
+
+#submit-spot-buttons{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0px 25px 0px;
+}
+
+
+// End of new spot form
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 /* Change color of dropdown links on hover */

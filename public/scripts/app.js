@@ -1,6 +1,4 @@
 
-let firstPinlat;
-let firstPinlong;
 const CustomMapStyles = [
   { "featureType": "administrative.land_parcel",
     "elementType": "labels",
@@ -73,14 +71,15 @@ const createMapBox = function(map, key) {
       let footerButtons;
       if(map.user_id == req.user_id.user_id) {
         footerButtons = `<div class="maps-footer">
-        <button class="edit-button" class="footer-buttons"> Edit </button>
         <span class="fa-stack-1x">
         <span id="wow" class="far fa-heart fa-stack-2x"></span>
         <strong id="crazy" class="fa-stack" style="font:10px">
       ${numFavs}
        </strong>
         </span>
-        <button class="add-pins" class="footer-buttons">Add Pin</button>
+        <div>
+        <button id="add-pins" class="footer-buttons">Add Pin</button>
+        </div>
       </div>`;
       } else {
         footerButtons = `<div class="maps-footer">
@@ -97,6 +96,12 @@ const createMapBox = function(map, key) {
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
         <h3 class="description-header">${map.title}</h3>
+        <span class="fa-stack-1x">
+        <span id="wow" class="far fa-heart fa-stack-2x"></span>
+        <strong id="crazy" class="fa-stack" style="font:10px">
+      ${numFavs}
+       </strong>
+        </span>
       </div>
       <div class="map-image">
       <img id="picto" src=${image}>
@@ -114,6 +119,29 @@ const createMapBox = function(map, key) {
         $('#wow').css('color', 'white');
       });
       $(`#map-description`).off();
+
+
+
+      $(`#map-description`).on(`click`, '#add-pins', function() {
+        $('#map').append(`<div>
+      <form  id="create-spot-form">
+        <div id="submit-spot-content">
+          <label for="add-spot">Add A New Spot</label>
+          <textarea rows="1" cols="45" placeholder="New Spot"></textarea><br>
+          <label for="new-spot-desc">New Spot Description</label>
+          <textarea rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
+        </div>
+        <div id="submit-spot-buttons">
+          <input type="submit" value="Add Pin" id="add-new-pin">
+          <button id="exit-map-creation">Cancel</button>
+        </div>
+          
+      </form>
+    </div>`)
+      })
+
+
+
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
@@ -124,6 +152,7 @@ const createMapBox = function(map, key) {
         });
       });
     });
+   
   });
 };
 
@@ -372,13 +401,13 @@ $(`#create-map`).on('click', function() {
   $(document).ready(function() {
     var autocomplete;
     autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-      types: ['geocode', 'establishment'],
+      types: ['geocode'],
     });
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var near_place = autocomplete.getPlace();
-      firstPinlong = near_place.geometry.location.lat();
-      firstPinlat = near_place.geometry.location.lng();
-      console.log(near_place.name);
+      console.log(near_place.geometry.location.lat());
+      console.log(near_place.geometry.location.lng());
+      console.log(near_place.geometry);
     });
   });
 
@@ -394,8 +423,8 @@ $(`#create-map`).on('click', function() {
       const mapName = $("#test-name").val();
       const mapDesc = $("#test-desc").val();
       const mapFirstPin = $("#test-pin").val().split(' ');
-      // const long = mapFirstPin[0];
-      // const lat = mapFirstPin[1];
+      const long = mapFirstPin[0];
+      const lat = mapFirstPin[1];
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
@@ -408,9 +437,7 @@ $(`#create-map`).on('click', function() {
 
         $.post("/api/maps/post", newMapObj, (res)=>{
           const newMapId = res.maps[0].id;
-          console.log(firstPinlong);
-          console.log(firstPinlat);
-          $.post("/api/pins/post", {firstPinlong, firstPinlat, newMapId})
+          $.post("/api/pins/post", {long, lat, newMapId});
         });
 
         $("#create-map-form").hide();
@@ -422,48 +449,3 @@ $(`#create-map`).on('click', function() {
 $(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
 });
-
-
-//To create a new pin
-
-
-
-//To edit a map
-$(`#map-description`).on('click', `#edit-button`, function() {
-      $.post(`/api/favs/post/${map.id}`, function(req, res) {
-  alert("the edit map button was clicked");
-  console.log("alert");
-});
-
-$(`#map-description`).off();
-      $(`#map-description`).on(`click`, `.fa-stack`, function() {
-       $.post("/api/maps/post", newMapObj, (res)=>{
-          $.get(`/api/favs/${map.id}`, function (req, res) {
-
-            $("#create-map-form").submit(function(event) {
-    if (tryingToExit) {
-      $("#create-map-form").hide();
-    } else {
-      const mapName = $("#test-name").val();
-      const mapDesc = $("#test-desc").val();
-      const mapFirstPin = $("#test-pin").val().split(' ');
-      // const long = mapFirstPin[0];
-      // const lat = mapFirstPin[1];
-      event.preventDefault();
-      if (!(mapName) && !(mapDesc)) {
-        alert('hold up please type something in');
-      } else if (!mapName) {
-        alert('hold up please give your map a title');
-      } else if (!mapDesc) {
-        alert('hold up please give your map a description');
-      } else {
-        const newMapObj = { mapName, mapDesc };
-
-        $.post("/api/maps/post", newMapObj, (res)=>{
-          const newMapId = res.maps[0].id;
-          console.log(firstPinlong);
-          console.log(firstPinlat);
-          });
-        });
-      });
-
