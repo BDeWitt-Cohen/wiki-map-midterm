@@ -135,8 +135,8 @@ $.get(`/api/google`, function(data) {
     $.get(`http://api.ipstack.com/${ip}?access_key=51ad6577289c9e4bc0315e9b521df4d2`, function(data, status) {
 
       const response = data;
-      lat = response.latitude;
-      long = response.longitude;
+      userIpLat = response.latitude;
+      userIpLong = response.longitude;
       city = response.city;
 
       const script = document.createElement('script');
@@ -371,25 +371,27 @@ $(`#create-map`).on('click', function() {
 
   $(document).ready(function() {
     var autocomplete;
-    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-      types: ['geocode', 'establishment'],
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)),
+    {location: [userIpLat, userIpLong],
+
     });
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var near_place = autocomplete.getPlace();
       firstPinlong = near_place.geometry.location.lat();
       firstPinlat = near_place.geometry.location.lng();
-      console.log(near_place.name);
+      pinTitle = near_place.name;
     });
+    console.log(userIpLat);
+    console.log(userIpLong);
   });
 
   let tryingToExit = false;
   $("#exit-map-creation").click(function(event) {
-    $("#create-map-form").hide();
     tryingToExit = true;
   });
   $("#create-map-form").submit(function(event) {
     if (tryingToExit) {
-      $("#create-map-form").hide();
+      $("#create-map-form").remove();
     } else {
       const mapName = $("#test-name").val();
       const mapDesc = $("#test-desc").val();
@@ -410,10 +412,10 @@ $(`#create-map`).on('click', function() {
           const newMapId = res.maps[0].id;
           console.log(firstPinlong);
           console.log(firstPinlat);
-          $.post("/api/pins/post", {firstPinlong, firstPinlat, newMapId})
+          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId})
         });
 
-        $("#create-map-form").hide();
+        $("#create-map-form").remove();
       }
     }
   });
