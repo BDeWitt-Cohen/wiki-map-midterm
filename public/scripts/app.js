@@ -77,9 +77,7 @@ const createMapBox = function(map, key) {
       ${numFavs}
        </strong>
         </span>
-        <div>
-        <button id="add-pins" class="footer-buttons">Add Pin</button>
-        </div>
+        <div></div>
       </div>`;
       } else {
         footerButtons = `<div class="maps-footer">
@@ -96,12 +94,7 @@ const createMapBox = function(map, key) {
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
         <h3 class="description-header">${map.title}</h3>
-        <span class="fa-stack-1x">
-        <span id="wow" class="far fa-heart fa-stack-2x"></span>
-        <strong id="crazy" class="fa-stack" style="font:10px">
-      ${numFavs}
-       </strong>
-        </span>
+        <button id="add-pins" class="footer-buttons">Add Pin</button>
       </div>
       <div class="map-image">
       <img id="picto" src=${image}>
@@ -127,21 +120,41 @@ const createMapBox = function(map, key) {
       <form  id="create-spot-form">
         <div id="submit-spot-content">
           <label for="add-spot">Add A New Spot</label>
-          <textarea rows="1" cols="45" placeholder="New Spot"></textarea><br>
+          <input id="add-spot"  rows="1" cols="45" placeholder="New Spot"></input><br>
           <label for="new-spot-desc">New Spot Description</label>
           <textarea rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
         </div>
         <div id="submit-spot-buttons">
-          <input type="submit" value="Add Pin" id="add-new-pin">
+          <input type="submit" value="Add Spot" id="add-new-pin">
           <button id="exit-map-creation">Cancel</button>
         </div>
           
       </form>
     </div>`)
+
+   const searchInput = 'add-spot';
+   const defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(userIpLat, userIpLong),
+    new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
+
+
+
+    let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+    bounds: defaultBounds
+    });
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      let near_place = autocomplete.getPlace();
+      firstPinlong = near_place.geometry.location.lat();
+      firstPinlat = near_place.geometry.location.lng();
+      pinTitle = near_place.name;
+    });
+
+console.log("this is long", firstPinlong);
+console.log("This is lat", firstPinlat)
+console.log("this is name", pinTitle);
+console.log("this is description");
+
       })
-
-
-
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
