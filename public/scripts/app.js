@@ -122,7 +122,7 @@ const createMapBox = function(map, key) {
           <input type="submit" value="Add Spot" id="add-new-pin">
           <button id="exit-map-creation">Cancel</button>
         </div>
-          
+
       </form>
     </div>`)
 
@@ -141,10 +141,8 @@ const createMapBox = function(map, key) {
       pinTitle = near_place.name;
     });
     $('#add-new-pin').on('click', function () {
-      alert('add new pin clicked')
       const newSpotDesc = $("#new-spot-desc").val();
-            alert("added a new pin")
-            $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat})
+      $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
     })
     $("#create-map-form").remove();
       })
@@ -158,7 +156,7 @@ const createMapBox = function(map, key) {
         });
       });
     });
-   
+
   });
 };
 
