@@ -117,6 +117,7 @@ const createMapBox = function(map, key) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
             $('#num-likes').empty()
             const count = req.favs[0].count;
+            console.log('whats happening here');
             $('#num-likes').append(`${count}`);
           });
         });
@@ -411,8 +412,6 @@ $(`#create-map`).on('click', function() {
   });
 });
 
-$(`#edit-button`).on('click', function() {
+$(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
-  console.log("alert");
 });
-
