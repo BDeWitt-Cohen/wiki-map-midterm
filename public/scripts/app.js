@@ -368,10 +368,14 @@ $(`#create-map`).on('click', function() {
    </div>`);
 
    var searchInput = 'test-pin';
+   var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-33.8902, 151.1759),
+    new google.maps.LatLng(-33.8474, 151.2631));
 
   $(document).ready(function() {
     var autocomplete;
     autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+    bounds: defaultBounds
     });
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var near_place = autocomplete.getPlace();
