@@ -227,10 +227,9 @@ button.pin_title {
 }
 
 #map-desc-header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 10px;
+  padding: 0px 10px 10px;
   text-align: center;
   color: black;
 
@@ -305,11 +304,11 @@ p{
 }
 #create-map-form {
   width: 400px;
-  height: 375px;
+  height: 370px;
   background-color: black;
   color: white;
   position: absolute;
-  left: 42%;
+  left: 32%;
   top: 37%;
   margin-left: -50px;
   padding: 8px;
@@ -327,7 +326,7 @@ textarea {
 }
 
 label {
-  padding: 2px 0px;
+  padding: 2px 0px 0px 5px;
 }
 
 #submit-form-buttons{
@@ -352,7 +351,7 @@ button.map_title{
   position: absolute;
   left: 32%;
   top: 37%;
-  margin-left: -50px;
+  margin-left: -60px;
   padding: 8px;
   border-radius: 8px;
 }

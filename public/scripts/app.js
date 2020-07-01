@@ -68,9 +68,27 @@ const createMapBox = function(map, key) {
 
     $.get(`/api/favs/${map.id}`, function(req, res) {
       numFavs = req.favs[0].count;
-      let footerButtons;
+      let headerButton;
       if(map.user_id == req.user_id.user_id) {
-        footerButtons = `<div class="maps-footer">
+        headerButton = `<button id="add-pins" class="footer-buttons">Add Spot</button>`;
+      } else {
+        headerButton = `<button class="suggest-pin" class="footer-buttons">Suggest Spot</button>`;
+      }
+
+
+      $('#map-description').css('padding: 10px');
+      $('#map-description').append(`
+      <div class="header" id="map-desc-header">
+      <h3 class="description-header">${map.title}</h3>
+      ${headerButton}
+    </div>
+      <div class="map-image">
+      <img id="picto" src=${image}>
+      </div>
+      <div class="row" class="description-content">
+        <p> ${map.description}<p>
+      </div>
+      <div class="maps-footer">
         <span class="fa-stack-1x">
         <span id="wow" class="far fa-heart fa-stack-2x"></span>
         <strong id="crazy" class="fa-stack" style="font:10px">
@@ -78,31 +96,7 @@ const createMapBox = function(map, key) {
        </strong>
         </span>
         <div></div>
-      </div>`;
-      } else {
-        footerButtons = `<div class="maps-footer">
-        <span class="fa-stack-1x">
-        <span id="wow" class="far fa-heart fa-stack-2x"></span>
-        <strong id="crazy" class="fa-stack" style="font:10px">
-      ${numFavs}
-       </strong>
-        </span>
-        <button class="suggest-pin" class="footer-buttons">Add a spot</button>
-      </div>`;
-      }
-      $('#map-description').css('padding: 10px');
-      $('#map-description').append(`
-      <div class="header" id="map-desc-header">
-        <h3 class="description-header">${map.title}</h3>
-        <button id="add-pins" class="footer-buttons">Add Pin</button>
-      </div>
-      <div class="map-image">
-      <img id="picto" src=${image}>
-      </div>
-      <div class="row" class="description-content">
-        <p> ${map.description}<p>
-      </div>
-       ${footerButtons}`);
+      </div>`);
       $('#crazy').on('mouseover', ()=>{
         $('#crazy').css('color', 'tomato');
         $('#wow').css('color', 'tomato');
@@ -122,7 +116,7 @@ const createMapBox = function(map, key) {
           <label for="add-spot">Add A New Spot</label>
           <input id="add-spot"  rows="1" cols="45" placeholder="New Spot"></input><br>
           <label for="new-spot-desc">New Spot Description</label>
-          <textarea rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
+          <textarea id="new-spot-desc" rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
         </div>
         <div id="submit-spot-buttons">
           <input type="submit" value="Add Spot" id="add-new-pin">
@@ -137,8 +131,6 @@ const createMapBox = function(map, key) {
     new google.maps.LatLng(userIpLat, userIpLong),
     new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
 
-
-
     let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
     bounds: defaultBounds
     });
@@ -148,12 +140,13 @@ const createMapBox = function(map, key) {
       firstPinlat = near_place.geometry.location.lng();
       pinTitle = near_place.name;
     });
-
-console.log("this is long", firstPinlong);
-console.log("This is lat", firstPinlat)
-console.log("this is name", pinTitle);
-console.log("this is description");
-
+    $('#add-new-pin').on('click', function () {
+      alert('add new pin clicked')
+      const newSpotDesc = $("#new-spot-desc").val();
+            alert("added a new pin")
+            $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat})
+    })
+    $("#create-map-form").remove();
       })
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
@@ -401,6 +394,8 @@ $(`#create-map`).on('click', function() {
        <br>
       <label for="first-pin">Where's your first pin?</label>
      <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
+     <label for="pins-desc">Give us a little info about this spot</label>
+     <textarea rows="1" cols="25" placeholder="Enter your first pin"></textarea>
     </div>
   <div id="submit-form-buttons">
     <input type="submit" value="Create Map" id="submit-new-map">
