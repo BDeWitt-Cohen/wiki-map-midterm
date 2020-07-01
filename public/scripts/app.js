@@ -159,31 +159,47 @@ const createMapBox = function(map, key) {
       image = `https://loremflickr.com/200/200/${map.title}`;
     }
     $.get(`/api/favs/${map.id}`, function (req, res) {
-      
       numFavs = req.favs[0].count
+      let footerButtons;
+      if(map.user_id == req.user_id.user_id){
+        footerButtons = `<div class="maps-footer">
+        <button class="edit-button" class="footer-buttons"> Edit </button>
+        <span class="fa-stack">
+        <span class="far fa-heart">${numFavs}</span>
+        <strong class="fa-stack-1x">
+        2
+    </strong>
+        </span>
+        <button class="add-pins" class="footer-buttons">Add Pin</button>
+      </div>`
 
-    $('#map-description').css('padding: 10px');
-    $('#map-description').append(`
-    <div class="header" id="map-desc-header">
-      <h3 class="description-header">${map.title}</h3>
-    <div id="num-likes"> ${numFavs}</div>
-    </div>
-    <div class="map-image">
-    <img id="picto" src=${image}>
-    </div>
-    <div class="row" class="description-content">
-      <p> ${map.description}<p>
-    </div>
-    <div class="maps-footer">
-      <button class="add-favorite" class="footer-buttons"> &hearts;</button>
-      <span class="fa-stack">
-      <span class="far fa-heart">${numFavs}</span>
-      <strong class="fa-stack-1x">
-      2
-  </strong>
-      </span>
-      <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
-    </div>`);
+      } else{
+        footerButtons =`<div class="maps-footer">
+        <button class="add-favorite" class="footer-buttons"> &hearts;</button>
+        <span class="fa-stack">
+        <span class="far fa-heart">${numFavs}</span>
+        <strong class="fa-stack-1x">
+        2
+    </strong>
+        </span>
+        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
+      </div>`
+
+      }
+        $('#map-description').css('padding: 10px');
+        $('#map-description').append(`
+        <div class="header" id="map-desc-header">
+          <h3 class="description-header">${map.title}</h3>
+        <div id="num-likes"> ${numFavs}</div>
+        </div>
+        <div class="map-image">
+        <img id="picto" src=${image}>
+        </div>
+        <div class="row" class="description-content">
+          <p> ${map.description}<p>
+        </div>
+       ${footerButtons}`);
+
     })
   });
 };
