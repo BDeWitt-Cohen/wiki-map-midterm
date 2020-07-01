@@ -370,12 +370,13 @@ $(`#create-map`).on('click', function() {
   $(document).ready(function() {
     var autocomplete;
     autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-      types: ['geocode'],
+      types: ['geocode', 'establishment'],
     });
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var near_place = autocomplete.getPlace();
       console.log(near_place.geometry.location.lat());
       console.log(near_place.geometry.location.lng());
+      console.log(near_place.geometry);
     });
   });
 
@@ -417,3 +418,48 @@ $(`#create-map`).on('click', function() {
 $(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
 });
+
+
+//To create a new pin
+
+
+
+//To edit a map
+$(`#map-description`).on('click', `#edit-button`, function() {
+      $.post(`/api/favs/post/${map.id}`, function(req, res) {
+  alert("the edit map button was clicked");
+  console.log("alert");
+});
+
+$(`#map-description`).off();
+      $(`#map-description`).on(`click`, `.fa-stack`, function() {
+       $.post("/api/maps/post", newMapObj, (res)=>{
+          $.get(`/api/favs/${map.id}`, function (req, res) {
+
+            $("#create-map-form").submit(function(event) {
+    if (tryingToExit) {
+      $("#create-map-form").hide();
+    } else {
+      const mapName = $("#test-name").val();
+      const mapDesc = $("#test-desc").val();
+      const mapFirstPin = $("#test-pin").val().split(' ');
+      // const long = mapFirstPin[0];
+      // const lat = mapFirstPin[1];
+      event.preventDefault();
+      if (!(mapName) && !(mapDesc)) {
+        alert('hold up please type something in');
+      } else if (!mapName) {
+        alert('hold up please give your map a title');
+      } else if (!mapDesc) {
+        alert('hold up please give your map a description');
+      } else {
+        const newMapObj = { mapName, mapDesc };
+
+        $.post("/api/maps/post", newMapObj, (res)=>{
+          const newMapId = res.maps[0].id;
+          console.log(firstPinlong);
+          console.log(firstPinlat);
+          });
+        });
+      });
+
