@@ -21,9 +21,11 @@ module.exports = (db) => {
       });
   });
   //POST from /api/favs
-  router.post("/post", (req, res) => {
+  router.post("/post/:map_id", (req, res) => {
     const user = req.session.user_id;
-    const inputs = [user, req.body.map_id];
+    const inputs = [user, req.params.map_id];
+    // console.log(req.params.map_id)
+    console.log(req.body.map_id);
     let query = `INSERT INTO favorites (user_id, map_id) VALUES ($1, $2);`;
 
     db.query(query, inputs)
