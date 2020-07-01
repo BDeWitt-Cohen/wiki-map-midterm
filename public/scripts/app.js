@@ -1,4 +1,6 @@
 
+let firstPinlat;
+let firstPinlong;
 const CustomMapStyles = [
   { "featureType": "administrative.land_parcel",
     "elementType": "labels",
@@ -115,9 +117,9 @@ const createMapBox = function(map, key) {
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
-            $('#num-likes').empty()
+            $('#crazy').empty()
             const count = req.favs[0].count;
-            $('#num-likes').append(`${count}`);
+            $('#crazy').append(`${count}`);
           });
         });
       });
@@ -173,21 +175,24 @@ $.get(`/api/google`, function(data) {
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
-              $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+              if(!(map.user_id == req.user)){
+                // if(req.user_id)
+                $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-              //sets event handler for each map title in drop down mymaps
-              $(`#${map.id}`).on('click', function() {
-                $.get(`/api/pins/${map.id}`, function(req, res) {
-                  dropPins(req);
-                  $('#mySidebar').empty();
-                  $('#map-description').empty();
-                  const pins = req.pins;
-                  for (const pin of pins) {
-                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
-                  }
-                  createMapBox(map, key);
+                //sets event handler for each map title in drop down mymaps
+                $(`#${map.id}`).on('click', function() {
+                  $.get(`/api/pins/${map.id}`, function(req, res) {
+                    dropPins(req);
+                    $('#mySidebar').empty();
+                    $('#map-description').empty();
+                    const pins = req.pins;
+                    for (const pin of pins) {
+                      $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                    }
+                    createMapBox(map, key);
+                  });
                 });
-              });
+              }
             }
           });
         });
@@ -370,8 +375,9 @@ $(`#create-map`).on('click', function() {
     });
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var near_place = autocomplete.getPlace();
-      console.log(near_place.geometry.location.lat());
-      console.log(near_place.geometry.location.lng());
+      firstPinlong = near_place.geometry.location.lat();
+      firstPinlat = near_place.geometry.location.lng();
+      console.log(near_place.name);
     });
   });
 
@@ -387,8 +393,8 @@ $(`#create-map`).on('click', function() {
       const mapName = $("#test-name").val();
       const mapDesc = $("#test-desc").val();
       const mapFirstPin = $("#test-pin").val().split(' ');
-      const long = mapFirstPin[0];
-      const lat = mapFirstPin[1];
+      // const long = mapFirstPin[0];
+      // const lat = mapFirstPin[1];
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
@@ -401,7 +407,9 @@ $(`#create-map`).on('click', function() {
 
         $.post("/api/maps/post", newMapObj, (res)=>{
           const newMapId = res.maps[0].id;
-          $.post("/api/pins/post", {long, lat, newMapId});
+          console.log(firstPinlong);
+          console.log(firstPinlat);
+          $.post("/api/pins/post", {firstPinlong, firstPinlat, newMapId})
         });
 
         $("#create-map-form").hide();
@@ -410,8 +418,6 @@ $(`#create-map`).on('click', function() {
   });
 });
 
-$(`#edit-button`).on('click', function() {
+$(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
-  console.log("alert");
 });
-
