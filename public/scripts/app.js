@@ -115,9 +115,9 @@ const createMapBox = function(map, key) {
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
-            $('#num-likes').empty()
+            $('#crazy').empty()
             const count = req.favs[0].count;
-            $('#num-likes').append(`${count}`);
+            $('#crazy').append(`${count}`);
           });
         });
       });
@@ -173,21 +173,24 @@ $.get(`/api/google`, function(data) {
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
-              $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
+              if(!(map.user_id == req.user)){
+                // if(req.user_id)
+                $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
-              //sets event handler for each map title in drop down mymaps
-              $(`#${map.id}`).on('click', function() {
-                $.get(`/api/pins/${map.id}`, function(req, res) {
-                  dropPins(req);
-                  $('#mySidebar').empty();
-                  $('#map-description').empty();
-                  const pins = req.pins;
-                  for (const pin of pins) {
-                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
-                  }
-                  createMapBox(map, key);
+                //sets event handler for each map title in drop down mymaps
+                $(`#${map.id}`).on('click', function() {
+                  $.get(`/api/pins/${map.id}`, function(req, res) {
+                    dropPins(req);
+                    $('#mySidebar').empty();
+                    $('#map-description').empty();
+                    const pins = req.pins;
+                    for (const pin of pins) {
+                      $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                    }
+                    createMapBox(map, key);
+                  });
                 });
-              });
+              }
             }
           });
         });
