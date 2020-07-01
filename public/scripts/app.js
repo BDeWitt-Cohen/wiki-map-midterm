@@ -65,28 +65,55 @@ const createMapBox = function(map, key) {
     } else {
       image = `https://loremflickr.com/200/200/${map.title}`;
     }
-    $('#map-description').css('padding: 10px');
-    $('#map-description').append(`
-    <div class="header" id="map-desc-header">
-      <h3 class="description-header">${map.title}</h3>
-    <div id="num-likes"> 3</div>
-    </div>
-    <div class="map-image">
-    <img id="picto" src=${image}>
-    </div>
-    <div class="row" class="description-content">
-      <p> ${map.description}<p>
-    </div>
-    <div class="maps-footer">
-      <button class="add-favorite" class="footer-buttons"> &hearts;</button>
-      <span class="fa-stack-1x">
-      <span class="far fa-heart fa-stack-2x"></span>
-      <strong class="fa-stack">
-      13
-  </strong>
-      </span>
-      <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
-    </div>`);
+
+    $.get(`/api/favs/${map.id}`, function (req, res) {
+      numFavs = req.favs[0].count
+      let footerButtons;
+      if(map.user_id == req.user_id.user_id){
+        footerButtons = `<div class="maps-footer">
+        <button class="edit-button" class="footer-buttons"> Edit </button>
+        <span class="fa-stack-1x">
+        <span class="far fa-heart fa-stack-2x"></span>
+        <strong class="fa-stack">
+      ${numFavs}
+       </strong>
+        </span>
+        <button class="add-pins" class="footer-buttons">Add Pin</button>
+      </div>`
+
+      } else{
+        footerButtons =`<div class="maps-footer">
+        <button class="add-favorite" class="footer-buttons"> &hearts;</button>
+
+        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
+      </div>`
+      }
+
+      $('#map-description').css('padding: 10px');
+      $('#map-description').append(`
+      <div class="header" id="map-desc-header">
+        <h3 class="description-header">${map.title}</h3>
+      <div id="num-likes"> ${numFavs}</div>
+      </div>
+      <div class="map-image">
+      <img id="picto" src=${image}>
+      </div>
+      <div class="row" class="description-content">
+        <p> ${map.description}<p>
+      </div>
+       ${footerButtons}`);
+       $(`#map-description`).off();
+       $(`#map-description`).on(`click`, `.add-favorite`, function(){
+        $.post(`/api/favs/post/${map.id}`, function(req, res){
+          $.get(`/api/favs/${map.id}`, function (req, res) {
+            $('#num-likes').empty()
+            const count = req.favs[0].count;
+            $('#num-likes').append(`${count}`);
+          })
+        })
+       })
+
+    })
   });
 };
 
@@ -109,7 +136,6 @@ $.get(`/api/google`, function(data) {
 
       let map;
       let markers = [];
-
       window.initMap = function() {
         const geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
