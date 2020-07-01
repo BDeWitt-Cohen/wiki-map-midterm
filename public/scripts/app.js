@@ -393,7 +393,7 @@ $(`#create-map`).on('click', function() {
       <label for="first-pin">Where's your first pin?</label>
      <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
      <label for="pins-desc">Give us a little info about this spot</label>
-     <textarea rows="1" cols="25" placeholder="Enter your first pin"></textarea>
+     <textarea rows="1" id="pin-desc" cols="25" placeholder="Enter your first pin"></textarea>
     </div>
   <div id="submit-form-buttons">
     <input type="submit" value="Create Map" id="submit-new-map">
@@ -433,9 +433,7 @@ $(`#create-map`).on('click', function() {
     } else {
       const mapName = $("#test-name").val();
       const mapDesc = $("#test-desc").val();
-      const mapFirstPin = $("#test-pin").val().split(' ');
-      const long = mapFirstPin[0];
-      const lat = mapFirstPin[1];
+      const pinDesc = $("#pin-desc").val();
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
@@ -450,7 +448,7 @@ $(`#create-map`).on('click', function() {
           const newMapId = res.maps[0].id;
           console.log(firstPinlong);
           console.log(firstPinlat);
-          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId})
+          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
         });
 
         $("#create-map-form").remove();
