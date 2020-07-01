@@ -135,6 +135,7 @@ $.get(`/api/google`, function(data) {
     $.get(`http://api.ipstack.com/${ip}?access_key=51ad6577289c9e4bc0315e9b521df4d2`, function(data, status) {
 
       const response = data;
+      // console.log(response);
       userIpLat = response.latitude;
       userIpLong = response.longitude;
       city = response.city;
@@ -367,23 +368,25 @@ $(`#create-map`).on('click', function() {
     </form>
    </div>`);
 
-   var searchInput = 'test-pin';
+   const searchInput = 'test-pin';
+   const defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(userIpLat, userIpLong),
+    new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
 
-  $(document).ready(function() {
-    var autocomplete;
-    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)),
-    {location: [userIpLat, userIpLong],
 
+
+    let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+    bounds: defaultBounds
     });
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      var near_place = autocomplete.getPlace();
+      let near_place = autocomplete.getPlace();
       firstPinlong = near_place.geometry.location.lat();
       firstPinlat = near_place.geometry.location.lng();
       pinTitle = near_place.name;
     });
     console.log(userIpLat);
     console.log(userIpLong);
-  });
+
 
   let tryingToExit = false;
   $("#exit-map-creation").click(function(event) {
