@@ -158,9 +158,12 @@ const createMapBox = function(map, key) {
     } else {
       image = `https://loremflickr.com/200/200/${map.title}`;
     }
+
     $.get(`/api/favs/${map.id}`, function (req, res) {
       
       numFavs = req.favs[0].count
+      console.log(numFavs);
+
 
     $('#map-description').css('padding: 10px');
     $('#map-description').append(`
