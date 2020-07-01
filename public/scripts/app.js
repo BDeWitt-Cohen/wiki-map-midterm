@@ -66,34 +66,35 @@ const createMapBox = function(map, key) {
       image = `https://loremflickr.com/200/200/${map.title}`;
     }
 
-    $.get(`/api/favs/${map.id}`, function (req, res) {
-      numFavs = req.favs[0].count
+    $.get(`/api/favs/${map.id}`, function(req, res) {
+      numFavs = req.favs[0].count;
       let footerButtons;
-      if(map.user_id == req.user_id.user_id){
+      if(map.user_id == req.user_id.user_id) {
         footerButtons = `<div class="maps-footer">
         <button class="edit-button" class="footer-buttons"> Edit </button>
         <span class="fa-stack-1x">
-        <span class="far fa-heart fa-stack-2x"></span>
-        <strong class="fa-stack">
+        <span id="wow" class="far fa-heart fa-stack-2x"></span>
+        <strong id="crazy" class="fa-stack" style="font:10px">
       ${numFavs}
        </strong>
         </span>
         <button class="add-pins" class="footer-buttons">Add Pin</button>
-      </div>`
-
-      } else{
-        footerButtons =`<div class="maps-footer">
-        <button class="add-favorite" class="footer-buttons"> &hearts;</button>
-
-        <button class="suggest-pin" class="footer-buttons">Suggest Pin</button>
-      </div>`
+      </div>`;
+      } else {
+        footerButtons = `<div class="maps-footer">
+        <span class="fa-stack-1x">
+        <span id="wow" class="far fa-heart fa-stack-2x"></span>
+        <strong id="crazy" class="fa-stack" style="font:10px">
+      ${numFavs}
+       </strong>
+        </span>
+        <button class="suggest-pin" class="footer-buttons">Add a spot</button>
+      </div>`;
       }
-
       $('#map-description').css('padding: 10px');
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
         <h3 class="description-header">${map.title}</h3>
-      <div id="num-likes"> ${numFavs}</div>
       </div>
       <div class="map-image">
       <img id="picto" src=${image}>
@@ -102,18 +103,25 @@ const createMapBox = function(map, key) {
         <p> ${map.description}<p>
       </div>
        ${footerButtons}`);
-       $(`#map-description`).off();
-       $(`#map-description`).on(`click`, `.add-favorite`, function(){
-        $.post(`/api/favs/post/${map.id}`, function(req, res){
+      $('#crazy').on('mouseover', ()=>{
+        $('#crazy').css('color', 'tomato');
+        $('#wow').css('color', 'tomato');
+      });
+      $('#crazy').on('mouseout', ()=>{
+        $('#crazy').css('color', 'white');
+        $('#wow').css('color', 'white');
+      });
+      $(`#map-description`).off();
+      $(`#map-description`).on(`click`, `.fa-stack`, function() {
+        $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
             $('#num-likes').empty()
             const count = req.favs[0].count;
             $('#num-likes').append(`${count}`);
-          })
-        })
-       })
-
-    })
+          });
+        });
+      });
+    });
   });
 };
 
@@ -353,9 +361,20 @@ $(`#create-map`).on('click', function() {
   </div>
     </form>
    </div>`);
-  new google.maps.places.Autocomplete(
-    document.getElementById("test-pin")
-  );
+
+   var searchInput = 'test-pin';
+
+  $(document).ready(function() {
+    var autocomplete;
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+      types: ['geocode'],
+    });
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      var near_place = autocomplete.getPlace();
+      console.log(near_place.geometry.location.lat());
+      console.log(near_place.geometry.location.lng());
+    });
+  });
 
   let tryingToExit = false;
   $("#exit-map-creation").click(function(event) {

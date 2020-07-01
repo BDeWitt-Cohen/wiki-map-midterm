@@ -232,7 +232,6 @@ button.pin_title {
 }
 
 #map-desc-header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0px 10px;
@@ -241,15 +240,36 @@ button.pin_title {
 }
 
 .maps-footer {
-  padding: 0px 30px 8px;
+  padding-left: 15px;
+  padding-bottom: 15px;
   display: flex;
   justify-content: space-between;
+}
+
+#wow {
+  font-size: 3em;
+  left: 0;
+  bottom: 12px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+#crazy {
+  display: inline-block;
+  height: 3em;
+  line-height: 1.6em;
+  position: relative;
+  vertical-align: middle;
+  width: 2.5em;
+  cursor: pointer;
 }
 
 .footer-buttons {
   border: none;
   justify-content: space-between;
   padding: 5px 5px;
+  font-size: 10px;
 }
 
 .description-header {
