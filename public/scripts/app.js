@@ -70,12 +70,12 @@ const createMapBox = function(map, key) {
       numFavs = req.favs[0].count;
       let headerButton;
       if(map.user_id == req.user_id.user_id) {
-        headerButton = `<button id="add-pins" class="footer-buttons">Add Spot</button>`;
+        headerButton = `<div id="header-buttons"> <button id="add-pins" class="footer-buttons">Add Spot</button>
+        <button id="delete-map" class="footer-buttons">Delete Map</button>
+        </div>`;
       } else {
-        headerButton = `<button class="suggest-pin" class="footer-buttons">Suggest Spot</button>`;
+        headerButton = '<div></div>'
       }
-
-
       $('#map-description').css('padding: 10px');
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
@@ -106,9 +106,17 @@ const createMapBox = function(map, key) {
         $('#wow').css('color', 'white');
       });
       $(`#map-description`).off();
+      
+      //Delete Maps
+      $(`#map-description`).on(`click`, '#delete-map', function() {
+        console.log(map.id);
+        $.post(`/api/maps/delete/${map.id}`)
+        $("#map-description").remove();
+        alert('Map Successfully Deleted')
 
+      })
 
-
+      //Add Spots to a map
       $(`#map-description`).on(`click`, '#add-pins', function() {
         $('#map').append(`<div>
       <form  id="create-spot-form">
@@ -146,6 +154,11 @@ const createMapBox = function(map, key) {
     })
     $("#create-map-form").remove();
       })
+      $('#add-new-pin').on('click', function () {
+        const newSpotDesc = $("#new-spot-desc").val();
+        $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
+      })
+
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {

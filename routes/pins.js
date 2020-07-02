@@ -39,9 +39,8 @@ module.exports = (db) => {
     const user = req.session.user_id;
     const mapId = req.body.newMapId;
     const name = req.body.pinTitle;
-    const pinDesc = `-${req.body.pinDesc}`
-    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name, pinDesc]
-    let query = `INSERT INTO pins (user_id, map_id, long, lat, name, description) VALUES ($1, $2, $3, $4, $5, $6);`;
+    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name]
+    let query = `INSERT INTO pins (user_id, map_id, long, lat, name) VALUES ($1, $2, $3, $4, $5);`;
     db.query(query, inputs)
       .then(data => {
         console.log(data);
@@ -59,9 +58,8 @@ module.exports = (db) => {
     const user = req.session.user_id;
     const mapId = req.params.map_id;
     const name = req.body.pinTitle;
-    const desc = `-${req.body.newSpotDesc}`
-    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name, desc];
-    let query = `INSERT INTO pins (user_id, map_id, long, lat, name, description) VALUES ($1, $2, $3, $4, $5, $6);`;
+    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name];
+    let query = `INSERT INTO pins (user_id, map_id, long, lat, name) VALUES ($1, $2, $3, $4, $5);`;
     db.query(query, inputs)
       .then(data => {
         console.log(data);

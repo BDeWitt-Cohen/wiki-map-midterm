@@ -84,5 +84,22 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.post("/delete/:map_id", (req, res) => {
+    console.log(req.params.map_id);
+    let mapID = req.params.map_id;
+    let query = `DELETE FROM maps WHERE maps.id = $1;`;
+    db.query(query, [mapID])
+      .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        console.log(err);
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   return router;
 };
