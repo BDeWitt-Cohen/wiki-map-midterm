@@ -89,7 +89,7 @@ body h1 {
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 293px;
+  max-height: 350px;
   /* 100% Full-height */
   width: 0;
   /* 0 width - change this with JavaScript */
@@ -99,11 +99,12 @@ body h1 {
   /* Black*/
   overflow-x: hidden;
   /* Disable horizontal scroll */
-  padding: 30px 0;
+  padding: 20px 0;
   /* Place content 60px from the top */
   transition: 0.5s;
   /* 0.5 second transition effect to slide in the sidebar */
   color: white;
+  text-align: center;
 }
 
 /* The sidebar links */
@@ -221,10 +222,14 @@ button.pin_title:hover {
 }
 
 button.pin_title {
+  padding: 10px;
   background: none;
   color: white;
   border: none;
   outline: none;
+  align-items: center;
+  align-content: center;
+  text-align: center;
 }
 
 #map-description {
@@ -242,7 +247,8 @@ button.pin_title {
 
 #header-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 3px;
 }
 
 #map-desc-header {
@@ -254,7 +260,7 @@ button.pin_title {
 }
 
 #pin-title {
-  padding: 5px;
+  padding: 15px;
   text-align: center;
   font-family: Montserrat, bold;
   font-weight: bold;
@@ -301,7 +307,6 @@ button.pin_title {
   border: none;
   justify-content: space-between;
   padding: 10px 5px;
-  font-size: 10px;
   border-radius: 10px;
 }
 

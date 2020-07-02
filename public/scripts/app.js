@@ -106,7 +106,7 @@ const createMapBox = function(map, key) {
         $('#wow').css('color', 'white');
       });
       $(`#map-description`).off();
-      
+
       //Delete Maps
       $(`#map-description`).on(`click`, '#delete-map', function() {
         console.log(map.id);
@@ -222,20 +222,20 @@ $.get(`/api/google`, function(data) {
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
-              if(!(map.user_id == req.user)){
+              if(!(map.user_id == req.user)) {
                 // if(req.user_id)
                 $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
                 //sets event handler for each map title in drop down mymaps
                 $(`#${map.id}`).on('click', function() {
                   $.get(`/api/pins/${map.id}`, function(req, res) {
-                    dropPins(req);
                     $('#mySidebar').empty();
                     $('#map-description').empty();
                     const pins = req.pins;
                     for (const pin of pins) {
-                      $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                      $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button`);
                     }
+                    dropPins(req);
                     createMapBox(map, key);
                   });
                 });
@@ -259,13 +259,13 @@ $.get(`/api/google`, function(data) {
               //sets event handler for each map title in drop down mymaps
               $(`#${map.id}`).on('click', function() {
                 $.get(`/api/pins/${map.id}`, function(req, res) {
-                  dropPins(req);
                   $('#mySidebar').empty();
                   $('#map-description').empty();
                   const pins = req.pins;
                   for (const pin of pins) {
-                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                    $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button`);
                   }
+                  dropPins(req);
                   createMapBox(map, key);
                 });
               });
@@ -289,26 +289,20 @@ $.get(`/api/google`, function(data) {
               //sets event handler for each map title in drop down mymaps
               $(`#${map.id}`).on('click', function() {
                 $.get(`/api/pins/${map.id}`, function(req, res) {
-                  dropPins(req);
                   $('#mySidebar').empty();
                   $('#map-description').empty();
                   const pins = req.pins;
+                  console.log(req.pins);
                   for (const pin of pins) {
-                    $('#mySidebar').append(`<button class="pin_title"> ${pin.name} ${pin.description} </button`);
+                    $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button`);
                   }
+                  dropPins(req);
                   createMapBox(map, key);
                 });
               });
 
             }
           });
-        });
-
-        $.get("/api/pins", function(req, res) {
-          const pins = req.pins;
-          for (const pin of pins) {
-            $('#mySidebar').append(`<button class="pin_title"> ${pin.name} </button`)
-          }
         });
 
         const dropPins = function(obj) {
@@ -344,15 +338,38 @@ $.get(`/api/google`, function(data) {
                 title: `${pin.name}`,
                 map: map,
                 animation: google.maps.Animation.DROP
-              })
+              });
               markers.push(mark);
               console.log(pin.lat);
               console.log(pin.long);
+              $(`#${pin.id + 100}`).on('mouseover', function() {
+                mark.setAnimation(google.maps.Animation.BOUNCE);
+              });
+              $(`#${pin.id + 100}`).on('mouseout', function() {
+                mark.setAnimation(google.maps.Animation.NULL);
+              });
               google.maps.event.addListener(mark, 'mouseover', function() {
                 mark.setAnimation(google.maps.Animation.BOUNCE);
               });
               google.maps.event.addListener(mark, 'mouseout', function() {
                 mark.setAnimation(google.maps.Animation.NULL);
+              });
+              $(`#${pin.id + 100}`).on('click', function() {
+                infoWindow.setContent(
+                  `<div id="pin-content">
+                  <div id="pin-title">${pin.name}<div>
+                  <div><img id="picz" src=https://maps.googleapis.com/maps/api/streetview?size=120x120&location=${pin.long},${pin.lat}&radius=1000&key=${key}></div>
+                  <div id="bodyContent">
+                  ${pin.description}
+                  </div>
+                  </div>`
+                );
+                map.panTo({lat: pin.long + 0.005, lng: pin.lat});
+                infoWindow.open(map, mark);
+                mark.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function() {
+                  mark.setAnimation(google.maps.Animation.NULL);
+                }, 1400);
               });
               google.maps.event.addListener(mark, 'click', function() {
                 infoWindow.setContent(
@@ -392,7 +409,7 @@ $.get(`/api/google`, function(data) {
 });
 
 const openNav = function() {
-  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("mySidebar").style.width = "150px";
   document.getElementById("main").style.marginLeft = "0px";
 };
 
@@ -405,7 +422,7 @@ const closeNav = function() {
 
 let sidebarIsOpened = false;
 //will change later
-$('#mySidebar').on('click', function() {
+$('#map').on('click', function() {
   closeNav();
   sidebarIsOpened = false;
 });
