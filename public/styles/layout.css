@@ -4,6 +4,7 @@ html {
 
 body {
   font-family: Montserrat, sans-serif;
+  font-weight: normal;
   background-color: #5780ab;
   background-image: url("https://www.transparenttextures.com/patterns/wavecut.png");
 }
@@ -16,6 +17,12 @@ body h1 {
   border-radius: 50%;
   margin: auto;
   text-align: center;
+}
+
+#picz {
+  border-radius: 30%;
+  padding: 5px;
+  margin: auto;
 }
 
 .map-image {
@@ -82,7 +89,7 @@ body h1 {
 /* The sidebar menu */
 .sidebar {
   justify-content: right;
-  height: 293px;
+  max-height: 350px;
   /* 100% Full-height */
   width: 0;
   /* 0 width - change this with JavaScript */
@@ -92,11 +99,12 @@ body h1 {
   /* Black*/
   overflow-x: hidden;
   /* Disable horizontal scroll */
-  padding: 30px 0;
+  padding: 20px 0;
   /* Place content 60px from the top */
   transition: 0.5s;
   /* 0.5 second transition effect to slide in the sidebar */
   color: white;
+  text-align: center;
 }
 
 /* The sidebar links */
@@ -225,10 +233,14 @@ button.pin_title:hover {
 }
 
 button.pin_title {
+  padding: 10px;
   background: none;
   color: white;
   border: none;
   outline: none;
+  align-items: center;
+  align-content: center;
+  text-align: center;
 }
 
 #map-description {
@@ -236,16 +248,18 @@ button.pin_title {
   margin-left: 20px;
   bottom: 20px;
   max-width: 300px;
+  min-width: 250px;
   background-color: rgba(76, 175, 80, 0.666);
   color: white;
-  font-weight: bold;
+  font-weight: normal;
   border-radius: 12px;
   padding-bottom: 40px;
 }
 
 #header-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 3px;
 }
 
 #map-desc-header {
@@ -254,6 +268,20 @@ button.pin_title {
   padding: 0px 10px 10px;
   text-align: center;
   color: black;
+}
+
+#pin-title {
+  padding: 15px;
+  text-align: center;
+  font-family: Montserrat, bold;
+  font-weight: bold;
+  max-width: 200px;
+}
+
+#bodyContent {
+  font-family: Montserrat, sans-serif;
+  font-weight: normal;
+  max-width: 200px;
 }
 
 .maps-footer {
@@ -290,7 +318,6 @@ button.pin_title {
   border: none;
   justify-content: space-between;
   padding: 10px 5px;
-  font-size: 10px;
   border-radius: 10px;
 }
 
