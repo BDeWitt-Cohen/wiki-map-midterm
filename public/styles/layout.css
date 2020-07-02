@@ -237,12 +237,18 @@ button.pin_title {
   color: white;
   font-weight: normal;
   border-radius: 12px;
+  padding-bottom: 40px;
+}
+
+#header-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 #map-desc-header {
   justify-content: space-between;
   align-items: center;
-  padding: 0px 10px;
+  padding: 0px 10px 10px;
   text-align: center;
   color: black;
 }
@@ -287,11 +293,16 @@ button.pin_title {
   cursor: pointer;
 }
 
+.maps-footer {
+  padding-bottom: 8px;
+}
+
 .footer-buttons {
   border: none;
   justify-content: space-between;
-  padding: 5px 5px;
+  padding: 10px 5px;
   font-size: 10px;
+  border-radius: 10px;
 }
 
 .description-header {
@@ -324,11 +335,11 @@ p {
 
 #create-map-form {
   width: 400px;
-  height: 375px;
+  height: 370px;
   background-color: black;
   color: white;
   position: absolute;
-  left: 42%;
+  left: 32%;
   top: 37%;
   margin-left: -50px;
   padding: 8px;
@@ -346,7 +357,7 @@ textarea {
 }
 
 label {
-  padding: 2px 0px;
+  padding: 2px 0px 0px 5px;
 }
 
 #submit-form-buttons {
@@ -357,6 +368,39 @@ label {
 
 button.map_title {
   width: 100%;
+}
+
+#create-spot-form {
+  width: 400px;
+  height: 200px;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 32%;
+  top: 37%;
+  margin-left: -60px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#submit-spot-content {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  resize: none;
+  padding: 7px;
+}
+
+label {
+  padding: 2px 0px 0px 5px;
+}
+
+#submit-spot-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0px 25px 0px;
 }
 
 /* Show the dropdown menu on hover */

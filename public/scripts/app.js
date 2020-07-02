@@ -1,6 +1,4 @@
 
-let firstPinlat;
-let firstPinlong;
 const CustomMapStyles = [
   { "featureType": "administrative.land_parcel",
     "elementType": "labels",
@@ -70,41 +68,35 @@ const createMapBox = function(map, key) {
 
     $.get(`/api/favs/${map.id}`, function(req, res) {
       numFavs = req.favs[0].count;
-      let footerButtons;
+      let headerButton;
       if(map.user_id == req.user_id.user_id) {
-        footerButtons = `<div class="maps-footer">
-        <button class="edit-button" class="footer-buttons"> Edit </button>
-        <span class="fa-stack-1x">
-        <span id="wow" class="far fa-heart fa-stack-2x"></span>
-        <strong id="crazy" class="fa-stack" style="font:10px">
-      ${numFavs}
-       </strong>
-        </span>
-        <button class="add-pins" class="footer-buttons">Add Pin</button>
-      </div>`;
+        headerButton = `<div id="header-buttons"> <button id="add-pins" class="footer-buttons">Add Spot</button>
+        <button id="delete-map" class="footer-buttons">Delete Map</button>
+        </div>`;
       } else {
-        footerButtons = `<div class="maps-footer">
-        <span class="fa-stack-1x">
-        <span id="wow" class="far fa-heart fa-stack-2x"></span>
-        <strong id="crazy" class="fa-stack" style="font:10px">
-      ${numFavs}
-       </strong>
-        </span>
-        <button class="suggest-pin" class="footer-buttons">Add a spot</button>
-      </div>`;
+        headerButton = '<div></div>'
       }
       $('#map-description').css('padding: 10px');
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
-        <h3 class="description-header">${map.title}</h3>
-      </div>
+      <h3 class="description-header">${map.title}</h3>
+      ${headerButton}
+    </div>
       <div class="map-image">
       <img id="picto" src=${image}>
       </div>
       <div class="row" class="description-content">
         <p> ${map.description}<p>
       </div>
-       ${footerButtons}`);
+      <div class="maps-footer">
+        <span class="fa-stack-1x">
+        <span id="wow" class="far fa-heart fa-stack-2x"></span>
+        <strong id="crazy" class="fa-stack" style="font:10px">
+      ${numFavs}
+       </strong>
+        </span>
+        <div></div>
+      </div>`);
       $('#crazy').on('mouseover', ()=>{
         $('#crazy').css('color', 'tomato');
         $('#wow').css('color', 'tomato');
@@ -114,6 +106,59 @@ const createMapBox = function(map, key) {
         $('#wow').css('color', 'white');
       });
       $(`#map-description`).off();
+      
+      //Delete Maps
+      $(`#map-description`).on(`click`, '#delete-map', function() {
+        console.log(map.id);
+        $.post(`/api/maps/delete/${map.id}`)
+        $("#map-description").remove();
+        alert('Map Successfully Deleted')
+
+      })
+
+      //Add Spots to a map
+      $(`#map-description`).on(`click`, '#add-pins', function() {
+        $('#map').append(`<div>
+      <form  id="create-spot-form">
+        <div id="submit-spot-content">
+          <label for="add-spot">Add A New Spot</label>
+          <input id="add-spot"  rows="1" cols="45" placeholder="New Spot"></input><br>
+          <label for="new-spot-desc">New Spot Description</label>
+          <textarea id="new-spot-desc" rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
+        </div>
+        <div id="submit-spot-buttons">
+          <input type="submit" value="Add Spot" id="add-new-pin">
+          <button id="exit-map-creation">Cancel</button>
+        </div>
+
+      </form>
+    </div>`)
+
+   const searchInput = 'add-spot';
+   const defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(userIpLat, userIpLong),
+    new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
+
+    let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+    bounds: defaultBounds
+    });
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      let near_place = autocomplete.getPlace();
+      firstPinlong = near_place.geometry.location.lat();
+      firstPinlat = near_place.geometry.location.lng();
+      pinTitle = near_place.name;
+    });
+    $('#add-new-pin').on('click', function () {
+      const newSpotDesc = $("#new-spot-desc").val();
+      $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
+    })
+    $("#create-map-form").remove();
+      })
+      $('#add-new-pin').on('click', function () {
+        const newSpotDesc = $("#new-spot-desc").val();
+        $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
+      })
+
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function (req, res) {
@@ -124,6 +169,7 @@ const createMapBox = function(map, key) {
         });
       });
     });
+
   });
 };
 
@@ -388,6 +434,8 @@ $(`#create-map`).on('click', function() {
        <br>
       <label for="first-pin">Where's your first pin?</label>
      <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
+     <label for="pins-desc">Give us a little info about this spot</label>
+     <textarea rows="1" id="pin-desc" cols="25" placeholder="Enter your first pin"></textarea>
     </div>
   <div id="submit-form-buttons">
     <input type="submit" value="Create Map" id="submit-new-map">
@@ -427,9 +475,7 @@ $(`#create-map`).on('click', function() {
     } else {
       const mapName = $("#test-name").val();
       const mapDesc = $("#test-desc").val();
-      const mapFirstPin = $("#test-pin").val().split(' ');
-      // const long = mapFirstPin[0];
-      // const lat = mapFirstPin[1];
+      const pinDesc = $("#pin-desc").val();
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
@@ -444,7 +490,7 @@ $(`#create-map`).on('click', function() {
           const newMapId = res.maps[0].id;
           console.log(firstPinlong);
           console.log(firstPinlat);
-          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId})
+          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
         });
 
         $("#create-map-form").remove();
