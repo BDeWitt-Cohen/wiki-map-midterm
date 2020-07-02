@@ -4,14 +4,14 @@ DELETE FROM pins;
 DELETE FROM favorites;
 
 
-INSERT INTO users (username, email, password) VALUES ('landongt', 'landontipantiza@gmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('BDeWitt-Cohen', 'BDeWitt-Cohen@hotmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES (' cjfelice', 'cjfelice@hotmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('randomUserName1', 'randomUserName1@gmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('randomUserName2', 'randomUserName2@hotmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('randomUserName3', 'randomUserName3@gmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('randomUserName4', 'randomUserName4@hotmail.com', 'password');
-INSERT INTO users (username, email, password) VALUES ('randomUserName5', 'randomUserName5@gmail.com', 'password');
+INSERT INTO users (username, email, password) VALUES ('landongt', 'landontipantiza@gmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('BDeWitt-Cohen', 'BDeWitt-Cohen@hotmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES (' cjfelice', 'cjfelice@hotmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('randomUserName1', 'randomUserName1@gmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('randomUserName2', 'randomUserName2@hotmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('randomUserName3', 'randomUserName3@gmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('randomUserName4', 'randomUserName4@hotmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
+INSERT INTO users (username, email, password) VALUES ('randomUserName5', 'randomUserName5@gmail.com', '$2b$10$ESDnl.0.kE0CioOzqMtxxeGOijpmkQReGcSHCeBeZBPXZF0xyFvY6');
 
 
 INSERT INTO maps (user_id, title, description) VALUES (1, 'Best Pubs In Calgary', 'I''ve worked long and hard to find the best pubs in calgary. I can die peacefully knowing ive accomplished everything i''ve set out to do.');

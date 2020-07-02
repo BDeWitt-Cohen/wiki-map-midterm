@@ -560,7 +560,7 @@ const loginForm = function (){
     <div id="register-container">
     <label id="title">Register</label>
     <form action="/register/form/" id="login-form" method="POST">
-    <input type="text" id="email"  name="email" cols="45" placeholder="email">
+    <input type="email" id="email"  name="email" cols="45" placeholder="email">
     <input type="text" id="username" name="username"  cols="45" placeholder="Username">
     <input type="password" id="password"  name="password" cols="45" placeholder="password">
 
