@@ -56,6 +56,16 @@ const CustomMapStyles = [
   }
 ];
 
+//Escape function for invalid characters and malicious code
+const escape = function(str) {
+  let div = document.createElement('div');
+
+  div.appendChild(document.createTextNode(str));
+
+  return div.innerHTML;
+};
+
+//Creates full map
 const createMapBox = function(map, key) {
   $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`, function(req, res) {
     let image;
@@ -148,13 +158,15 @@ const createMapBox = function(map, key) {
       pinTitle = near_place.name;
     });
     $('#add-new-pin').on('click', function () {
-      const newSpotDesc = $("#new-spot-desc").val();
+      const escapeNewSpotDesc = $("#new-spot-desc").val();
+      const newSpotDesc = escape(escapeNewSpotDesc)
       $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
     })
     $("#create-map-form").remove();
       })
       $('#add-new-pin').on('click', function () {
-        const newSpotDesc = $("#new-spot-desc").val();
+        const escapeNewSpotDesc = $("#new-spot-desc").val();
+        const newSpotDesc = escape(escapeNewSpotDesc)
         $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
       })
 
@@ -489,9 +501,12 @@ $(`#create-map`).on('click', function() {
     if (tryingToExit) {
       $("#create-map-form").remove();
     } else {
-      const mapName = $("#test-name").val();
-      const mapDesc = $("#test-desc").val();
-      const pinDesc = $("#pin-desc").val();
+      const escapeMapName = $("#test-name").val();
+      const mapName = escape(escapeMapName)
+      const escapeMapDesc = $("#test-desc").val();
+      const mapDesc = escape(escapeMapDesc)
+      const escapePinDesc = $("#pin-desc").val();
+      const pinDesc = escape(escapePinDesc)
       event.preventDefault();
       if (!(mapName) && !(mapDesc)) {
         alert('hold up please type something in');
