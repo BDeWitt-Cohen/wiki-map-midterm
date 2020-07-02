@@ -85,7 +85,7 @@ const createMapBox = function(map, key) {
       } else {
         headerButton = '<div></div>'
       }
-      $('#map-description').css('padding: 10px');
+      $('#map-description').css({'padding': '14px', 'padding-bottom': '40px'});
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
       <h3 class="description-header">${map.title}</h3>
