@@ -1,3 +1,6 @@
+let firstPinlong;
+let firstPinlat;
+let pinTitle;
 const CustomMapStyles = [
   { "featureType": "administrative.land_parcel",
     "elementType": "labels",
@@ -351,8 +354,6 @@ $.get(`/api/google`, function(data) {
                 animation: google.maps.Animation.DROP
               });
               markers.push(mark);
-              console.log(pin.lat);
-              console.log(pin.long);
               $(`#${pin.id + 100}`).on('mouseover', function() {
                 mark.setAnimation(google.maps.Animation.BOUNCE);
               });
@@ -489,8 +490,6 @@ $(`#create-map`).on('click', function() {
       firstPinlat = near_place.geometry.location.lng();
       pinTitle = near_place.name;
     });
-    console.log(userIpLat);
-    console.log(userIpLong);
 
 
   let tryingToExit = false;
@@ -508,19 +507,18 @@ $(`#create-map`).on('click', function() {
       const escapePinDesc = $("#pin-desc").val();
       const pinDesc = escape(escapePinDesc)
       event.preventDefault();
-      if (!(mapName) && !(mapDesc)) {
-        alert('hold up please type something in');
-      } else if (!mapName) {
-        alert('hold up please give your map a title');
-      } else if (!mapDesc) {
-        alert('hold up please give your map a description');
-      } else {
-        const newMapObj = { mapName, mapDesc };
+      if(!pinTitle || !firstPinlong || !firstPinlat || !mapDesc || !pinDesc){
 
+        alert('Slow down there buckaroo, please fill out all the fields!');
+      }
+      else {
+        const newMapObj = { mapName, mapDesc };
         $.post("/api/maps/post", newMapObj, (res)=>{
           const newMapId = res.maps[0].id;
-          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
+            $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
+
         });
+
 
         $("#create-map-form").remove();
       }
