@@ -165,7 +165,7 @@ const createMapBox = function(map, key) {
         </div>
         <div id="submit-spot-buttons">
           <input type="submit" value="Add Spot" id="add-new-pin">
-          <button id="exit-map-creation">Cancel</button>
+          <button id="cancel-spot-creation">Cancel</button>
         </div>
 
       </form>
