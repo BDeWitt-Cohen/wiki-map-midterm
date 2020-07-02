@@ -316,9 +316,9 @@ $.get(`/api/google`, function(data) {
                       <button id="delete-spot-button">Yes, Delete It!</button>
                         <button id="cancel-spot-delete">Cancel</button>
                         </div>
-                        </div>    
+                        </div>
                       `)
-                      $(`#delete-spot`).on('click', `#delete-spot-button`, function(){                  
+                      $(`#delete-spot`).on('click', `#delete-spot-button`, function(){
                       $.post(`/api/pins/delete/${pin.id}`)
                       $('#mySidebar').empty();
                       $("#delete-spot").remove();
@@ -574,8 +574,9 @@ $(`#create-map`).on('click', function() {
         const newMapObj = { mapName, mapDesc };
         $.post("/api/maps/post", newMapObj, (res) => {
           const newMapId = res.maps[0].id;
-          $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc })
-
+          $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
+            alert('Your map has been created! check out the My Maps tab to view your newly created map.')
+          })
         });
 
 
