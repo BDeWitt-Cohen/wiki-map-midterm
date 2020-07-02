@@ -11,6 +11,7 @@ const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
 const cookieSession = require('cookie-session');
+const bcrypt = require('bcrypt');
 app.use(cookieSession({
   name: 'session',
   keys: [
@@ -18,6 +19,9 @@ app.use(cookieSession({
     "nextrandomstuffsupposidlythisiswhatimsupposedtodo?whoknowbutletskeepitgoingandillfigureitoutlater"
   ]
 }));
+
+const saltRounds = 10;
+
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
@@ -112,15 +116,20 @@ app.post("/login/form/", (req, res) => {
     db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
     .then(data => {
       if(data.rowCount === 0){
-        res.redirect('/');
+        res.status(403).send('must provide a valid email and or password <a href="/"> to go back</a>');
       } else {
         const dbPassword = data.rows[0].password;
         const dbUserId = data.rows[0].id;
-         if(password === dbPassword){
-        res.redirect(`/login/${dbUserId}`)
-      } else {
-        res.redirect('/');
-      }
+
+        bcrypt.compare(password, dbPassword, function(err, result) {
+          if (result) {
+            req.session.user_id = dbUserId;
+            console.log(req.session.user_id);
+            res.redirect('/');
+          } else {
+            res.status(403).send('must provide a valid email and or password <a href="/"> to go back</a>');
+          }
+        });
     }
     })
     .catch(err => {
@@ -133,19 +142,24 @@ app.post("/login/form/", (req, res) => {
 
     const username = req.body.username;
     const password = req.body.password;
+    const hashedPassword = bcrypt.hashSync(password, saltRounds)
     const email = req.body.email;
-    console.log(username);
-    console.log(password);
-      db.query(`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id;`,[username, email, password])
+    if(!email || !password || !username ){
+      res.status(403).send('Slow down there buckaroo, please fill out all the fields <a href="/"> to go back</a>');
+    } else {
+      db.query(`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id;`,[username, email, hashedPassword])
       .then(data => {
         const userId = data.rows[0].id;
-        res.redirect(`/login/${userId}`);
+        req.session.user_id = userId;
+        res.redirect('/');
       })
       .catch(err => {
         res
             .status(500)
             .json({ error: err.message });
         });
+
+    }
     })
 
 
