@@ -400,7 +400,7 @@ p{
 
 #create-map-form {
   width: 400px;
-  height: 42%;
+  height: auto;
   background-color: black;
   color: white;
   position: absolute;
@@ -446,8 +446,8 @@ button.map_title{
   background-color: black;
   color: white;
   position: absolute;
-  left: 32%;
-  top: 37%;
+  left: 40%;
+  top: 40%;
   margin-left: -60px;
   padding: 8px;
   border-radius: 8px;
