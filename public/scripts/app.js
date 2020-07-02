@@ -285,6 +285,7 @@ $.get(`/api/google`, function(data) {
         const renderMapPins = function(obj) {
           let time = 200;
           let bounds = new google.maps.LatLngBounds();
+          const infoWindow = new google.maps.InfoWindow;
           for (const pin of obj.pins) {
             time += 250;
             const newLat = badDirector(pin.lat);
@@ -292,19 +293,47 @@ $.get(`/api/google`, function(data) {
             let myLatlng = new google.maps.LatLng(newLong, newLat);
             bounds.extend(myLatlng);
             window.setTimeout(function() {
-              markers.push(new google.maps.Marker({
+              const mark = new google.maps.Marker({
                 position: myLatlng,
                 title: `${pin.name}`,
                 map: map,
                 animation: google.maps.Animation.DROP
-              }));
+              })
+              markers.push(mark);
+              console.log(pin.lat);
+              console.log(pin.long);
+              google.maps.event.addListener(mark, 'mouseover', function() {
+                mark.setAnimation(google.maps.Animation.BOUNCE);
+              });
+              google.maps.event.addListener(mark, 'mouseout', function() {
+                mark.setAnimation(google.maps.Animation.NULL);
+              });
+              google.maps.event.addListener(mark, 'click', function() {
+                infoWindow.setContent(
+                  `<div id="pin-content">
+                  <div id="pin-title">${pin.name}<div>
+                  <div><img id="picz" src=https://maps.googleapis.com/maps/api/streetview?size=120x120&location=${pin.long},${pin.lat}&radius=1000&key=${key}></div>
+                  <div id="bodyContent">
+                  ${pin.description}
+                  </div>
+                  </div>`
+                );
+                map.panTo({lat: pin.long + 0.005, lng: pin.lat});
+                infoWindow.open(map, mark);
+                mark.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function() {
+                  mark.setAnimation(google.maps.Animation.NULL);
+                }, 1400);
+
+              });
             }, time);
+
           }
-          map.fitBounds(bounds, { top: 150, bottom: 150, left: 50, right: 50 });
+          map.fitBounds(bounds, { top: 150, bottom: 150, left: 90, right: 90 });
         };
 
         const clearMarkers = function() {
-          for (var i = 0; i < markers.length; i++) {
+          for (let i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
           }
           markers = [];

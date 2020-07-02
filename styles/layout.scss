@@ -5,6 +5,7 @@ html {
 }
 body {
   font-family: Montserrat, sans-serif;
+  font-weight: normal;
   background-color: #5780ab;
   background-image: url("https://www.transparenttextures.com/patterns/wavecut.png");
 
@@ -17,6 +18,12 @@ body {
   border-radius: 50%;
   margin: auto;
   text-align: center;
+}
+
+#picz{
+  border-radius: 30%;
+  padding: 5px;
+  margin: auto;
 }
 
 .map-image {
@@ -219,9 +226,10 @@ button.pin_title {
   margin-left: 20px;
   bottom: 20px;
   max-width: 300px;
+  min-width:250px;
   background-color: rgba(76, 175, 80, 0.666);
   color: white;
-  font-weight: bold;
+  font-weight: normal;
   border-radius: 12px;
 }
 
@@ -232,6 +240,18 @@ button.pin_title {
   text-align: center;
   color: black;
 
+}
+#pin-title {
+  padding: 5px;
+  text-align: center;
+  font-family: Montserrat, bold;
+  font-weight: bold;
+  max-width: 200px;
+}
+#bodyContent {
+  font-family: Montserrat, sans-serif;
+  font-weight: normal;
+  max-width: 200px;
 }
 
 .maps-footer {
