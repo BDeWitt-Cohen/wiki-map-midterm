@@ -236,6 +236,11 @@ button.pin_title {
   padding-bottom: 40px;
 }
 
+#header-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 #map-desc-header {
   justify-content: space-between;
   align-items: center;
@@ -312,6 +317,7 @@ p{
   height: 50px;
   outline: none;
 }
+
 #create-map-form {
   width: 400px;
   height: 370px;
