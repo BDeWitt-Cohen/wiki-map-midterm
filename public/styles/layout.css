@@ -558,6 +558,20 @@ label#title {
   justify-content: space-evenly;
 }
 
+#login-container {
+  position: absolute;
+  max-height: auto;
+  left: 40%;
+  top: 40%;
+}
+
+#register-container {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  padding-bottom: 10px;
+}
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;

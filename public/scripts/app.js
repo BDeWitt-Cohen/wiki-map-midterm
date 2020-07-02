@@ -165,7 +165,7 @@ const createMapBox = function(map, key) {
         </div>
         <div id="submit-spot-buttons">
           <input type="submit" value="Add Spot" id="add-new-pin">
-          <button id="exit-map-creation">Cancel</button>
+          <button id="cancel-spot-creation">Cancel</button>
         </div>
 
       </form>
@@ -197,7 +197,6 @@ const createMapBox = function(map, key) {
         const newSpotDesc = escape(escapeNewSpotDesc)
         $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc })
       })
-
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
           $.get(`/api/favs/${map.id}`, function(req, res) {
@@ -515,12 +514,12 @@ $(`#create-map`).on('click', function() {
   <form  id="create-map-form">
   <div id="submit-form-content">
   <label for="map-name">Map Name</label>
-      <textarea id="test-name" rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
+      <textarea class="info-entry" id="test-name" rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
         <label for="map-desc">Description</label>
-        <textarea id="test-desc"  rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
+        <textarea class="info-entry" id="test-desc"  rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
        <br>
       <label for="first-pin">Where's your first pin?</label>
-     <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
+     <input class="info-entry" id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
      <br>
      <label for="pins-desc">Give us a little info about this spot</label>
      <textarea rows="1" id="pin-desc" cols="25" placeholder="Enter your first pin"></textarea>
@@ -532,6 +531,13 @@ $(`#create-map`).on('click', function() {
   </div>
     </form>
    </div>`);
+
+   $(".info-entry").keypress(function(event) {
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      $(this).next('input').focus();
+    }
+  });
 
   const searchInput = 'test-pin';
   const defaultBounds = new google.maps.LatLngBounds(
