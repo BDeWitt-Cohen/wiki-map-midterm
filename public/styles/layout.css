@@ -247,11 +247,19 @@ button.pin_title:hover {
   background-color: rgba(76, 175, 80, 0.8);
 }
 
+#my-maps {
+  min-width: 100px;
+}
+
+#all-maps-btn {
+  min-width: 100px;
+}
+
 .dropbtn {
   height: 60px;
   background-color: black;
   color: white;
-  padding: 16px;
+  padding: 8px;
   font-size: 16px;
   margin-right: 10px;
   border: none;
@@ -361,6 +369,14 @@ button.pin_title {
   cursor: pointer;
 }
 
+#x {
+  position: absolute;
+  right: 0;
+  padding-right: 15px;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
 .maps-footer {
   padding-bottom: 8px;
 }
@@ -403,6 +419,19 @@ p {
   background-color: lightgray;
   height: 50px;
   outline: none;
+}
+
+#email {
+  margin: 2px;
+}
+
+#username {
+  margin: 2px;
+}
+
+#password {
+  margin: 2px;
+  margin-bottom: 2px;
 }
 
 #create-map-form {
@@ -477,13 +506,13 @@ label {
 }
 
 #login-form {
-  padding-left: 30px;
+  text-align: center;
 }
 
 #login-container {
   top: 50%;
   left: 50%;
-  height: 200px;
+  height: 190px;
   width: 300px;
   background: black;
   color: white;
@@ -491,12 +520,13 @@ label {
   flex-direction: column;
   align-items: center;
   position: absolute;
+  border-radius: 10px;
 }
 
 #register-container {
   top: 50%;
   left: 50%;
-  height: 200px;
+  height: 210px;
   width: 300px;
   background: black;
   color: white;
@@ -504,16 +534,46 @@ label {
   flex-direction: column;
   align-items: center;
   position: absolute;
+  border-radius: 10px;
 }
 
 div#buttons {
   margin-top: 20px;
 }
 
+#buttons-login {
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+  margin-left: 25px;
+  margin-right: 18px;
+}
+
+#buttons-register {
+  cursor: pointer;
+  margin-top: 12px;
+  justify-content: space-between;
+}
+
+#register-instruct {
+  font-size: 12px;
+  padding: 4px;
+  text-align: end;
+  width: 88%;
+}
+
+#register-btn {
+  cursor: pointer;
+}
+
+#login-btn {
+  cursor: pointer;
+}
+
 label#title {
   color: white;
   font-size: 25px;
-  font-family: 'times new roman';
+  font-family: Montserrat;
   padding-right: 0;
   padding-top: 10px;
 }
