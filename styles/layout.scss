@@ -510,6 +510,46 @@ label#title{
   padding-top: 10px;
 }
 
+//Delete confirmation for spots and maps
+
+#delete-Mymap {
+  width: 20%;
+  height: 15%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  margin-left: -50px;
+  padding: 8px;
+  border-radius: 8px;
+}
+#delete-spot {
+  width: 20%;
+  height: 15%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  margin-left: -50px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#submit-form-content {
+  display: flex;
+  flex-direction: column;
+}
+#delete-header {
+  text-align: center;
+}
+
+#delete-form-buttons{
+  display: flex;
+  justify-content: space-evenly;
+}
+
 
 // End of new spot form
 
