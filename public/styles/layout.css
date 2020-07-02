@@ -436,12 +436,12 @@ p {
 
 #create-map-form {
   width: 400px;
-  height: 370px;
+  height: auto;
   background-color: black;
   color: white;
   position: absolute;
-  left: 32%;
-  top: 37%;
+  left: 40%;
+  top: 40%;
   margin-left: -50px;
   padding: 8px;
   border-radius: 8px;
@@ -478,8 +478,8 @@ button.map_title {
   background-color: black;
   color: white;
   position: absolute;
-  left: 32%;
-  top: 37%;
+  left: 40%;
+  top: 40%;
   margin-left: -60px;
   padding: 8px;
   border-radius: 8px;
@@ -576,6 +576,46 @@ label#title {
   font-family: Montserrat;
   padding-right: 0;
   padding-top: 10px;
+}
+
+#delete-Mymap {
+  width: 20%;
+  height: 15%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  margin-left: -50px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#delete-spot {
+  width: 20%;
+  height: 15%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  margin-left: -50px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#submit-form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#delete-header {
+  text-align: center;
+}
+
+#delete-form-buttons {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 /* Show the dropdown menu on hover */

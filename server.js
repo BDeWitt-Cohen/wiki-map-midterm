@@ -154,15 +154,11 @@ app.post("/login/form/", (req, res) => {
         res.redirect('/');
       })
       .catch(err => {
-        res
-            .status(500)
-            .json({ error: err.message });
+          res.status(403).send('account with that username already exists <a href="/"> to go back</a>');
         });
 
     }
     })
-
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
