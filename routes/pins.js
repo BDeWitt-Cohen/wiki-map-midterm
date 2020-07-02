@@ -74,6 +74,27 @@ module.exports = (db) => {
       });
   });
 
+  router.post("/delete/:pin_id", (req, res) => {
+
+    let query = `DELETE FROM pins WHERE pins.id = $1;`;
+    db.query(query, [req.params.pin_id])
+      .then(data => {
+        console.log(data);
+        const pins = data.rows;
+        res.json({ pins });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+
+
+
+  
+
 
 
   return router;
