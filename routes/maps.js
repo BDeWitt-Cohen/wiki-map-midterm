@@ -26,6 +26,7 @@ module.exports = (db) => {
   //Inserts new map
   router.post("/post", (req, res) => {
     //for now user is always user 1
+    console.log(req.body);
     const user = req.session.user_id;
     const inputs = [user, req.body.mapName, req.body.mapDesc]
     let query = `INSERT INTO maps (user_id, title, description) VALUES ($1, $2, $3) RETURNING *;`;

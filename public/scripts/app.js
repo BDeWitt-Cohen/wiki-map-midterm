@@ -504,8 +504,6 @@ $(`#create-map`).on('click', function() {
 
         $.post("/api/maps/post", newMapObj, (res)=>{
           const newMapId = res.maps[0].id;
-          console.log(firstPinlong);
-          console.log(firstPinlat);
           $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
         });
 

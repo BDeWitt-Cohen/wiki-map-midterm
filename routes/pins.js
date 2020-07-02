@@ -39,8 +39,9 @@ module.exports = (db) => {
     const user = req.session.user_id;
     const mapId = req.body.newMapId;
     const name = req.body.pinTitle;
-    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name]
-    let query = `INSERT INTO pins (user_id, map_id, long, lat, name) VALUES ($1, $2, $3, $4, $5);`;
+    const pinDesc = req.body.pinDesc;
+    const inputs = [user, mapId, req.body.firstPinlong, req.body.firstPinlat, name, pinDesc]
+    let query = `INSERT INTO pins (user_id, map_id, long, lat, name, description) VALUES ($1, $2, $3, $4, $5, $6);`;
     db.query(query, inputs)
       .then(data => {
         console.log(data);
