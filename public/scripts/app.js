@@ -12,11 +12,11 @@ const CustomMapStyles = [
   },
   { "featureType": "poi.park",
     "elementType": "labels.text",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [ { "visibility": "on" } ]
   },
   { "featureType": "road.local",
     "elementType": "labels",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [ { "visibility": "on" } ]
   },
   { "featureType": "landscape",
     "stylers": [ { "hue": "#FFBB00" },

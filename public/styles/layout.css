@@ -361,6 +361,11 @@ p {
   background-color: lightgray;
   height: 50px;
   outline: none;
+  cursor: pointer;
+}
+
+#create-map:hover {
+  background-color: darkgray;
 }
 
 #favorite-map {
