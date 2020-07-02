@@ -105,7 +105,7 @@ const createMapBox = function(map, key) {
         $('#wow').css('color', 'white');
       });
       $(`#map-description`).off();
-      
+
       //Delete Maps
       $(`#map-description`).on(`click`, '#delete-map', function() {
         console.log(map.id);
@@ -476,30 +476,50 @@ $(`#map-description`).on('click', "#edit-button",function() {
 
 //login in form
 $(`#login`).click(()=>{
+  loginForm();
+})
+const loginForm = function (){
   $('#map').append(`
   <div id="login-container">
      <label id="title">login</label>
-     <input type="text" id="username"  rows="1" cols="45" placeholder="Username">
-     <input type="text" id="password"  rows="1" cols="45" placeholder="password">
+     <form action="/login/form/" id="login-form" method="POST">
+     <input type="text" id="username" name="username"  cols="45" placeholder="Username">
+     <input type="password" id="password"  name="password" cols="45" placeholder="password">
+
+     <button id="login-btn">login</button>
+
+     </form>
      <div id="buttons">
-       <button id="login-btn">login</button>
        <button id="register-btn">Register</button>
        <button id="cancel-btn">Cancel</button>
      </div>
     </div>`
   )
-  $(`#login-btn`).click(()=>{
-    const username =$("#username").val()
-    const password = $("#password").val()
-    $.get(`/api/users/${username}/${password}`, (req, res) => {
-
-    })
-
-  })
   $(`#register-btn`).click(()=>{
-    alert('go to register page')
+    $("#login-container").remove();
+    $('#map').append(`
+    <div id="register-container">
+    <label id="title">Register</label>
+    <form action="/login/form/" id="login-form" method="POST">
+    <input type="text" id="username" name="username"  cols="45" placeholder="Username">
+    <input type="password" id="password"  name="password" cols="45" placeholder="password">
+
+    <button id="register-btn">Register</button>
+
+    </form>
+    <div id="buttons">
+      <button id="login-btn">Login</button>
+      <button id="cancel-btn">Cancel</button>
+    </div>
+   </div>`
+  )
+  $(`#login-btn`).click(()=>{
+    $("#register-container").remove()
+    loginForm()
   })
+  })
+
   $(`#cancel-btn`).click(()=>{
     $("#login-container").remove();
   })
-})
+}

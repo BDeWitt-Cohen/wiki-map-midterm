@@ -21,7 +21,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-
   router.get("/:user_id", (req, res) => {
     const user_id = req.params.user_id;
     db.query(`SELECT * FROM users WHERE id = $1;`, [user_id])
@@ -35,19 +34,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  router.get("/:username/:password", (req, res) => {
-    username = req.params.username
-    password = req.params.password
-    db.query(`SELECT * FROM users, password WHERE username = $1;`,[])
-    .then(data => {
-      const users = data.rows;
-      res.json({ users });
-    })
-    .catch(err => {
-      res
-          .status(500)
-          .json({ error: err.message });
-      });
-  })
+
   return router;
 };

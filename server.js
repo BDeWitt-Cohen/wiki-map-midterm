@@ -92,11 +92,37 @@ app.get("/", (req, res) => {
 
 });
 
+app.post("/login/form/", (req, res) => {
+const username = req.body.username;
+const password = req.body.password;
+  db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
+  .then(data => {
+    if(data.rowCount === 0){
+      res.redirect('/');
+    } else {
+      const dbPassword = data.rows[0].password;
+      const dbUserId = data.rows[0].id;
+       if(password === dbPassword){
+      res.redirect(`/login/${dbUserId}`)
+    } else {
+      // res.redirect('/');
+    }
+  }
+  })
+  .catch(err => {
+    res
+        .status(500)
+        .json({ error: err.message });
+    });
+})
+
 app.get('/login/:id', (req, res) => {
   req.session.user_id = req.params.id;
   console.log(req.session.user_id);
   res.redirect('/');
 });
+
+
 app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");

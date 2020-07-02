@@ -392,7 +392,24 @@ label {
   padding: 10px 0px 25px 0px;
 }
 
+#login-form {
+  padding-left: 30px;
+}
+
 #login-container {
+  top: 50%;
+  left: 50%;
+  height: 200px;
+  width: 300px;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+}
+
+#register-container {
   top: 50%;
   left: 50%;
   height: 200px;
