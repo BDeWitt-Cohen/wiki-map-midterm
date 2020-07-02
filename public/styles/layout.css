@@ -73,6 +73,19 @@ body h1 {
   padding: 2px 2px;
 }
 
+#pin-box {
+  display: flex;
+}
+
+.pin-delete {
+  background-color: red;
+  border-radius: 50px;
+  max-height: 20px;
+  align-self: center;
+  border-color: black;
+  margin-right: 5px;
+}
+
 .dropdown-content {
   display: block;
 }

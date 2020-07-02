@@ -1,58 +1,69 @@
 const CustomMapStyles = [
-  { "featureType": "administrative.land_parcel",
+  {
+    "featureType": "administrative.land_parcel",
     "elementType": "labels",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [{ "visibility": "off" }]
   },
-  { "featureType": "poi",
+  {
+    "featureType": "poi",
     "elementType": "labels.text",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [{ "visibility": "off" }]
   },
-  { "featureType": "poi.business",
-    "stylers": [ { "visibility": "off" } ]
+  {
+    "featureType": "poi.business",
+    "stylers": [{ "visibility": "off" }]
   },
-  { "featureType": "poi.park",
+  {
+    "featureType": "poi.park",
     "elementType": "labels.text",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [{ "visibility": "off" }]
   },
-  { "featureType": "road.local",
+  {
+    "featureType": "road.local",
     "elementType": "labels",
-    "stylers": [ { "visibility": "off" } ]
+    "stylers": [{ "visibility": "off" }]
   },
-  { "featureType": "landscape",
-    "stylers": [ { "hue": "#FFBB00" },
-      { "saturation": 43.400000000000006 },
-      { "lightness": 37.599999999999994 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "landscape",
+    "stylers": [{ "hue": "#FFBB00" },
+    { "saturation": 43.400000000000006 },
+    { "lightness": 37.599999999999994 },
+    { "gamma": 1 }]
   },
-  { "featureType": "road.highway",
-    "stylers": [ { "hue": "#FFC200" },
-      { "saturation": -61.8 },
-      { "lightness": 45.599999999999994 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "road.highway",
+    "stylers": [{ "hue": "#FFC200" },
+    { "saturation": -61.8 },
+    { "lightness": 45.599999999999994 },
+    { "gamma": 1 }]
   },
-  { "featureType": "road.arterial",
-    "stylers": [ { "hue": "#FF0300" },
-      { "saturation": -100 },
-      { "lightness": 51.19999999999999 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "road.arterial",
+    "stylers": [{ "hue": "#FF0300" },
+    { "saturation": -100 },
+    { "lightness": 51.19999999999999 },
+    { "gamma": 1 }]
   },
-  { "featureType": "road.local",
-    "stylers": [ { "hue": "#FF0300" },
-      { "saturation": -100 },
-      { "lightness": 52 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "road.local",
+    "stylers": [{ "hue": "#FF0300" },
+    { "saturation": -100 },
+    { "lightness": 52 },
+    { "gamma": 1 }]
   },
-  { "featureType": "water",
-    "stylers": [ { "hue": "#0078FF" },
-      { "saturation": -13.200000000000003 },
-      { "lightness": 2.4000000000000057 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "water",
+    "stylers": [{ "hue": "#0078FF" },
+    { "saturation": -13.200000000000003 },
+    { "lightness": 2.4000000000000057 },
+    { "gamma": 1 }]
   },
-  { "featureType": "poi",
-    "stylers": [ { "hue": "#00FF6A" },
-      { "saturation": -1.0989010989011234 },
-      { "lightness": 11.200000000000017 },
-      { "gamma": 1 } ]
+  {
+    "featureType": "poi",
+    "stylers": [{ "hue": "#00FF6A" },
+    { "saturation": -1.0989010989011234 },
+    { "lightness": 11.200000000000017 },
+    { "gamma": 1 }]
   }
 ];
 
@@ -78,7 +89,7 @@ const createMapBox = function(map, key) {
     $.get(`/api/favs/${map.id}`, function(req, res) {
       numFavs = req.favs[0].count;
       let headerButton;
-      if(map.user_id == req.user_id.user_id) {
+      if (map.user_id == req.user_id.user_id) {
         headerButton = `<div id="header-buttons"> <button id="add-pins" class="footer-buttons">Add Spot</button>
         <button id="delete-map" class="footer-buttons">Delete Map</button>
         </div>`;
@@ -106,11 +117,11 @@ const createMapBox = function(map, key) {
         </span>
         <div></div>
       </div>`);
-      $('#crazy').on('mouseover', ()=>{
+      $('#crazy').on('mouseover', () => {
         $('#crazy').css('color', 'tomato');
         $('#wow').css('color', 'tomato');
       });
-      $('#crazy').on('mouseout', ()=>{
+      $('#crazy').on('mouseout', () => {
         $('#crazy').css('color', 'white');
         $('#wow').css('color', 'white');
       });
@@ -143,36 +154,36 @@ const createMapBox = function(map, key) {
       </form>
     </div>`)
 
-   const searchInput = 'add-spot';
-   const defaultBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(userIpLat, userIpLong),
-    new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
+        const searchInput = 'add-spot';
+        const defaultBounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(userIpLat, userIpLong),
+          new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
 
-    let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-    bounds: defaultBounds
-    });
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      let near_place = autocomplete.getPlace();
-      firstPinlong = near_place.geometry.location.lat();
-      firstPinlat = near_place.geometry.location.lng();
-      pinTitle = near_place.name;
-    });
-    $('#add-new-pin').on('click', function () {
-      const escapeNewSpotDesc = $("#new-spot-desc").val();
-      const newSpotDesc = escape(escapeNewSpotDesc)
-      $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
-    })
-    $("#create-map-form").remove();
+        let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+          bounds: defaultBounds
+        });
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          let near_place = autocomplete.getPlace();
+          firstPinlong = near_place.geometry.location.lat();
+          firstPinlat = near_place.geometry.location.lng();
+          pinTitle = near_place.name;
+        });
+        $('#add-new-pin').on('click', function() {
+          const escapeNewSpotDesc = $("#new-spot-desc").val();
+          const newSpotDesc = escape(escapeNewSpotDesc)
+          $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc })
+        })
+        $("#create-map-form").remove();
       })
-      $('#add-new-pin').on('click', function () {
+      $('#add-new-pin').on('click', function() {
         const escapeNewSpotDesc = $("#new-spot-desc").val();
         const newSpotDesc = escape(escapeNewSpotDesc)
-        $.post(`/api/pins/post/${map.id}`, {pinTitle, firstPinlong, firstPinlat, newSpotDesc})
+        $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc })
       })
 
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
-          $.get(`/api/favs/${map.id}`, function (req, res) {
+          $.get(`/api/favs/${map.id}`, function(req, res) {
             $('#crazy').empty()
             const count = req.favs[0].count;
             $('#crazy').append(`${count}`);
@@ -226,14 +237,14 @@ $.get(`/api/google`, function(data) {
         });
 
         //Render all map titles client side
-        $("#all-maps-btn").on('mouseover', ()=>{
+        $("#all-maps-btn").on('mouseover', () => {
           $('#all-maps').empty();
           $('#my-map-container').empty();
           $("#favorite-map-container").empty();
           $.get("/api/maps", function(req, res) {
             const maps = req.maps;
             for (const map of maps) {
-              if(!(map.user_id == req.user)) {
+              if (!(map.user_id == req.user)) {
                 // if(req.user_id)
                 $('#all-maps').append(`<button type="button" class="map_title" id="${map.id}"> ${map.title}  </button>`);
 
@@ -244,7 +255,7 @@ $.get(`/api/google`, function(data) {
                     $('#map-description').empty();
                     const pins = req.pins;
                     for (const pin of pins) {
-                      $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button`);
+                      $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>`);
                     }
                     dropPins(req);
                     createMapBox(map, key);
@@ -274,7 +285,24 @@ $.get(`/api/google`, function(data) {
                   $('#map-description').empty();
                   const pins = req.pins;
                   for (const pin of pins) {
-                    $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button`);
+                    $('#mySidebar').append(`<div id="pin-box">
+                    <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
+                    <button id="${pin.id}" class="pin-delete "> <b X> </button
+                    </div>`);
+                    $(`#mySidebar`).on('click', `#${pin.id}`, function() {
+                      $.post(`/api/pins/delete/${pin.id}`)
+                      $('#mySidebar').empty();
+                      $.get(`/api/pins/${map.id}`, function(req, res) {
+                        const pins = req.pins;
+                        for (const pin of pins) {
+                          $('#mySidebar').append(`<div id="pin-box">
+                          <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
+                          <button id="${pin.id}" class="pin-delete "> <b X> </button
+                          </div>`);
+                        }
+                        })
+
+                    })
                   }
                   dropPins(req);
                   createMapBox(map, key);
@@ -286,7 +314,7 @@ $.get(`/api/google`, function(data) {
         });
 
         //render favorite maps
-        $("#favorite-map").on("mouseover", ()=>{
+        $("#favorite-map").on("mouseover", () => {
           $('#all-maps').empty();
           $("#favorite-map-container").empty();
           $("#favorite-map-container").append('<div id="favorite-dropdown-container"><div class="map-container" id="fav-map-container"></div></div>')
@@ -375,7 +403,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({lat: pin.long + 0.005, lng: pin.lat});
+                map.panTo({ lat: pin.long + 0.005, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -392,7 +420,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({lat: pin.long + 0.005, lng: pin.lat});
+                map.panTo({ lat: pin.long + 0.005, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -473,24 +501,24 @@ $(`#create-map`).on('click', function() {
     </form>
    </div>`);
 
-   const searchInput = 'test-pin';
-   const defaultBounds = new google.maps.LatLngBounds(
+  const searchInput = 'test-pin';
+  const defaultBounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(userIpLat, userIpLong),
     new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
 
 
 
-    let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+  let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
     bounds: defaultBounds
-    });
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      let near_place = autocomplete.getPlace();
-      firstPinlong = near_place.geometry.location.lat();
-      firstPinlat = near_place.geometry.location.lng();
-      pinTitle = near_place.name;
-    });
-    console.log(userIpLat);
-    console.log(userIpLong);
+  });
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    let near_place = autocomplete.getPlace();
+    firstPinlong = near_place.geometry.location.lat();
+    firstPinlat = near_place.geometry.location.lng();
+    pinTitle = near_place.name;
+  });
+  console.log(userIpLat);
+  console.log(userIpLong);
 
 
   let tryingToExit = false;
@@ -517,9 +545,9 @@ $(`#create-map`).on('click', function() {
       } else {
         const newMapObj = { mapName, mapDesc };
 
-        $.post("/api/maps/post", newMapObj, (res)=>{
+        $.post("/api/maps/post", newMapObj, (res) => {
           const newMapId = res.maps[0].id;
-          $.post("/api/pins/post", {pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc})
+          $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc })
         });
 
         $("#create-map-form").remove();
@@ -528,16 +556,16 @@ $(`#create-map`).on('click', function() {
   });
 });
 
-$(`#map-description`).on('click', "#edit-button",function() {
+$(`#map-description`).on('click', "#edit-button", function() {
   alert("the edit map button was clicked");
 });
 
 
 //login in form
-$(`#login`).click(()=>{
+$(`#login`).click(() => {
   loginForm();
 })
-const loginForm = function (){
+const loginForm = function() {
   $('#map').append(`
   <div id="login-container">
      <label id="title">login</label>
@@ -554,7 +582,7 @@ const loginForm = function (){
      </div>
     </div>`
   )
-  $(`#register-btn`).click(()=>{
+  $(`#register-btn`).click(() => {
     $("#login-container").remove();
     $('#map').append(`
     <div id="register-container">
@@ -572,14 +600,14 @@ const loginForm = function (){
       <button id="cancel-btn">Cancel</button>
     </div>
    </div>`
-  )
-  $(`#login-btn`).click(()=>{
-    $("#register-container").remove()
-    loginForm()
-  })
+    )
+    $(`#login-btn`).click(() => {
+      $("#register-container").remove()
+      loginForm()
+    })
   })
 
-  $(`#cancel-btn`).click(()=>{
+  $(`#cancel-btn`).click(() => {
     $("#login-container").remove();
   })
 }

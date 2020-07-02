@@ -23,7 +23,7 @@ INSERT INTO maps (user_id, title, description) VALUES (2, 'Best Billiards In Cal
 
 -- Best Pubs In Calgary
 INSERT INTO pins (name, user_id, map_id, long, lat, description) VALUES ('Bottlescrew Bill''s Pub', 1, 1, 51.043602, -114.065446, ' -Bottlescrew Bill''s Pub is greatttt');
-INSERT INTO pins (name, user_id, map_id, long, lat, description) VALUES ('The Ship & Ancho', 1, 1, 51.038014, -114.073747, ' -I freaken love this place you have to see it');
+INSERT INTO pins (name, user_id, map_id, long, lat, description) VALUES ('The Ship & Anchor', 1, 1, 51.038014, -114.073747, ' -I freaken love this place you have to see it');
 
 -- Best Coffee In Calgary
 INSERT INTO pins (name, user_id, map_id, long, lat, description) VALUES ('Phil & Sebastian Coffee Roasters', 2, 2, 51.047838, -114.049879, ' -it''s a must go!!');
