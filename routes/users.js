@@ -35,5 +35,19 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.get("/:username/:password", (req, res) => {
+    username = req.params.username
+    password = req.params.password
+    db.query(`SELECT * FROM users, password WHERE username = $1;`,[])
+    .then(data => {
+      const users = data.rows;
+      res.json({ users });
+    })
+    .catch(err => {
+      res
+          .status(500)
+          .json({ error: err.message });
+      });
+  })
   return router;
 };

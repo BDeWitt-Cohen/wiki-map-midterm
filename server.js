@@ -64,7 +64,32 @@ app.use("/api/favs", favsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  res.render("index");
+  if(req.session.user_id){
+    db.query(`SELECT username FROM users WHERE id = $1`, [req.session.user_id])
+      .then(data => {
+       const username = data.rows[0].username;
+       const templateVars = {
+        user_id: req.session.user_id,
+        username
+      };
+
+      res.render("index", templateVars);
+
+    })
+      .catch(err => {
+        res
+        .status(500)
+        .json({ error: err.message });
+    });
+  } else{
+    const templateVars = {
+      user_id: null,
+      username: null,
+    };
+
+    res.render("index", templateVars);
+  }
+
 });
 
 app.get('/login/:id', (req, res) => {
@@ -72,7 +97,10 @@ app.get('/login/:id', (req, res) => {
   console.log(req.session.user_id);
   res.redirect('/');
 });
-
+app.get("/logout", (req, res) => {
+  req.session = null;
+  res.redirect("/");
+});
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

@@ -1,4 +1,3 @@
-
 const CustomMapStyles = [
   { "featureType": "administrative.land_parcel",
     "elementType": "labels",
@@ -460,3 +459,34 @@ $(`#create-map`).on('click', function() {
 $(`#map-description`).on('click', "#edit-button",function() {
   alert("the edit map button was clicked");
 });
+
+
+//login in form
+$(`#login`).click(()=>{
+  $('#map').append(`
+  <div id="login-container">
+     <label id="title">login</label>
+     <input type="text" id="username"  rows="1" cols="45" placeholder="Username">
+     <input type="text" id="password"  rows="1" cols="45" placeholder="password">
+     <div id="buttons">
+       <button id="login-btn">login</button>
+       <button id="register-btn">Register</button>
+       <button id="cancel-btn">Cancel</button>
+     </div>
+    </div>`
+  )
+  $(`#login-btn`).click(()=>{
+    const username =$("#username").val()
+    const password = $("#password").val()
+    $.get(`/api/users/${username}/${password}`, (req, res) => {
+
+    })
+
+  })
+  $(`#register-btn`).click(()=>{
+    alert('go to register page')
+  })
+  $(`#cancel-btn`).click(()=>{
+    $("#login-container").remove();
+  })
+})
