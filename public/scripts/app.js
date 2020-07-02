@@ -97,7 +97,7 @@ const createMapBox = function(map, key) {
         <button id="delete-map" class="footer-buttons">Delete Map</button>
         </div>`;
       } else {
-        headerButton = '<div></div>'
+        headerButton = '<div></div>';
       }
       $('#map-description').css({'padding': '14px', 'padding-bottom': '40px'});
       $('#map-description').append(`
@@ -133,11 +133,11 @@ const createMapBox = function(map, key) {
       //Delete Maps
       $(`#map-description`).on(`click`, '#delete-map', function() {
         console.log(map.id);
-        $.post(`/api/maps/delete/${map.id}`)
+        $.post(`/api/maps/delete/${map.id}`);
         $("#map-description").remove();
-        alert('Map Successfully Deleted')
+        alert('Map Successfully Deleted');
 
-      })
+      });
 
       //Add Spots to a map
       $(`#map-description`).on(`click`, '#add-pins', function() {
@@ -155,7 +155,7 @@ const createMapBox = function(map, key) {
         </div>
 
       </form>
-    </div>`)
+    </div>`);
 
         const searchInput = 'add-spot';
         const defaultBounds = new google.maps.LatLngBounds(
@@ -173,16 +173,16 @@ const createMapBox = function(map, key) {
         });
         $('#add-new-pin').on('click', function() {
           const escapeNewSpotDesc = $("#new-spot-desc").val();
-          const newSpotDesc = escape(escapeNewSpotDesc)
-          $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc })
-        })
+          const newSpotDesc = escape(escapeNewSpotDesc);
+          $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc });
+        });
         $("#create-map-form").remove();
-      })
+      });
       $('#add-new-pin').on('click', function() {
         const escapeNewSpotDesc = $("#new-spot-desc").val();
-        const newSpotDesc = escape(escapeNewSpotDesc)
-        $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc })
-      })
+        const newSpotDesc = escape(escapeNewSpotDesc);
+        $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc });
+      });
 
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
@@ -561,51 +561,61 @@ $(`#map-description`).on('click', "#edit-button", function() {
 
 //login in form
 $(`#login`).click(() => {
-  loginForm();
-})
+  if (!document.getElementById("login-container") && !document.getElementById("register-container")) {
+    loginForm();
+  }
+});
 const loginForm = function() {
   $('#map').append(`
   <div id="login-container">
      <label id="title">login</label>
+     <i id='x' class="fas fa-times"></i>
      <form action="/login/form/" id="login-form" method="POST">
-     <input type="text" id="username" name="username"  cols="45" placeholder="Username">
+     <input type="text" class="info-entry" id="username" name="username"  cols="45" placeholder="Username">
      <input type="password" id="password"  name="password" cols="45" placeholder="password">
-
-     <button id="login-btn">login</button>
-
+     <div id="register-instruct">Dont have an account?</div>
+     <div id="buttons-login"><button id="login-btn">login</button>
      </form>
-     <div id="buttons">
-       <button id="register-btn">Register</button>
-       <button id="cancel-btn">Cancel</button>
+     <button id="register-btn">Register</button>
      </div>
     </div>`
-  )
+  );
+  $(".info-entry").keypress(function(event) {
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      $(this).next('input').focus();
+    }
+  });
   $(`#register-btn`).click(() => {
     $("#login-container").remove();
     $('#map').append(`
     <div id="register-container">
     <label id="title">Register</label>
+    <i id='x' class="fas fa-times"></i>
     <form action="/register/form/" id="login-form" method="POST">
-    <input type="email" id="email"  name="email" cols="45" placeholder="email">
-    <input type="text" id="username" name="username"  cols="45" placeholder="Username">
+    <input type="email" class="info-entry" id="email"  name="email" cols="45" placeholder="email">
+    <input type="text" class="info-entry" id="username" name="username"  cols="45" placeholder="Username">
     <input type="password" id="password"  name="password" cols="45" placeholder="password">
-
-    <button id="register-btn">Register</button>
-
-    </form>
-    <div id="buttons">
-      <button id="login-btn">Login</button>
-      <button id="cancel-btn">Cancel</button>
+    <div id="buttons-register">
+      <button id="register-btn">Register</button>
     </div>
+    </form>
    </div>`
-    )
-    $(`#login-btn`).click(() => {
-      $("#register-container").remove()
-      loginForm()
-    })
-  })
+    );
+    $(".info-entry").keypress(function(event) {
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        $(this).next('input').focus();
+      }
+    });
+    $(`#x`).click(() => {
+      $("#login-container").remove();
+      $("#register-container").remove();
+    });
+  });
 
-  $(`#cancel-btn`).click(() => {
+  $(`#x`).click(() => {
     $("#login-container").remove();
-  })
-}
+    $("#register-container").remove();
+  });
+};
