@@ -491,6 +491,7 @@ $(`#create-map`).on('click', function() {
        <br>
       <label for="first-pin">Where's your first pin?</label>
      <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
+     <br>
      <label for="pins-desc">Give us a little info about this spot</label>
      <textarea rows="1" id="pin-desc" cols="25" placeholder="Enter your first pin"></textarea>
     </div>

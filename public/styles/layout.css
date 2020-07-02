@@ -407,12 +407,12 @@ p {
 
 #create-map-form {
   width: 400px;
-  height: 370px;
+  height: 42%;
   background-color: black;
   color: white;
   position: absolute;
-  left: 32%;
-  top: 37%;
+  left: 40%;
+  top: 40%;
   margin-left: -50px;
   padding: 8px;
   border-radius: 8px;
