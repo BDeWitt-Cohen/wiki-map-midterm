@@ -92,30 +92,6 @@ app.get("/", (req, res) => {
 
 });
 
-app.post("/login/form/", (req, res) => {
-const username = req.body.username;
-const password = req.body.password;
-  db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
-  .then(data => {
-    if(data.rowCount === 0){
-      res.redirect('/');
-    } else {
-      const dbPassword = data.rows[0].password;
-      const dbUserId = data.rows[0].id;
-       if(password === dbPassword){
-      res.redirect(`/login/${dbUserId}`)
-    } else {
-      // res.redirect('/');
-    }
-  }
-  })
-  .catch(err => {
-    res
-        .status(500)
-        .json({ error: err.message });
-    });
-})
-
 app.get('/login/:id', (req, res) => {
   req.session.user_id = req.params.id;
   console.log(req.session.user_id);
@@ -127,6 +103,52 @@ app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
 });
+
+//posts
+//login authenticaiton
+app.post("/login/form/", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+    db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
+    .then(data => {
+      if(data.rowCount === 0){
+        res.redirect('/');
+      } else {
+        const dbPassword = data.rows[0].password;
+        const dbUserId = data.rows[0].id;
+         if(password === dbPassword){
+        res.redirect(`/login/${dbUserId}`)
+      } else {
+        res.redirect('/');
+      }
+    }
+    })
+    .catch(err => {
+      res
+          .status(500)
+          .json({ error: err.message });
+      });
+  })
+  app.post("/register/form/", (req, res) => {
+
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+    console.log(username);
+    console.log(password);
+      db.query(`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id;`,[username, email, password])
+      .then(data => {
+        const userId = data.rows[0].id;
+        res.redirect(`/login/${userId}`);
+      })
+      .catch(err => {
+        res
+            .status(500)
+            .json({ error: err.message });
+        });
+    })
+
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
