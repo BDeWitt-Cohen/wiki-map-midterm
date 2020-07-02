@@ -133,9 +133,9 @@ const createMapBox = function(map, key) {
       //Delete Maps
       $(`#map-description`).on(`click`, '#delete-map', function() {
         console.log(map.id);
-        $.post(`/api/maps/delete/${map.id}`)
+        $.post(`/api/maps/delete/${map.id}`);
         $("#map-description").remove();
-        alert('Map Successfully Deleted')
+        location.reload();
 
       })
 
