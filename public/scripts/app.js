@@ -1,7 +1,9 @@
 let activeMap;
+let boxExists = false;
 let autocomplete;
 let pinTitle = null;
 let previousMarker = null;
+let pinsExist = false;
 const CustomMapStyles = [
   {
     "featureType": "administrative.land_parcel",
@@ -82,28 +84,33 @@ const escape = function(str) {
 
 //Creates full map
 const createMapBox = function(map, key) {
-  activeMap = map;
-  $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`, function(req, res) {
-    let image;
-    $('#map-description').css({ 'padding': '14px', 'padding-bottom': '40px' });
-    if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
-      image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${req.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=${key}`;
-    } else {
-      image = `https://loremflickr.com/200/200/${map.title}`;
-    }
+  if (!boxExists) {
+    boxExists = true;
+    setTimeout(()=> {
+      boxExists = false;
+    }, 200);
+    activeMap = map;
+    $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`, function(req, res) {
+      let image;
+      $('#map-description').css({ 'padding': '14px', 'padding-bottom': '40px' });
+      if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
+        image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${req.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=${key}`;
+      } else {
+        image = `https://loremflickr.com/200/200/${map.title}`;
+      }
 
-    $.get(`/api/favs/${map.id}`, function(req, res) {
-      numFavs = req.favs[0].count;
-      let headerButton;
-      if (map.user_id == req.user_id.user_id) {
-        headerButton = `<div id="header-buttons"> <button id="delete-map" class="footer-buttons">Delete Map</button>
+      $.get(`/api/favs/${map.id}`, function(req, res) {
+        numFavs = req.favs[0].count;
+        let headerButton;
+        if (map.user_id == req.user_id.user_id) {
+          headerButton = `<div id="header-buttons"> <button id="delete-map" class="footer-buttons">Delete Map</button>
         <button id="add-pins" class="footer-buttons">Add a spot</button>
 
         </div>`;
-      } else {
-        headerButton = '<div></div>';
-      }
-      $('#map-description').append(`
+        } else {
+          headerButton = '<div></div>';
+        }
+        $('#map-description').append(`
       <div class="header" id="map-desc-header">
       <h3 class="description-header">${map.title}</h3>
       ${headerButton}
@@ -123,19 +130,19 @@ const createMapBox = function(map, key) {
         </span>
         <div></div>
       </div>`);
-      $('#crazy').on('mouseover', () => {
-        $('#crazy').css('color', 'red');
-        $('#wow').css('color', 'red');
-      });
-      $('#crazy').on('mouseout', () => {
-        $('#crazy').css('color', 'tomato');
-        $('#wow').css('color', 'tomato');
-      });
-      $(`#map-description`).off();
+        $('#crazy').on('mouseover', () => {
+          $('#crazy').css('color', 'red');
+          $('#wow').css('color', 'red');
+        });
+        $('#crazy').on('mouseout', () => {
+          $('#crazy').css('color', 'tomato');
+          $('#wow').css('color', 'tomato');
+        });
+        $(`#map-description`).off();
 
-      //Delete Maps
-      $(`#map-description`).on(`click`, '#delete-map', function() {
-        $('#map').append(`
+        //Delete Maps
+        $(`#map-description`).on(`click`, '#delete-map', function() {
+          $('#map').append(`
         <div id="delete-Mymap">
         <i id='x-3' class="fas fa-times"></i>
         <br>
@@ -146,32 +153,33 @@ const createMapBox = function(map, key) {
           <button id="delete-map-button">Yes, Delete It!</button>
           </div>
         </div>`);
-        $(`#delete-map-button`).on('click', function() {
-          $.post(`/api/maps/delete/${map.id}`);
-          $("#map-description").empty();
-          $('#map-description').css({ 'padding': '0px', 'padding-bottom': '0px' });
-          $("#delete-Mymap").remove();
-          location.reload();
+          $(`#delete-map-button`).on('click', function() {
+            $.post(`/api/maps/delete/${map.id}`);
+            $("#map-description").empty();
+            $('#map-description').css({ 'padding': '0px', 'padding-bottom': '0px' });
+            $("#delete-Mymap").remove();
+            location.reload();
+          });
+          $(`#x-3`).on('click', function() {
+            $("#delete-Mymap").remove();
+          });
+
         });
-        $(`#x-3`).on('click', function() {
-          $("#delete-Mymap").remove();
-        });
-
-      });
 
 
-      $(`#map-description`).on(`click`, `.fa-stack`, function() {
-        $.post(`/api/favs/post/${map.id}`, function(req, res) {
-          $.get(`/api/favs/${map.id}`, function(req, res) {
-            $('#crazy').empty()
-            const count = req.favs[0].count;
-            $('#crazy').append(`${count}`);
+        $(`#map-description`).on(`click`, `.fa-stack`, function() {
+          $.post(`/api/favs/post/${map.id}`, function(req, res) {
+            $.get(`/api/favs/${map.id}`, function(req, res) {
+              $('#crazy').empty()
+              const count = req.favs[0].count;
+              $('#crazy').append(`${count}`);
+            });
           });
         });
       });
-    });
 
-  });
+    });
+  }
 };
 
 $.get(`/api/google`, function(data) {
@@ -358,8 +366,14 @@ $.get(`/api/google`, function(data) {
         });
 
         const dropPins = function(obj) {
-          clearMarkers();
-          renderMapPins(obj);
+          if (!pinsExist) {
+            pinsExist = true;
+            setTimeout(()=> {
+              pinsExist = false;
+            }, 500);
+            clearMarkers();
+            renderMapPins(obj);
+          };
         };
 
         const badDirector = function(coordinate) {
@@ -495,6 +509,10 @@ $.get(`/api/google`, function(data) {
 
           $(`#x-2`).click(() => {
             $("#create-map-form").remove();
+            google.maps.event.removeListener(clickMap);
+            if (previousMarker !== null) {
+              previousMarker.setMap(null);
+            }
           });
           let clickMap;
           let dropMode = false;
@@ -625,51 +643,55 @@ $.get(`/api/google`, function(data) {
         </form>
         </div>`);
 
-        $('#add-new-pin').click(() => {
-          if($("#test-pin").val()){
-            const escapePinTitle = $("#test-pin").val();
-            pinTitle = escape(escapePinTitle);
-          }
-          const escapePinDesc = $('#new-spot-desc').val();
-          const pinDesc = escape(escapePinDesc);
-          $("#new-pin").remove();
-          if (previousMarker !== null) {
-            previousMarker.setMap(null);
-          }
-          if (pinTitle === 'Z') {
-            const escapePinTitle = $("#test-pin").val();
-            pinTitle = escape(escapePinTitle);
-          }
-          if (!pinTitle || !firstPinlat || !pinDesc) {
-            alert('Slow down there buckaroo, please fill out all the fields!');
-          } else {
-            event.preventDefault();
-            let newMapId = activeMap.id;
-            $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
-            });
-            setTimeout (function() {
-              console.log(newMapId);
-              $.get(`/api/pins/${newMapId}`, function(req, res) {
-                $('#mySidebar').empty();
-                $('#map-description').empty();
-                const pins = req.pins;
-                for (const pin of pins) {
-                  $('#mySidebar').append(`<div id="pin-box">
+          $('#add-new-pin').click(() => {
+            if($("#test-pin").val()) {
+              const escapePinTitle = $("#test-pin").val();
+              pinTitle = escape(escapePinTitle);
+            }
+            const escapePinDesc = $('#new-spot-desc').val();
+            const pinDesc = escape(escapePinDesc);
+            $("#new-pin").remove();
+            if (previousMarker !== null) {
+              previousMarker.setMap(null);
+            }
+            if (pinTitle === 'Z') {
+              const escapePinTitle = $("#test-pin").val();
+              pinTitle = escape(escapePinTitle);
+            }
+            if (!pinTitle || !firstPinlat || !pinDesc) {
+              alert('Slow down there buckaroo, please fill out all the fields!');
+            } else {
+              event.preventDefault();
+              let newMapId = activeMap.id;
+              $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
+              });
+              setTimeout (function() {
+                console.log(newMapId);
+                $.get(`/api/pins/${newMapId}`, function(req, res) {
+                  $('#mySidebar').empty();
+                  $('#map-description').empty();
+                  const pins = req.pins;
+                  for (const pin of pins) {
+                    $('#mySidebar').append(`<div id="pin-box">
                       <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
                       <button id="${pin.id}" class="pin-delete "> <b X> </button
                       </div>`);
-                }
-                dropPins(req);
-                createMapBox(activeMap, key);
-              });
-            }, 500);
-            $("#create-map-form").remove();
-          }
-        })
+                  }
+                  dropPins(req);
+                  createMapBox(activeMap, key);
+                });
+              }, 500);
+              $("#create-map-form").remove();
+            }
+          });
 
 
           $("#x-3").click(() => {
             $("#new-pin").remove();
+            google.maps.event.removeListener(clickMap);
+            if (previousMarker !== null) {
+              previousMarker.setMap(null);
+            }
           });
 
           const searchInput = 'test-pin';
