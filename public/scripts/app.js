@@ -644,6 +644,10 @@ $.get(`/api/google`, function(data) {
         </div>`);
 
           $('#add-new-pin').click(() => {
+            google.maps.event.removeListener(clickMap);
+            if (previousMarker !== null) {
+              previousMarker.setMap(null);
+            }
             if($("#test-pin").val()) {
               const escapePinTitle = $("#test-pin").val();
               pinTitle = escape(escapePinTitle);
