@@ -625,6 +625,10 @@ $.get(`/api/google`, function(data) {
         </div>`);
 
         $('#add-new-pin').click(() => {
+          if($("#test-pin").val()){
+            const escapePinTitle = $("#test-pin").val();
+            pinTitle = escape(escapePinTitle);
+          }
           const escapePinDesc = $('#new-spot-desc').val();
           const pinDesc = escape(escapePinDesc);
           $("#new-pin").remove();
