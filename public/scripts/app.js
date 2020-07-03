@@ -1,6 +1,6 @@
 let activeMap;
 let autocomplete;
-let pinTitle;
+let pinTitle = null;
 let previousMarker = null;
 const CustomMapStyles = [
   {
