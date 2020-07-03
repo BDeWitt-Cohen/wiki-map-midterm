@@ -151,6 +151,7 @@ const createMapBox = function(map, key) {
           $("#map-description").empty();
           $('#map-description').css({ 'padding': '0px', 'padding-bottom': '0px' });
           $("#delete-Mymap").remove();
+          location.reload();
         });
         $(`#x-3`).on('click', function() {
           $("#delete-Mymap").remove();
