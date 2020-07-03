@@ -171,7 +171,7 @@ const createMapBox = function(map, key) {
       </form>
     </div>`);
 
-    
+
 
         const searchInput = 'add-spot';
         const defaultBounds = new google.maps.LatLngBounds(
@@ -438,7 +438,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({ lat: pin.long, lng: pin.lat });
+                map.panTo({ lat: pin.long + 0.003, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -455,7 +455,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({ lat: pin.long, lng: pin.lat });
+                map.panTo({ lat: pin.long + 0.003, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -516,6 +516,24 @@ $.get(`/api/google`, function(data) {
             firstPinlat = near_place.geometry.location.lng();
             pinTitle = near_place.name;
           });
+
+          $('#drop-pin').click(() => {
+
+           const placeMarker = function(location) {
+              var marker = new google.maps.Marker({
+                  position: location,
+                  map: map
+              });
+          }
+
+          google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+            $('#test-pin').val(event.latLng);
+            autocomplete.getPlace();
+            return;
+         });
+
+        });
 
 
           let tryingToExit = false;
