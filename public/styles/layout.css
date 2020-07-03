@@ -510,8 +510,8 @@ label {
 }
 
 #login-container {
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 40%;
   height: 190px;
   width: 300px;
   background: black;
@@ -524,8 +524,8 @@ label {
 }
 
 #register-container {
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 40%;
   height: 210px;
   width: 300px;
   background: black;
@@ -616,20 +616,6 @@ label#title {
 #delete-form-buttons {
   display: flex;
   justify-content: space-evenly;
-}
-
-#login-container {
-  position: absolute;
-  max-height: auto;
-  left: 40%;
-  top: 40%;
-}
-
-#register-container {
-  position: absolute;
-  left: 40%;
-  top: 40%;
-  padding-bottom: 10px;
 }
 
 /* Show the dropdown menu on hover */

@@ -171,6 +171,8 @@ const createMapBox = function(map, key) {
       </form>
     </div>`);
 
+    
+
         const searchInput = 'add-spot';
         const defaultBounds = new google.maps.LatLngBounds(
           new google.maps.LatLng(userIpLat, userIpLong),
@@ -434,7 +436,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({ lat: pin.long + 0.005, lng: pin.lat });
+                map.panTo({ lat: pin.long, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -451,7 +453,7 @@ $.get(`/api/google`, function(data) {
                   </div>
                   </div>`
                 );
-                map.panTo({ lat: pin.long + 0.005, lng: pin.lat });
+                map.panTo({ lat: pin.long, lng: pin.lat });
                 infoWindow.open(map, mark);
                 mark.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
@@ -582,6 +584,10 @@ $(`#create-map`).on('click', function() {
         $.post("/api/maps/post", newMapObj, (res) => {
           const newMapId = res.maps[0].id;
           $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
+            $('#map').append(`<div>${mapName}</div>`)
+
+
+
             alert('Your map has been created! check out the My Maps tab to view your newly created map.')
           })
         });
@@ -592,11 +598,6 @@ $(`#create-map`).on('click', function() {
     }
   });
 });
-
-$(`#map-description`).on('click', "#edit-button", function() {
-  alert("the edit map button was clicked");
-});
-
 
 //login in form
 $(`#login`).click(() => {
