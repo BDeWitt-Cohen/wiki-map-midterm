@@ -14,6 +14,36 @@ body {
   }
 }
 
+#add-pins {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#add-pins:hover {
+  background-color: lightgray;
+}
+
+#delete-map {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#delete-map-button {
+  cursor: pointer;
+}
+
+#add-new-pin {
+  cursor: pointer;
+}
+
+#delete-spot-button {
+  cursor: pointer;
+}
+
+#delete-map:hover {
+  background-color: lightgray;
+}
+
 #picto {
   border-radius: 50%;
   margin: auto;
@@ -74,15 +104,18 @@ body {
 
 #pin-box {
   display: flex;
+  justify-content: flex-end;
+  word-break: break-all;
 }
 
 .pin-delete {
-  background-color: red;
+  background-color: tomato;
   border-radius: 50px;
   max-height: 20px;
   align-self: center;
   border-color: black;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .dropdown-content {
@@ -346,6 +379,7 @@ button.pin_title {
   position: absolute;
   text-align: center;
   width: 100%;
+  color: tomato;
 }
 
 #crazy {
@@ -356,6 +390,7 @@ button.pin_title {
   vertical-align: middle;
   width: 2.5em;
   cursor: pointer;
+  color:tomato;
 }
 
 #x {
@@ -363,6 +398,20 @@ button.pin_title {
   right: 0;
   padding-right: 15px;
   padding-top: 15px;
+  cursor: pointer;
+}
+
+#x-2 {
+  position: absolute;
+  right: 0;
+  padding-right: 15px;
+  cursor: pointer;
+}
+
+#x-3 {
+  position: absolute;
+  right: 0;
+  padding-right: 15px;
   cursor: pointer;
 }
 
@@ -425,6 +474,7 @@ p{
   margin-bottom: 2px;
 }
 
+
 #create-map-form {
   width: 400px;
   height: auto;
@@ -432,9 +482,9 @@ p{
   color: white;
   position: absolute;
   left: 40%;
-  top: 40%;
+  top: 30%;
   margin-left: -50px;
-  padding: 8px;
+  padding: 20px;
   border-radius: 8px;
 }
 
@@ -443,9 +493,40 @@ p{
   flex-direction: column;
 }
 
+#submit-new-map {
+  cursor: pointer;
+}
+
+
+#pin-drop {
+  cursor: pointer;
+  color: tomato;
+  font-size: 28px;
+  padding-right: 6px;
+}
+
 textarea {
     resize: none;
-    padding: 7px;
+    padding: 6px;
+    margin: 6px 0px;
+}
+
+#toggle {
+  text-align: end;
+  padding-bottom: 4px;
+}
+
+#toggle-rules {
+  display: inline-block;
+  padding-right: 7px;
+  vertical-align: top;
+  padding-top: 4px;
+}
+
+#test-pin {
+  margin: 6px;
+  width: 98%;
+  padding: 6px;
 }
 
 label {
@@ -455,7 +536,7 @@ label {
 #submit-form-buttons{
   display: flex;
   justify-content: space-evenly;
-  padding: 25px 0px 0px 0px;
+  padding: 18px 0px 0px 0px;
 }
 // End of map creation form
 
@@ -467,16 +548,16 @@ button.map_title{
 //Add New Spot Form
 
 
-#create-spot-form {
-  width: 400px;
-  height: 200px;
+#new-pin {
+  width: 350px;
+  height: 270px;
   background-color: black;
   color: white;
   position: absolute;
   left: 40%;
   top: 40%;
   margin-left: -60px;
-  padding: 8px;
+  padding: 14px;
   border-radius: 8px;
 }
 
@@ -569,8 +650,8 @@ label#title{
 //Delete confirmation for spots and maps
 
 #delete-Mymap {
-  width: 20%;
-  height: 15%;
+  width: 300px;
+  height: 150px;
   background-color: black;
   color: white;
   position: absolute;
@@ -581,8 +662,8 @@ label#title{
   border-radius: 8px;
 }
 #delete-spot {
-  width: 20%;
-  height: 15%;
+  width: 300px;
+  height: 150px;
   background-color: black;
   color: white;
   position: absolute;
@@ -591,6 +672,10 @@ label#title{
   margin-left: -50px;
   padding: 8px;
   border-radius: 8px;
+}
+
+#theplace {
+  margin: 6px 0px;
 }
 
 #submit-form-content {
@@ -606,6 +691,10 @@ label#title{
   justify-content: space-evenly;
 }
 
+#delete-header {
+  padding: 8px;
+  padding-bottom: 23px;
+}
 
 
 // End of new spot form

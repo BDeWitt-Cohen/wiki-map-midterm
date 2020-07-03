@@ -1,6 +1,7 @@
-let firstPinlong;
-let firstPinlat;
+let activeMap;
+let autocomplete;
 let pinTitle;
+let previousMarker = null;
 const CustomMapStyles = [
   {
     "featureType": "administrative.land_parcel",
@@ -29,44 +30,44 @@ const CustomMapStyles = [
   {
     "featureType": "landscape",
     "stylers": [{ "hue": "#FFBB00" },
-    { "saturation": 43.400000000000006 },
-    { "lightness": 37.599999999999994 },
-    { "gamma": 1 }]
+      { "saturation": 43.400000000000006 },
+      { "lightness": 37.599999999999994 },
+      { "gamma": 1 }]
   },
   {
     "featureType": "road.highway",
     "stylers": [{ "hue": "#FFC200" },
-    { "saturation": -61.8 },
-    { "lightness": 45.599999999999994 },
-    { "gamma": 1 }]
+      { "saturation": -61.8 },
+      { "lightness": 45.599999999999994 },
+      { "gamma": 1 }]
   },
   {
     "featureType": "road.arterial",
     "stylers": [{ "hue": "#FF0300" },
-    { "saturation": -100 },
-    { "lightness": 51.19999999999999 },
-    { "gamma": 1 }]
+      { "saturation": -100 },
+      { "lightness": 51.19999999999999 },
+      { "gamma": 1 }]
   },
   {
     "featureType": "road.local",
     "stylers": [{ "hue": "#FF0300" },
-    { "saturation": -100 },
-    { "lightness": 52 },
-    { "gamma": 1 }]
+      { "saturation": -100 },
+      { "lightness": 52 },
+      { "gamma": 1 }]
   },
   {
     "featureType": "water",
     "stylers": [{ "hue": "#0078FF" },
-    { "saturation": -13.200000000000003 },
-    { "lightness": 2.4000000000000057 },
-    { "gamma": 1 }]
+      { "saturation": -13.200000000000003 },
+      { "lightness": 2.4000000000000057 },
+      { "gamma": 1 }]
   },
   {
     "featureType": "poi",
     "stylers": [{ "hue": "#00FF6A" },
-    { "saturation": -1.0989010989011234 },
-    { "lightness": 11.200000000000017 },
-    { "gamma": 1 }]
+      { "saturation": -1.0989010989011234 },
+      { "lightness": 11.200000000000017 },
+      { "gamma": 1 }]
   }
 ];
 
@@ -81,8 +82,10 @@ const escape = function(str) {
 
 //Creates full map
 const createMapBox = function(map, key) {
+  activeMap = map;
   $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`, function(req, res) {
     let image;
+    $('#map-description').css({ 'padding': '14px', 'padding-bottom': '40px' });
     if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
       image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${req.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=${key}`;
     } else {
@@ -93,13 +96,13 @@ const createMapBox = function(map, key) {
       numFavs = req.favs[0].count;
       let headerButton;
       if (map.user_id == req.user_id.user_id) {
-        headerButton = `<div id="header-buttons"> <button id="add-pins" class="footer-buttons">Add Spot</button>
-        <button id="delete-map" class="footer-buttons">Delete Map</button>
+        headerButton = `<div id="header-buttons"> <button id="delete-map" class="footer-buttons">Delete Map</button>
+        <button id="add-pins" class="footer-buttons">Add a spot</button>
+
         </div>`;
       } else {
         headerButton = '<div></div>';
       }
-      $('#map-description').css({ 'padding': '14px', 'padding-bottom': '40px' });
       $('#map-description').append(`
       <div class="header" id="map-desc-header">
       <h3 class="description-header">${map.title}</h3>
@@ -121,12 +124,12 @@ const createMapBox = function(map, key) {
         <div></div>
       </div>`);
       $('#crazy').on('mouseover', () => {
-        $('#crazy').css('color', 'tomato');
-        $('#wow').css('color', 'tomato');
+        $('#crazy').css('color', 'red');
+        $('#wow').css('color', 'red');
       });
       $('#crazy').on('mouseout', () => {
-        $('#crazy').css('color', 'white');
-        $('#wow').css('color', 'white');
+        $('#crazy').css('color', 'tomato');
+        $('#wow').css('color', 'tomato');
       });
       $(`#map-description`).off();
 
@@ -134,71 +137,27 @@ const createMapBox = function(map, key) {
       $(`#map-description`).on(`click`, '#delete-map', function() {
         $('#map').append(`
         <div id="delete-Mymap">
+        <i id='x-3' class="fas fa-times"></i>
+        <br>
           <div>
-            <h3 id="delete-header">Are you sure you want to delete your map?</h3>
+            <div id="delete-header">Are you sure you want to delete your map?</div>
          </div>
          <div id="delete-form-buttons">
           <button id="delete-map-button">Yes, Delete It!</button>
-          <button id="cancel-map-delete">Cancel</button>
           </div>
-        </div>`)
+        </div>`);
         $(`#delete-map-button`).on('click', function() {
           $.post(`/api/maps/delete/${map.id}`);
-          $("#map-description").remove();
-          location.reload();
-        })
-        $(`#cancel-map-delete`).on('click', function() {
+          $("#map-description").empty();
+          $('#map-description').css({ 'padding': '0px', 'padding-bottom': '0px' });
           $("#delete-Mymap").remove();
-        })
+        });
+        $(`#x-3`).on('click', function() {
+          $("#delete-Mymap").remove();
+        });
 
       });
 
-      //Add Spots to a map
-      $(`#map-description`).on(`click`, '#add-pins', function() {
-        $('#map').append(`<div>
-      <form  id="create-spot-form">
-        <div id="submit-spot-content">
-          <label for="add-spot">Add A New Spot</label>
-          <input id="add-spot"  rows="1" cols="45" placeholder="New Spot"></input><br>
-          <label for="new-spot-desc">New Spot Description</label>
-          <textarea id="new-spot-desc" rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
-        </div>
-        <div id="submit-spot-buttons">
-          <input type="submit" value="Add Spot" id="add-new-pin">
-          <button id="cancel-spot-creation">Cancel</button>
-        </div>
-
-      </form>
-    </div>`);
-
-
-
-        const searchInput = 'add-spot';
-        const defaultBounds = new google.maps.LatLngBounds(
-          new google.maps.LatLng(userIpLat, userIpLong),
-          new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
-
-        let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-          bounds: defaultBounds
-        });
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          let near_place = autocomplete.getPlace();
-          firstPinlong = near_place.geometry.location.lat();
-          firstPinlat = near_place.geometry.location.lng();
-          pinTitle = near_place.name;
-        });
-        $('#add-new-pin').on('click', function() {
-          const escapeNewSpotDesc = $("#new-spot-desc").val();
-          const newSpotDesc = escape(escapeNewSpotDesc);
-          $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc });
-        });
-        $("#create-map-form").remove();
-      });
-      $('#add-new-pin').on('click', function() {
-        const escapeNewSpotDesc = $("#new-spot-desc").val();
-        const newSpotDesc = escape(escapeNewSpotDesc);
-        $.post(`/api/pins/post/${map.id}`, { pinTitle, firstPinlong, firstPinlat, newSpotDesc });
-      });
 
       $(`#map-description`).on(`click`, `.fa-stack`, function() {
         $.post(`/api/favs/post/${map.id}`, function(req, res) {
@@ -309,35 +268,53 @@ $.get(`/api/google`, function(data) {
                     <button id="${pin.id}" class="pin-delete "> <b X> </button
                     </div>`);
                     $(`#mySidebar`).on('click', `#${pin.id}`, function() {
-                      $(`#map`).append(`
+                      if (!document.getElementById('delete-spot')) {
+                        $(`#map`).append(`
                       <div id="delete-spot">
-                      <div>
-                        <h3 id="delete-header">Are you sure you want to delete this spot?</h3>
+                      <i id='x-3' class="fas fa-times"></i>
+                      <br>
+                        <div>
+                          <div id="delete-header">Are you sure you want to delete this spot?</div>
+                       </div>
+                       <div id="delete-form-buttons">
+                        <button id="delete-spot-button">Yes, Delete It!</button>
+                        </div>
                       </div>
-                      <div id="delete-form-buttons">
-                      <button id="delete-spot-button">Yes, Delete It!</button>
-                        <button id="cancel-spot-delete">Cancel</button>
-                        </div>
-                        </div>
-                      `)
-                      $(`#delete-spot`).on('click', `#delete-spot-button`, function(){
-                      $.post(`/api/pins/delete/${pin.id}`)
-                      $('#mySidebar').empty();
-                      $("#delete-spot").remove();
-                      $.get(`/api/pins/${map.id}`, function(req, res) {
-                        const pins = req.pins;
-                        for (const pin of pins) {
-                          $('#mySidebar').append(`<div id="pin-box">
+                      `);
+                        $(`#delete-spot`).on('click', `#delete-spot-button`, function() {
+                          $.post(`/api/pins/delete/${pin.id}`);
+                          $('#mySidebar').empty();
+                          $("#delete-spot").remove();
+                          $.get(`/api/pins/${map.id}`, function(req, res) {
+                            const pins = req.pins;
+                            for (const pin of pins) {
+                              $('#mySidebar').append(`<div id="pin-box">
                           <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
                           <button id="${pin.id}" class="pin-delete "> <b X> </button
                           </div>`);
-                        }
-                      })
-                    })
-                      $(`#delete-spot`).on('click', `#cancel-spot-delete`, function(){
-                      $("#delete-spot").remove();
-                    })
-                    })
+                            }
+
+                          });
+                          $.get(`/api/pins/${map.id}`, function(req, res) {
+                            $('#mySidebar').empty();
+                            $('#map-description').empty();
+                            const pins = req.pins;
+                            for (const pin of pins) {
+                              $('#mySidebar').append(`<div id="pin-box">
+                          <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
+                          <button id="${pin.id}" class="pin-delete "> <b X> </button
+                          </div>`);
+                            }
+                            dropPins(req);
+                            createMapBox(map, key);
+                          });
+
+                        });
+                        $(`#x-3`).click(function() {
+                          $("#delete-spot").remove();
+                        });
+                      }
+                    });
                   }
                   dropPins(req);
                   createMapBox(map, key);
@@ -405,7 +382,7 @@ $.get(`/api/google`, function(data) {
             const newLat = badDirector(pin.lat);
             const newLong = badDirector(pin.long);
             let myLatlng = new google.maps.LatLng(newLong, newLat);
-            let extendLatlng = new google.maps.LatLng(newLong - 0.003, newLat - 0.003);
+            let extendLatlng = new google.maps.LatLng(newLong - 0.008, newLat - 0.008);
             bounds.extend(myLatlng);
             bounds.extend(extendLatlng);
             window.setTimeout(function() {
@@ -480,22 +457,20 @@ $.get(`/api/google`, function(data) {
           // alert("the create map button was clicked")
           $("#map").append(`<div>
           <form  id="create-map-form">
+          <i id='x-2' class="fas fa-times"></i>
           <div id="submit-form-content">
-          <label for="map-name">Map Name</label>
-              <textarea id="test-name" rows="1" cols="45" placeholder="What's a cool map name"></textarea><br>
+          <label for="map-name">Name Your Map</label>
+              <textarea id="test-name" rows="1" cols="45" placeholder="Think of a cool map name"></textarea>
                 <label for="map-desc">Description</label>
                 <textarea id="test-desc"  rows="4" cols="25" placeholder="Enter some deets about your new cool map"></textarea>
-               <br>
-              <label for="first-pin">Where's your first pin?</label>
-             <input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>
-             <br>
-             <label for="pins-desc">Give us a little info about this spot</label>
+              <label for="first-pin">What's your first spot?</label>
+             <div id="theplace"><input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input></div>
+             <div id=toggle ><label id="toggle-rules">drop a pin</label><i id="pin-drop" class="fas fa-toggle-off"></i></div>
+             <label for="pins-desc">Give us a little info about it</label>
              <textarea rows="1" id="pin-desc" cols="25" placeholder="Enter your first pin"></textarea>
             </div>
           <div id="submit-form-buttons">
             <input type="submit" value="Create Map" id="submit-new-map">
-            <input type="submit" value="Drop Pin" id="drop-pin">
-           <button id="exit-map-creation">Cancel</button>
           </div>
             </form>
            </div>`);
@@ -507,7 +482,7 @@ $.get(`/api/google`, function(data) {
 
 
 
-          let autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+          autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
             bounds: defaultBounds
           });
           google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -517,71 +492,255 @@ $.get(`/api/google`, function(data) {
             pinTitle = near_place.name;
           });
 
-          $('#drop-pin').click(() => {
-
-           const placeMarker = function(location) {
-              var marker = new google.maps.Marker({
-                  position: location,
-                  map: map
-              });
-          }
-
-          google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-            $('#test-pin').val(event.latLng);
-            autocomplete.getPlace();
-            return;
-         });
-
-        });
-
-
-          let tryingToExit = false;
-          $("#exit-map-creation").click(function(event) {
-            tryingToExit = true;
+          $(`#x-2`).click(() => {
+            $("#create-map-form").remove();
           });
-          $("#create-map-form").submit(function(event) {
-            if (tryingToExit) {
-              $("#create-map-form").remove();
-            } else {
-              const escapeMapName = $("#test-name").val();
-              const mapName = escape(escapeMapName)
-              const escapeMapDesc = $("#test-desc").val();
-              const mapDesc = escape(escapeMapDesc)
-              const escapePinDesc = $("#pin-desc").val();
-              const pinDesc = escape(escapePinDesc)
-              event.preventDefault();
-              if (!pinTitle || !firstPinlong || !firstPinlat || !mapDesc || !pinDesc) {
-                alert('Slow down there buckaroo, please fill out all the fields!');
-              }
-              else {
-                const newMapObj = { mapName, mapDesc };
-                $.post("/api/maps/post", newMapObj, (res) => {
-                  const newMapId = res.maps[0].id;
-                  const newMap = res.maps[0];
-                  $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
-                  });
-                  setTimeout (function() {
-                    console.log(newMapId);
-                    $.get(`/api/pins/${newMapId}`, function(req, res) {
-                      $('#mySidebar').empty();
-                      $('#map-description').empty();
-                      const pins = req.pins;
-                      for (const pin of pins) {
-                        $('#mySidebar').append(`<button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>`);
-                      }
-                      dropPins(req);
-                      createMapBox(newMap, key);
-                    });
-                    }, 500);
-                });
+          let clickMap;
+          let dropMode = false;
+          $('#pin-drop').click(() => {
+            if (dropMode) {
+              $("#pin-drop").css('color:tomato');
+              $("#pin-drop").removeClass("fas fa-toggle-on");
+              $("#pin-drop").addClass("fas fa-toggle-off");
+              $("#pin-drop").css("color", "tomato");
+              $("#test-pin").remove();
+              $("#theplace").append(`<input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>`);
+              const searchInput = 'test-pin';
+              if (previousMarker !== null) {
+                previousMarker.setMap(null);
+              };
+              google.maps.event.removeListener(clickMap);
+              const defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(userIpLat, userIpLong),
+                new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
 
-                $("#create-map-form").remove();
-              }
+              autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                bounds: defaultBounds
+              });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                let near_place = autocomplete.getPlace();
+                firstPinlong = near_place.geometry.location.lat();
+                firstPinlat = near_place.geometry.location.lng();
+                pinTitle = near_place.name;
+              });
+              dropMode = false;
+            } else {
+              dropMode = true;
+              $("#pin-drop").removeClass("fas fa-toggle-off");
+              $("#pin-drop").addClass("fas fa-toggle-on");
+              $("#pin-drop").css("color", "palegreen");
+              $("#test-pin").remove();
+              $("#theplace").append(`<textarea id="test-pin" rows="1" cols="25" placeholder="Give your spot a name"></textarea>`);
+              const placeMarker = function(location) {
+                if (previousMarker !== null) {
+                  previousMarker.setMap(null);
+                }
+                previousMarker = new google.maps.Marker({
+                  position: location,
+                  map: map,
+                  animation: google.maps.Animation.DROP
+                });
+              };
+              clickMap = google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(event.latLng);
+                const myLatLng = event.latLng;
+                firstPinlong = myLatLng.lat();
+                firstPinlat = myLatLng.lng();
+                pinTitle = 'Z';
+                console.log(firstPinlat);
+              });
+            }
+          });
+
+          $("#create-map-form").submit(function(event) {
+            google.maps.event.removeListener(clickMap);
+            if (previousMarker !== null) {
+              previousMarker.setMap(null);
+            }
+            console.log(firstPinlat);
+            const escapeMapName = $("#test-name").val();
+            const mapName = escape(escapeMapName);
+            const escapeMapDesc = $("#test-desc").val();
+            const mapDesc = escape(escapeMapDesc);
+            const escapePinDesc = $("#pin-desc").val();
+            const pinDesc = escape(escapePinDesc);
+            if (pinTitle === 'Z') {
+              const escapePinTitle = $("#test-pin").val();
+              pinTitle = escape(escapePinTitle);
+            }
+            console.log(pinTitle);
+            console.log(mapDesc);
+            console.log(pinDesc);
+            if (!pinTitle || !mapDesc || !pinDesc) {
+              alert('Slow down there buckaroo, please fill out all the fields!');
+            } else {
+              const newMapObj = { mapName, mapDesc };
+              $.post("/api/maps/post", newMapObj, (res) => {
+                event.preventDefault();
+                const newMapId = res.maps[0].id;
+                const newMap = res.maps[0];
+                $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
+                  event.preventDefault();
+                });
+                setTimeout (function() {
+                  console.log(newMapId);
+                  $.get(`/api/pins/${newMapId}`, function(req, res) {
+                    $('#mySidebar').empty();
+                    $('#map-description').empty();
+                    const pins = req.pins;
+                    for (const pin of pins) {
+                      $('#mySidebar').append(`<div id="pin-box">
+                          <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
+                          <button id="${pin.id}" class="pin-delete "> <b X> </button
+                          </div>`);
+                    }
+                    dropPins(req);
+                    createMapBox(newMap, key);
+                  });
+                }, 500);
+              });
+              $("#create-map-form").remove();
             }
           });
         });
 
+        //Add Spots to a map
+        $(`body`).on(`click`, '#add-pins', function() {
+          let firstPinlong;
+          let firstPinlat;
+          $('#map').append(`<div id="new-pin">
+        <i id='x-3' class="fas fa-times"></i>
+        <form id="create-spot-form">
+        <div id="submit-spot-content">
+        <label for="add-spot">Add Another Spot</label>
+        <div id="theplace"><input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input></div>
+        <div id=toggle ><label id="toggle-rules">drop a pin</label><i id="pin-drop" class="fas fa-toggle-off"></i></div>
+        <label for="new-spot-desc">Give a little info about it</label>
+        <textarea id="new-spot-desc" rows="2" cols="25" placeholder="Add some deets about this spot"></textarea>
+        </div>
+        <div id="submit-spot-buttons">
+        <input type="submit" value="Add Spot" id="add-new-pin">
+        </div>
+        </form>
+        </div>`);
+
+          $("#x-3").click(() => {
+            $("#new-pin").remove();
+          });
+
+          const searchInput = 'test-pin';
+          const defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(userIpLat, userIpLong),
+            new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
+
+          autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+            bounds: defaultBounds
+          });
+          google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            let near_place = autocomplete.getPlace();
+            firstPinlong = near_place.geometry.location.lat();
+            firstPinlat = near_place.geometry.location.lng();
+            pinTitle = near_place.name;
+          });
+
+          let clickMap;
+          let dropMode = false;
+          $('#pin-drop').click(() => {
+            if (dropMode) {
+              $("#pin-drop").css('color:tomato');
+              $("#pin-drop").removeClass("fas fa-toggle-on");
+              $("#pin-drop").addClass("fas fa-toggle-off");
+              $("#pin-drop").css("color", "tomato");
+              $("#test-pin").remove();
+              $("#theplace").append(`<input id="test-pin" rows="1" cols="25" placeholder="Enter your first pin"></input>`);
+              const searchInput = 'test-pin';
+              if (previousMarker !== null) {
+                previousMarker.setMap(null);
+              }
+              google.maps.event.removeListener(clickMap);
+              const defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(userIpLat, userIpLong),
+                new google.maps.LatLng(userIpLat + 0.001, userIpLong + 0.001));
+
+              autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                bounds: defaultBounds
+              });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                let near_place = autocomplete.getPlace();
+                firstPinlong = near_place.geometry.location.lat();
+                firstPinlat = near_place.geometry.location.lng();
+                pinTitle = near_place.name;
+                console.log(pinTitle);
+              });
+              dropMode = false;
+            } else {
+              dropMode = true;
+              $("#pin-drop").removeClass("fas fa-toggle-off");
+              $("#pin-drop").addClass("fas fa-toggle-on");
+              $("#pin-drop").css("color", "palegreen");
+              $("#test-pin").remove();
+              $("#theplace").append(`<textarea id="test-pin" rows="1" cols="25" placeholder="Give your spot a name"></textarea>`);
+              const placeMarker = function(location) {
+                if (previousMarker !== null) {
+                  previousMarker.setMap(null);
+                }
+                previousMarker = new google.maps.Marker({
+                  position: location,
+                  map: map,
+                  animation: google.maps.Animation.DROP
+                });
+              };
+              clickMap = google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(event.latLng);
+                const myLatLng = event.latLng;
+                firstPinlong = myLatLng.lat();
+                firstPinlat = myLatLng.lng();
+                pinTitle = 'Z';
+              });
+            }
+
+            $("#create-spot-form").submit(function(event) {
+              $("#new-pin").remove();
+              if (previousMarker !== null) {
+                previousMarker.setMap(null);
+              }
+              console.log(firstPinlat);
+              const escapePinDesc = $("#new-spot-desc").val();
+              const pinDesc = escape(escapePinDesc);
+              console.log(pinDesc);
+              console.log(pinTitle);
+              if (pinTitle === 'Z') {
+                const escapePinTitle = $("#test-pin").val();
+                pinTitle = escape(escapePinTitle);
+              }
+              if (!pinTitle || !firstPinlat || !pinDesc) {
+                alert('Slow down there buckaroo, please fill out all the fields!');
+              } else {
+                event.preventDefault();
+                let newMapId = activeMap.id;
+                $.post("/api/pins/post", { pinTitle, firstPinlong, firstPinlat, newMapId, pinDesc },()=>{
+                });
+                setTimeout (function() {
+                  console.log(newMapId);
+                  $.get(`/api/pins/${newMapId}`, function(req, res) {
+                    $('#mySidebar').empty();
+                    $('#map-description').empty();
+                    const pins = req.pins;
+                    for (const pin of pins) {
+                      $('#mySidebar').append(`<div id="pin-box">
+                          <button id="${pin.id + 100}" class="pin_title"> ${pin.name} </button>
+                          <button id="${pin.id}" class="pin-delete "> <b X> </button
+                          </div>`);
+                    }
+                    dropPins(req);
+                    createMapBox(activeMap, key);
+                  });
+                }, 500);
+                $("#create-map-form").remove();
+              }
+            });
+          });
+        });
       };
 
 
