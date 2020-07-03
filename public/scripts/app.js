@@ -171,6 +171,8 @@ const createMapBox = function(map, key) {
       </form>
     </div>`);
 
+
+
         const searchInput = 'add-spot';
         const defaultBounds = new google.maps.LatLngBounds(
           new google.maps.LatLng(userIpLat, userIpLong),
