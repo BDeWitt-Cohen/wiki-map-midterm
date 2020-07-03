@@ -151,6 +151,7 @@ const createMapBox = function(map, key) {
           $("#map-description").empty();
           $('#map-description').css({ 'padding': '0px', 'padding-bottom': '0px' });
           $("#delete-Mymap").remove();
+          location.reload();
         });
         $(`#x-3`).on('click', function() {
           $("#delete-Mymap").remove();
@@ -625,6 +626,10 @@ $.get(`/api/google`, function(data) {
         </div>`);
 
         $('#add-new-pin').click(() => {
+          if($("#test-pin").val()){
+            const escapePinTitle = $("#test-pin").val();
+            pinTitle = escape(escapePinTitle);
+          }
           const escapePinDesc = $('#new-spot-desc').val();
           const pinDesc = escape(escapePinDesc);
           $("#new-pin").remove();
