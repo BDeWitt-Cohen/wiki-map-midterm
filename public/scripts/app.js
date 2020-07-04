@@ -739,6 +739,7 @@ $.get(`/api/google`, function(data) {
               });
               $("#create-map-form").remove();
             }
+              )}
           });
         });
 
