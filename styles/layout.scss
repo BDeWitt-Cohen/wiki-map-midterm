@@ -102,6 +102,11 @@ body {
   padding: 2px 2px;
 }
 
+#pin-content {
+  max-width: 250px;
+  max-height: 250px;
+}
+
 #pin-box {
   display: flex;
   justify-content: flex-end;
@@ -544,6 +549,22 @@ button.map_title{
   width: 100%;
   cursor: pointer;
 }
+
+#get-lost {
+  position: absolute;
+  right: 70px;
+  bottom: 28px;
+}
+
+#get-lost-btn {
+  min-width: 150px;
+  cursor: pointer;
+}
+
+#get-lost-btn:hover {
+  background-color: #444;
+}
+
 
 //Add New Spot Form
 
