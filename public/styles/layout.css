@@ -457,8 +457,9 @@ button.pin_title {
 }
 
 .description-header {
-  font-family: 'Shrikhand';
+  font-family: Montserrat, bold;
   text-align: center;
+  font-size: larger;
 }
 
 .description-content {
@@ -586,8 +587,8 @@ button.map_title {
 }
 
 #new-pin {
-  width: 350px;
-  height: 270px;
+  width: 320px;
+  height: 250px;
   background-color: black;
   color: white;
   position: absolute;
@@ -615,7 +616,7 @@ label {
 #submit-spot-buttons {
   display: flex;
   justify-content: space-evenly;
-  padding: 10px 0px 25px 0px;
+  padding: 20px 0px 25px 0px;
 }
 
 #login-form {

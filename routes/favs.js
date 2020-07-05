@@ -26,26 +26,26 @@ module.exports = (db) => {
     // console.log(req.body.map_id);
     let query = `INSERT INTO favorites (user_id, map_id) VALUES ($1, $2);`;
     db.query(`SELECT user_id FROM maps WHERE id = $1`, [req.params.map_id])
-    .then(data => {
-       if(data.rows[0].user_id != req.session.user_id){
-        db.query(query, inputs)
-        .then(data => {
-          const favs = data.rows;
-          res.json({ favs });
-        })
-        .catch(err => {
-          res
-            .status(500)
-            .json({ error: err.message });
-        });
-       }
-       console.log('cant like youre own stuff');
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        if(data.rows[0].user_id != req.session.user_id) {
+          db.query(query, inputs)
+            .then(data => {
+              const favs = data.rows;
+              res.json({ favs });
+            })
+            .catch(err => {
+              res
+                .status(500)
+                .json({ error: err.message });
+            });
+        }
+        console.log('cant like youre own stuff');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
 
   });
   return router;
