@@ -45,7 +45,7 @@ body {
 }
 
 #picto {
-  border-radius: 50%;
+  border-radius: 20%;
   margin: auto;
   text-align: center;
 }
@@ -273,7 +273,7 @@ button.pin_title:hover {
 }
 
 #login:hover{
-  background-color: rgba(76, 175, 80, .8);
+  background-color: rgba(132, 169, 140, .8);
 }
 
 #my-maps {
@@ -337,10 +337,11 @@ button.pin_title {
   bottom: 20px;
   max-width: 300px;
   min-width:300px;
-  background-color: rgba(76, 175, 80, 0.666);
+  background-color: rgba(117, 203, 142, 0.666);
+  background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
   color: white;
   font-weight: normal;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 #header-buttons {
@@ -356,6 +357,18 @@ button.pin_title {
   text-align: center;
   color: black;
 
+}
+.error {
+  position: absolute;
+  max-width: 400px;
+  top: 20%;
+  right: -2000px;
+  border-color: tomato;
+  color: tomato;
+  border-style: solid;
+  font-size: 20px;
+  text-align: center;
+  font-family: Montserrat;
 }
 #pin-title {
   padding: 15px;
@@ -602,6 +615,9 @@ label {
   padding: 10px 0px 25px 0px;
 }
 #login-form{
+  text-align: center;
+}
+#register-form{
   text-align: center;
 }
 #login-container{

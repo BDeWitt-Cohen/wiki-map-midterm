@@ -113,10 +113,14 @@ app.get("/logout", (req, res) => {
 app.post("/login/form/", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-    db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
+ db.query(`SELECT password, id FROM users WHERE username = $1;`,[username])
     .then(data => {
-      if(data.rowCount === 0){
-        res.status(403).send('must provide a valid email and or password <a href="/"> to go back</a>');
+      if (data.rowCount === 0) {
+        res.status(403).send(`<html><head><link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"><head>
+        <body style="background-color: #5780ab; background-image: url(https://www.transparenttextures.com/patterns/wavecut.png)">
+        <div style="border-style: solid; padding: 30px; margin: 100px; font-size: 20px; font-family: Montserrat; max-width: 400px; text-align: center;">
+        Please provide a valid email address and password. <a style="color: tomato" href="/"> Click here </a> to go back and register or try again.<div>
+        </body></html>`);
       } else {
         const dbPassword = data.rows[0].password;
         const dbUserId = data.rows[0].id;
@@ -127,10 +131,14 @@ app.post("/login/form/", (req, res) => {
             console.log(req.session.user_id);
             res.redirect('/');
           } else {
-            res.status(403).send('must provide a valid email and or password <a href="/"> to go back</a>');
+            res.status(403).send(`<html><head><link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"><head>
+            <body style="background-color: #5780ab; background-image: url(https://www.transparenttextures.com/patterns/wavecut.png)">
+            <div style="border-style: solid; padding: 30px; margin: 100px; font-size: 20px; font-family: Montserrat; max-width: 400px; text-align: center;">
+            Please provide a valid email address and password. <a style="color: tomato" href="/"> Click here </a> to go back and register or try again.<div>
+            </body></html>`);
           }
         });
-    }
+      }
     })
     .catch(err => {
       res
@@ -154,7 +162,11 @@ app.post("/login/form/", (req, res) => {
         res.redirect('/');
       })
       .catch(err => {
-          res.status(403).send('account with that username already exists <a href="/"> to go back</a>');
+          res.status(403).send(`<html><head><link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"><head>
+          <body style="background-color: #5780ab; background-image: url(https://www.transparenttextures.com/patterns/wavecut.png)">
+          <div style="border-style: solid; padding: 30px; margin: 100px; font-size: 20px; font-family: Montserrat; max-width: 400px; text-align: center;">
+          That username already exists. <a style="color: tomato" href="/"> Click here </a> to go back and try again or login.<div>
+          </body></html>`);
         });
 
     }
