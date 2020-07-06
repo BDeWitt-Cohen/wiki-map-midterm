@@ -111,7 +111,6 @@ body h1 {
 #pin-box {
   display: flex;
   justify-content: flex-end;
-  word-break: break-all;
 }
 
 .pin-delete {

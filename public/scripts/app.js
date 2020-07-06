@@ -102,11 +102,12 @@ const createMapBox = function(map, key, clickMap) {
       boxExists = false;
     }, 400);
     activeMap = map;
-    $.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`, function(req, res) {
+    $.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${map.title}&key=${key}`), function(data) {
+      let dada = JSON.parse(data.contents);
       let image;
       $('#map-description').css({ 'padding': '14px', 'padding-bottom': '40px' });
-      if (req.results[0] !== undefined && req.results[0].photos !== undefined) {
-        image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${req.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=${key}`;
+      if (dada.results[0] !== undefined && dada.results[0].photos !== undefined) {
+        image = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${dada.results[0].photos[0].photo_reference}&sensor=false&maxheight=200&maxwidth=200&key=${key}`;
       } else {
         image = `https://loremflickr.com/200/200/${map.title}`;
       }
